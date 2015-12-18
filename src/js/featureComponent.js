@@ -7,7 +7,7 @@ var templateEditCell = require('../html/templateEditCell.js');
 
 var templateAddCell = require('../html/templateAddCell.js');
 
-var Hogan = require('hogan.js');
+var Hogan = require('./hogan.js');
 
 FeatureComponent.prototype.constants = {
   noOfElementsInARow: 2,
