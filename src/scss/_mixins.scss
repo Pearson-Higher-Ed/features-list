@@ -1,0 +1,13 @@
+////
+/// @group o-component-blueprint
+/// @link http://registry.origami.ft.com/components/o-component-blueprint
+////
+
+/// Hello world
+///
+/// @param {String} $who [world]
+@mixin oComponentBlueprintHello($who: world) {
+	.foo {
+		content: 'Hello, #{$who}!';
+	}
+}

@@ -1,0 +1,13 @@
+{
+  "name": "o-marketing-feature-component",
+  "dependencies": {},
+  "main": [
+    "main.scss",
+    "main.js"
+  ],
+  "ignore": [
+    "examples",
+    "test",
+    ".gitignore"
+  ]
+}
