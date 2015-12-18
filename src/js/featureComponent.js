@@ -1,8 +1,6 @@
 
 var FeatureComponent = function () {};
 
-var fs = require('fs');
-
 var template = require('../html/templateCell.js');
 
 var templateEditCell = require('../html/templateEditCell.js');
