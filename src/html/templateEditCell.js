@@ -82,6 +82,7 @@ templateEditCell += "						<button class=\"o-feature-cancel\">Cancel<\/button>";
 templateEditCell += "						<button class=\"o-feature-save\">Save<\/button>";
 templateEditCell += "				<\/div>";
 templateEditCell += "				<div class=\"o-feature-clearfix\"><\/div>";
+templateEditCell += "				<div><a class=\"o-feature-remove\" href=\"javascript:void(0);\">Remove<\/a><\/div>";
 templateEditCell += "			<\/div>";
 
 
