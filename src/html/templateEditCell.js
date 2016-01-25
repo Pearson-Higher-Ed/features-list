@@ -77,12 +77,12 @@ templateEditCell += "					<button class=\"o-feature-action-button\" href=\"{{cta
 templateEditCell += "					<div class=\"o-feature-action-url-colon\">&nbsp;:&nbsp;<\/div>";
 templateEditCell += "					<div class=\"o-feature-action-url\" contenteditable>{{ctaUrl}}<\/div>";
 templateEditCell += "					<div class=\"o-feature-clearfix\"><\/div>";
+templateEditCell += "				<div class=\"o-feature-remove-button\"><a class=\"o-feature-remove\" href=\"javascript:void(0);\">Remove<\/a><\/div>";
 templateEditCell += "					<div class=\"o-feature-button-group\">";
 templateEditCell += "						<button class=\"o-feature-cancel\">Cancel<\/button>";
 templateEditCell += "						<button class=\"o-feature-save\">Save<\/button>";
 templateEditCell += "				<\/div>";
 templateEditCell += "				<div class=\"o-feature-clearfix\"><\/div>";
-templateEditCell += "				<div><a class=\"o-feature-remove\" href=\"javascript:void(0);\">Remove<\/a><\/div>";
 templateEditCell += "			<\/div>";
 
 
