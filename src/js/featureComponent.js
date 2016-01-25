@@ -62,9 +62,9 @@ FeatureComponent.prototype._addEventListenerToNode = function (node) {
           this.parentNode.className +=  ' '+ 'o-feature-img-border-edit';
       }
   });
-   node.parentNode.getElementsByClassName('o-feature-remove')[0].addEventListener('click', function () {      
-          this.parentNode.parentNode.parentNode.parentNode.removeChild(node.parentNode);
-      });
+   node.parentNode.getElementsByClassName('o-feature-remove')[0].addEventListener('click', function () {
+	    this.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(node.parentNode.parentNode);
+	  });
 };
 
 FeatureComponent.prototype._prepareTemplate = function (data, options) {
