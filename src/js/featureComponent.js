@@ -26,8 +26,8 @@ FeatureComponent.prototype.constants = {
 FeatureComponent.prototype.init = function(options, data, element) {
 
   this.element = element;
-  this.data = data;
-  var _compiledTemplate = this._prepareTemplate(data, options);
+  window.$featureData= data;
+  var _compiledTemplate = this._prepareTemplate(data.contents, options);
   document.getElementById(element).appendChild(_compiledTemplate);
 
   if (options.editMode) {
@@ -35,14 +35,34 @@ FeatureComponent.prototype.init = function(options, data, element) {
   }
   return this;
 };
+FeatureComponent.prototype.saveItem = function (item,event) {
+
+ var node = document.getElementById('feature_'+item); //= event.target.parentNode.parentNode.parentNode
+
+
+// console.log(node.getElementsByClassName('o-feature-brand')[0].textContent);
+  for(var i = 0; i < window.$featureData.contents.length ; i++) {
+    if(window.$featureData.contents[i].contentId ===item){
+      window.$featureData.contents[i].primaryTitle = node.getElementsByClassName('o-feature-brand')[0].textContent;
+      window.$featureData.contents[i].secondaryTitle = node.getElementsByClassName('o-feature-title')[0].textContent;
+      window.$featureData.contents[i].description = node.getElementsByClassName('o-feature-description')[0].textContent;
+      window.$featureData.contents[i].resourceUrl = node.getElementsByClassName('o-feature-img-src')[0].value;    
+      window.$featureData.contents[i].ctaText = node.getElementsByClassName('o-feature-action-button')[0].textContent;
+      window.$featureData.contents[i].ctaUrl = node.getElementsByClassName('o-feature-action-url')[0].textContent;
+    
+    }
+
+  }
+
+};
 
 FeatureComponent.prototype.addEventListenerToOverlay = function (nodeList) {
-    for(var i = 0; i <nodeList.length -1 ; i++) {
+    for(var i = 0; i <nodeList.length ; i++) {
         FeatureComponent.prototype._addEventListenerToNode(nodeList[i]);
     }
 };
 
-FeatureComponent.prototype._addEventListenerToNode = function (node) {
+FeatureComponent.prototype._addEventListenerToNode = function (node) {  
   node.addEventListener('click', function () {
       if(this.parentNode.className.indexOf('o-feature-editable-content') == -1) {
           this.parentNode.className +=  ' '+ 'o-feature-editable-content';

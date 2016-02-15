@@ -1,7 +1,7 @@
 
 
 var templateEditCell="";
-templateEditCell += "<div class=\"o-feature-cell-container\">";
+templateEditCell += "<div id=\"feature_{{contentId}}\" class=\"o-feature-cell-container\">";
 templateEditCell += "				<div class=\"o-feature-overlay\">";
 templateEditCell += "					";
 templateEditCell += "					<svg version=\"1.1\" id=\"Capa_1\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\" xmlns:xlink=\"http:\/\/www.w3.org\/1999\/xlink\" x=\"0px\" y=\"0px\"";
@@ -66,7 +66,7 @@ templateEditCell += "					<\/div>";
 templateEditCell += "					<div class=\"o-feature-right\">";
 templateEditCell += "						<div class=\"o-feature-img-border\">";
 templateEditCell += "							<img src=\"{{resourceUrl}}\">";
-templateEditCell += "							<textarea>{{resourceUrl}}<\/textarea>";
+templateEditCell += "							<textarea  class=\"o-feature-img-src\" >{{resourceUrl}}<\/textarea>";
 templateEditCell += "							<a class=\"o-feature-change-link\">Change Image<\/a>";
 templateEditCell += "						<\/div>";
 templateEditCell += "					<\/div>";
@@ -78,9 +78,10 @@ templateEditCell += "					<div class=\"o-feature-action-url-colon\">&nbsp;:&nbsp
 templateEditCell += "					<div class=\"o-feature-action-url\" contenteditable>{{ctaUrl}}<\/div>";
 templateEditCell += "					<div class=\"o-feature-clearfix\"><\/div>";
 templateEditCell += "				<div class=\"o-feature-remove-button\"><a class=\"o-feature-remove\" href=\"javascript:void(0);\">Remove<\/a><\/div>";
-templateEditCell += "					<div class=\"o-feature-button-group\">";
+templateEditCell += "					<div class=\"o-feature-button-group\"> ";
+
 templateEditCell += "						<button class=\"o-feature-cancel\">Cancel<\/button>";
-templateEditCell += "						<button class=\"o-feature-save\">Save<\/button>";
+templateEditCell += "						<button class=\"o-feature-save\" onclick=\"javascript:window.$featureComponent.prototype.saveItem(\'{{contentId}}\',event)\">Save<\/button>";
 templateEditCell += "				<\/div>";
 templateEditCell += "				<div class=\"o-feature-clearfix\"><\/div>";
 templateEditCell += "			<\/div>";
