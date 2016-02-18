@@ -1,6 +1,6 @@
 
 
-var templateEditCell="";
+var templateEditCell = "";
 templateEditCell += "<div id=\"feature_{{contentId}}\" class=\"o-feature-cell-container\">";
 templateEditCell += "				<div class=\"o-feature-overlay\">";
 templateEditCell += "					";
@@ -53,15 +53,19 @@ templateEditCell += "					<g>";
 templateEditCell += "					<\/g>";
 templateEditCell += "					<\/svg>";
 templateEditCell += "				<\/div>";
-templateEditCell += "				<div class=\"o-feature-brand\" contenteditable>{{primaryTitle}}<\/div>";
 templateEditCell += "				<div class=\"o-feature-content\">";
 templateEditCell += "					<div class=\"o-feature-left\">";
+templateEditCell += "				<div class=\"o-feature-brand\" contenteditable>{{primaryTitle}}<\/div>";
 templateEditCell += "						<header class=\"o-feature-title\" contenteditable>";
 templateEditCell += "							{{secondaryTitle}}";
 templateEditCell += "						<\/header>";
 templateEditCell += "						<div class=\"o-feature-description\">";
 templateEditCell += "							<p contenteditable>{{description}}<\/p>";
 templateEditCell += "						<\/div>";
+templateEditCell += "					<button class=\"o-feature-action-button\" href=\"{{ctaUrl}}\" contenteditable><div>{{ctaText}}<\/div><\/button>";
+templateEditCell += "					<div class=\"o-feature-action-url-colon\">&nbsp;:&nbsp;<\/div>";
+templateEditCell += "					<div class=\"o-feature-action-url\" contenteditable>{{ctaUrl}}<\/div>";
+templateEditCell += "					<div class=\"o-feature-clearfix\"><\/div>";
 templateEditCell += "					<\/div>";
 templateEditCell += "					<div class=\"o-feature-right\">";
 templateEditCell += "						<div class=\"o-feature-img-border\">";
@@ -73,18 +77,14 @@ templateEditCell += "					<\/div>";
 templateEditCell += "				<\/div>";
 templateEditCell += "				<div class=\"o-feature-clearfix\"><\/div>";
 templateEditCell += "				<div class=\"o-feature-button\">";
-templateEditCell += "					<button class=\"o-feature-action-button\" href=\"{{ctaUrl}}\" contenteditable><div>{{ctaText}}<\/div><\/button>";
-templateEditCell += "					<div class=\"o-feature-action-url-colon\">&nbsp;:&nbsp;<\/div>";
-templateEditCell += "					<div class=\"o-feature-action-url\" contenteditable>{{ctaUrl}}<\/div>";
-templateEditCell += "					<div class=\"o-feature-clearfix\"><\/div>";
-templateEditCell += "				<div class=\"o-feature-remove-button\"><a class=\"o-feature-remove\" href=\"javascript:void(0);\">Remove<\/a><\/div>";
+
+templateEditCell += "				<div class=\"o-feature-remove-button\"><a class=\"o-feature-remove\" href=\"javascript:void(0);\"  onclick=\"javascript:window.$featureComponent.prototype.removeItem(\'{{contentId}}\',event)\">Remove<\/a><\/div>";
 templateEditCell += "					<div class=\"o-feature-button-group\"> ";
 
-templateEditCell += "						<button class=\"o-feature-cancel\">Cancel<\/button>";
+templateEditCell += "						<button class=\"o-feature-cancel\" onclick=\"javascript:window.$featureComponent.prototype.cancelItem(\'{{contentId}}\',event)\">Cancel<\/button>";
 templateEditCell += "						<button class=\"o-feature-save\" onclick=\"javascript:window.$featureComponent.prototype.saveItem(\'{{contentId}}\',event)\">Save<\/button>";
 templateEditCell += "				<\/div>";
 templateEditCell += "				<div class=\"o-feature-clearfix\"><\/div>";
 templateEditCell += "			<\/div>";
-
 
 module.exports = templateEditCell;
