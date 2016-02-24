@@ -153,7 +153,7 @@ FeatureComponent.prototype._prepareTemplate = function (data, options) {
          if (options.editMode) {
             _row.setAttribute('class','o-feature-row o-feature-row-edit');
          } else {
-            _row.setAttribute('class','o-feature-row');
+            _row.setAttribute('class','o-feature-row o-feature-published');
          }
         
 

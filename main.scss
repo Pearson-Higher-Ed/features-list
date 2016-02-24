@@ -37,6 +37,14 @@
 			display: table;
   			content: " ";
 		}
+        &.o-feature-published{
+           .o-feature-cell{
+             width:100%;
+          }
+          &:nth-child(even) {
+                background: #F6F6F6;
+            }
+        }    
 	}
 	.o-feature-row.o-feature-row-edit {
 		&:nth-child(even) {
