@@ -62,7 +62,7 @@ templateEditCell += "						<\/header>";
 templateEditCell += "						<div class=\"o-feature-description\">";
 templateEditCell += "							<p contenteditable>{{description}}<\/p>";
 templateEditCell += "						<\/div>";
-templateEditCell += "					<button class=\"o-feature-action-button\" href=\"{{ctaUrl}}\" contenteditable><div>{{ctaText}}<\/div><\/button>";
+templateEditCell += "					<a class=\"o-feature-action-button\" href=\"{{ctaUrl}}\" contenteditable><div>{{ctaText}}<\/div><\/a>";
 templateEditCell += "					<div class=\"o-feature-action-url-colon\">&nbsp;:&nbsp;<\/div>";
 templateEditCell += "					<div class=\"o-feature-action-url\" contenteditable>{{ctaUrl}}<\/div>";
 templateEditCell += "					<div class=\"o-feature-clearfix\"><\/div>";
