@@ -12,7 +12,7 @@ var Hogan = require('./hogan.js');
 var intId = 1;
 FeatureComponent.prototype.constants = {
   noOfElementsInARow: 2,
-  newItem: {
+  newItem: [{
     "contentId": "newItem_"+intId,   
     "displaySequence":"1",
     "primaryTitle": "Add Feature Title",
@@ -21,7 +21,7 @@ FeatureComponent.prototype.constants = {
     "resourceUrl": "https://i.imgsafe.org/2c3a6a7.png",
     "ctaText":"Add Button Label",
     "ctaUrl":"Enter or Paste URL"
-  }
+  }]
 };
 
 
@@ -41,30 +41,33 @@ FeatureComponent.prototype.init = function(options, data, element) {
 };
 
   FeatureComponent.prototype.addNew = function () {
+  var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem));
+
+  //this.parentNode.insertBefore(_cell, this.nextSibling);
+  var node;
+  if (window.$featureData.contents.length == 0) {
+    node = document.getElementById('testId');
+
+    var _compiledTemplate = this._prepareTemplate(newFeature, {
+      editMode: true
+    });
+    node.appendChild(_compiledTemplate);
+    FeatureComponent.prototype._addEventListenerToNode(_compiledTemplate.getElementsByClassName('o-feature-overlay')[0]);
+  } else {
     var _cell = document.createElement('article');
     _cell.setAttribute('class', 'o-feature-cell o-feature-cell-edit');
-var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem)); 
 
-    _cell.innerHTML = Hogan.compile(templateEditCell).render(newFeature);
-    //this.parentNode.insertBefore(_cell, this.nextSibling);
-    var node;
-  if(window.$featureData.contents.length == 0){
-      node = document.getElementById('testId');
-     
-       node.getElementsByTagName('section')[0].appendChild(_cell);
-  }
-  else{
-  var itemId = window.$featureData.contents[window.$featureData.contents.length - 1].contentId;
-  node = document.getElementById('feature_' + itemId);
+    _cell.innerHTML = Hogan.compile(templateEditCell).render(newFeature[0]);
+    var itemId = window.$featureData.contents[window.$featureData.contents.length - 1].contentId;
+    node = document.getElementById('feature_' + itemId);
 
-  node.parentNode.parentNode.insertBefore(_cell, null);
-  }
-
+    node.parentNode.parentNode.insertBefore(_cell, null);
     FeatureComponent.prototype._addEventListenerToNode(_cell.getElementsByClassName('o-feature-overlay')[0]);
-     window.$featureData.contents.push(newFeature);
-     intId += 1;
+  }
 
-  };
+  window.$featureData.contents.push(newFeature[0]);
+  intId += 1;
+};
 FeatureComponent.prototype.removeItem = function (item,event) {
    for(var i = 0; i < window.$featureData.contents.length ; i++) {
     if(window.$featureData.contents[i].contentId ===item){
