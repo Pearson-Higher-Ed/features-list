@@ -38,10 +38,11 @@
   			content: " ";
 		}
         &.o-feature-published{
+            margin-bottom: 20px;
            .o-feature-cell{
-             width:100%;
-          }
-          &:nth-child(even) {
+            width:100%;
+            padding: 35px;
+            &:nth-child(even) {
                 background: #F6F6F6;
             }
         }    
@@ -126,6 +127,10 @@
             padding: 11px 11px 11px 11px;
             border: none;
             float: left;
+            text-decoration: none;
+            &:hover{
+                background-color:#006384;
+            }
         }
         .o-feature-action-url {
             display: block !important;    
