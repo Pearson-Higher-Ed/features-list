@@ -71,7 +71,7 @@ templateEditCell += "					<div class=\"o-feature-right\">";
 templateEditCell += "						<div class=\"o-feature-img-border\">";
 templateEditCell += "							<img width=\"160\" height=\"160\" src=\"{{resourceUrl}}\">";
 templateEditCell += "							<textarea  class=\"o-feature-img-src\" >{{resourceUrl}}<\/textarea>";
-templateEditCell += "							<a class=\"o-feature-change-link\">Change Image<\/a>";
+templateEditCell += "							<a id=\"link_{{contentId}}\" class=\"o-feature-change-link\">Change Image<\/a>";
 templateEditCell += "						<\/div>";
 templateEditCell += "					<\/div>";
 templateEditCell += "				<\/div>";

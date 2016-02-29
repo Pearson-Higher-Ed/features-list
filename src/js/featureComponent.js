@@ -105,7 +105,7 @@ FeatureComponent.prototype.saveItem = function (item,event) {
 };
 FeatureComponent.prototype._validateItem = function(node){
 
-    var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem));
+    var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem[0]));
     var urlRegex = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
 
     newFeature.primaryTitle =      node.getElementsByClassName('o-feature-brand')[0].textContent;
@@ -122,6 +122,12 @@ FeatureComponent.prototype._validateItem = function(node){
     }else if(newFeature.secondaryTitle.trim().length == 0){
         alert("Title is Mandatory");
         return null;
+    }else if(newFeature.resourceUrl.trim().length == 0){
+        alert("Resource URL is Mandatory");
+        return null;
+    }else if(!urlRegex.test(newFeature.resourceUrl.trim())){
+        alert("Invalid Image URL");
+        return null;
     }else if(newFeature.description.trim().length == 0){
         alert("Description is Mandatory");
         return null;
@@ -129,7 +135,7 @@ FeatureComponent.prototype._validateItem = function(node){
         alert("Button Label is Mandatory");
         return null;
     }else if(!urlRegex.test(newFeature.ctaUrl.trim())){
-        alert("Invalid URL");
+        alert("Invalid CTA URL");
         return null;
     }
 
@@ -187,8 +193,22 @@ FeatureComponent.prototype._addEventListenerToNode = function (node) {
       }
   });
   node.parentNode.getElementsByClassName('o-feature-img-border')[0].getElementsByTagName("a")[0].addEventListener('click', function () {
-      if(this.parentNode.className.indexOf('o-feature-img-border-edit') == -1) {
-          this.parentNode.className +=  ' '+ 'o-feature-img-border-edit';
+
+      var linkId = args.target.id;
+
+      if (args.target.innerHTML == 'Change Image') {
+          document.getElementById(linkId).innerHTML = 'Done';
+          if (this.parentNode.className.indexOf('o-feature-img-border-edit') == -1) {
+              this.parentNode.className += ' ' + 'o-feature-img-border-edit';
+          }
+      }else if (args.target.innerHTML == 'Done') {
+          document.getElementById(linkId).innerHTML = 'Change Image';
+          var perentNode = document.getElementById(linkId).parentNode;
+          var newUrl = perentNode.getElementsByTagName('textarea')[0].value;
+          perentNode.getElementsByTagName('img')[0].src = newUrl;
+          if (this.parentNode.className.indexOf('o-feature-img-border-edit') > -1) {
+              this.parentNode.classList.remove("o-feature-img-border-edit");
+          }
       }
   });
    node.parentNode.getElementsByClassName('o-feature-remove')[0].addEventListener('click', function () {
