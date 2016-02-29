@@ -69,7 +69,7 @@ templateEditCell += "					<div class=\"o-feature-clearfix\"><\/div>";
 templateEditCell += "					<\/div>";
 templateEditCell += "					<div class=\"o-feature-right\">";
 templateEditCell += "						<div class=\"o-feature-img-border\">";
-templateEditCell += "							<img src=\"{{resourceUrl}}\">";
+templateEditCell += "							<img width=\"160\" height=\"160\" src=\"{{resourceUrl}}\">";
 templateEditCell += "							<textarea  class=\"o-feature-img-src\" >{{resourceUrl}}<\/textarea>";
 templateEditCell += "							<a class=\"o-feature-change-link\">Change Image<\/a>";
 templateEditCell += "						<\/div>";
