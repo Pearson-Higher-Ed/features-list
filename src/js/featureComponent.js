@@ -173,26 +173,23 @@ FeatureComponent.prototype._prepareTemplate = function (data, options) {
 
     var _addCellAdded = false;
 
+    var _row = document.createElement('section');
+    if (options.editMode) {
+        _row.setAttribute('class','o-feature-row o-feature-row-edit');
+    } else {
+        _row.setAttribute('class','o-feature-row o-feature-published');
+    }
+
+
     for (var cellCount = 0; cellCount < data.length; cellCount++) {
-
-      if(cellCount % FeatureComponent.prototype.constants.noOfElementsInARow == 0) {
-
-        var _row = document.createElement('section');
-         if (options.editMode) {
-            _row.setAttribute('class','o-feature-row o-feature-row-edit');
-         } else {
-            _row.setAttribute('class','o-feature-row o-feature-published');
-         }
-        
-
-        
-        var _cell = '';
+          var _cell = '';
+        _cell = document.createElement('article');
         if (options.editMode) {
-          _cell = document.createElement('article');
+
           _cell.setAttribute('class','o-feature-cell o-feature-cell-edit');
           _cell.innerHTML = Hogan.compile(templateEditCell).render(data[cellCount]);
         } else {
-          _cell = document.createElement('article');
+         // _cell = document.createElement('article');
           _cell.setAttribute('class','o-feature-cell');
           _cell.innerHTML = Hogan.compile(template).render(data[cellCount]);
         }
@@ -202,50 +199,10 @@ FeatureComponent.prototype._prepareTemplate = function (data, options) {
         _previous_row = _row;
       
        if (cellCount == data.length - 1) {
-      //     if(options.editMode) {
-      //         var _addCell = document.createElement('article');
-      //         _addCell.setAttribute('class','o-feature-cell o-feature-cell-edit');
-      //         _addCell.innerHTML = Hogan.compile(templateAddCell).render();
-      //         _previous_row.appendChild(_addCell)
-
-      //         _addCellAdded = true;
-      //     }
          _output.appendChild(_previous_row);
         }
-
-      } else {
-
-        var _cell = document.createElement('article');
-        
-
-        if (options.editMode) {
-          _cell.setAttribute('class','o-feature-cell o-feature-cell-edit');
-          _cell.innerHTML = Hogan.compile(templateEditCell).render(data[cellCount]);
-        } else {
-          _cell.setAttribute('class','o-feature-cell');
-          _cell.innerHTML = Hogan.compile(template).render(data[cellCount]);
-        }
-
-      _previous_row.appendChild(_cell);
-      
-      _output.appendChild(_previous_row);
-        
-
-      }
     }
 
-    /*if(!_addCellAdded && options.editMode) {
-      var _row = document.createElement('section');
-      _row.setAttribute('class','o-feature-row');
-
-      var _cell = document.createElement('article');
-      _cell.setAttribute('class','o-feature-cell');
-
-      _cell.innerHTML = Hogan.compile(templateAddCell).render();
-      _row.appendChild(_cell);
-      
-      _output.appendChild(_row);
-    }*/
 
   return _output;
 };
