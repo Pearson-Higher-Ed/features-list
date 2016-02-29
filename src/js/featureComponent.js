@@ -192,7 +192,7 @@ FeatureComponent.prototype._addEventListenerToNode = function (node) {
           this.parentNode.className +=  ' '+ 'o-feature-img-border-edit';
       }
   });
-  node.parentNode.getElementsByClassName('o-feature-img-border')[0].getElementsByTagName("a")[0].addEventListener('click', function () {
+  node.parentNode.getElementsByClassName('o-feature-img-border')[0].getElementsByTagName("a")[0].addEventListener('click', function (args) {
 
       var linkId = args.target.id;
 
