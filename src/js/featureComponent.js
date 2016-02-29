@@ -30,6 +30,7 @@ FeatureComponent.prototype.init = function(options, data, element) {
 
   this.element = element;
   window.$featureData= data;
+  window.$featureData.featureEdited = false;
   var _compiledTemplate = this._prepareTemplate(data.contents, options);
   document.getElementById(element).appendChild(_compiledTemplate);
 
@@ -82,20 +83,35 @@ FeatureComponent.prototype.saveItem = function (item,event) {
     console.log(this.element);
 
  var node = document.getElementById('feature_'+item); //= event.target.parentNode.parentNode.parentNode
+var isValid = true;
 
+   var newItem = _validateItem(node);
 
 // console.log(node.getElementsByClassName('o-feature-brand')[0].textContent);
   for(var i = 0; i < window.$featureData.contents.length ; i++) {
     if(window.$featureData.contents[i].contentId ===item){
-      window.$featureData.contents[i].primaryTitle = node.getElementsByClassName('o-feature-brand')[0].textContent;
-      window.$featureData.contents[i].secondaryTitle = node.getElementsByClassName('o-feature-title')[0].textContent;
-      window.$featureData.contents[i].description = node.getElementsByClassName('o-feature-description')[0].textContent;
-      window.$featureData.contents[i].resourceUrl = node.getElementsByClassName('o-feature-img-src')[0].value;    
-      window.$featureData.contents[i].ctaText = node.getElementsByClassName('o-feature-action-button')[0].textContent;
-      window.$featureData.contents[i].ctaUrl = node.getElementsByClassName('o-feature-action-url')[0].textContent;    
+
+      window.$featureData.contents[i] = newItem;
+
     }
   }
+  window.parent.$('#editWatcher').val("false").trigger('change');// Trigger change to enable Make Live button
+  window.$featureData.featureEdited = false;// Enable edit to other feature components
+};
+FeatureComponent.prototype._validateItem = function(node){
+    var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem))[0];
 
+    newFeature.primaryTitle =      node.getElementsByClassName('o-feature-brand')[0].textContent;
+    newFeature.secondaryTitle =    node.getElementsByClassName('o-feature-title')[0].textContent;
+    newFeature.description =       node.getElementsByClassName('o-feature-description')[0].textContent;
+    newFeature.resourceUrl =       node.getElementsByClassName('o-feature-img-src')[0].value;
+    newFeature.ctaText =           node.getElementsByClassName('o-feature-action-button')[0].textContent;
+    newFeature.ctaUrl =            node.getElementsByClassName('o-feature-action-url')[0].textContent;
+    ////validation logics
+    if(newFeature.primaryTitle.trim().length == 0){
+return null;
+    }
+    return newFeature;
 };
 
 FeatureComponent.prototype.cancelItem = function (item,event) {
@@ -105,6 +121,9 @@ FeatureComponent.prototype.cancelItem = function (item,event) {
      node.getElementsByClassName('o-feature-img-border')[0].className = node.getElementsByClassName('o-feature-img-border')[0].className.replace(' o-feature-img-border-edit', '');
   
       }// console.log(node.getElementsByClassName('o-feature-brand')[0].textContent);
+ 
+ window.parent.$('#editWatcher').val("false").trigger('change'); // Trigger change to enable Make Live button
+ window.$featureData.featureEdited = false; // Enable edit to other feature components 
 };
 
 FeatureComponent.prototype.addEventListenerToOverlay = function (nodeList) {
@@ -114,11 +133,17 @@ FeatureComponent.prototype.addEventListenerToOverlay = function (nodeList) {
 };
 
 FeatureComponent.prototype._addEventListenerToNode = function (node) {  
-  node.addEventListener('click', function () {
-      if(this.parentNode.className.indexOf('o-feature-editable-content') == -1) {
-          this.parentNode.className +=  ' '+ 'o-feature-editable-content';
-      }
-  });
+	node.addEventListener('click', function () {
+		//Check if any other feature components are in edit mode
+		if(window.$featureData.featureEdited == false){
+			window.parent.$('#editWatcher').val("true").trigger('change'); // Trigger change to disable Make Live button
+			
+			if (this.parentNode.className.indexOf('o-feature-editable-content') == -1) {
+				this.parentNode.className += ' ' + 'o-feature-editable-content';
+				window.$featureData.featureEdited = true;// Disable edit to other feature components
+			}
+		}
+	});
   node.parentNode.getElementsByClassName('o-feature-save')[0].addEventListener('click', function () {
       this.parentNode.parentNode.parentNode.className = this.parentNode.parentNode.parentNode.className.replace(' o-feature-editable-content', '');
       this.parentNode.parentNode.parentNode.getElementsByClassName('o-feature-img-border')[0].className = this.parentNode.parentNode.parentNode.getElementsByClassName('o-feature-img-border')[0].className.replace(' o-feature-img-border-edit', '');
