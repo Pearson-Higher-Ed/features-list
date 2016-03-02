@@ -20,17 +20,21 @@ FeatureComponent.prototype.constants = {
     "description": "Add a short description that briefly describes the feature.",
     "resourceUrl": "https://i.imgsafe.org/2c3a6a7.png",
     "ctaText":"Add Button Label",
-    "ctaUrl":"Enter or Paste URL"
+      "ctaUrl": "https://sample.com"
   }]
 };
 
 
 
 FeatureComponent.prototype.init = function(options, data, element) {
+    // Disable Make Live button if no features
+    if(data.contents.length === 0){
+        document.getElementById("makeLiveBtn").disabled = true;
+    }
     for (var i = 0; i < data.contents.length; i++) {
         if(data.contents[i].ctaUrl === undefined){
             data.contents[i].ctaText = "Add Button Label";
-            data.contents[i].ctaUrl = "";
+            data.contents[i].ctaUrl = "https://sample.com";
 
         }
         if(data.contents[i].resourceUrl === undefined){
@@ -51,6 +55,7 @@ FeatureComponent.prototype.init = function(options, data, element) {
 };
 
   FeatureComponent.prototype.addNew = function () {
+      document.getElementById("makeLiveBtn").disabled = false; //Enable Make Live button
   var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem));
 
   //this.parentNode.insertBefore(_cell, this.nextSibling);
@@ -78,15 +83,12 @@ FeatureComponent.prototype.init = function(options, data, element) {
   window.$featureData.contents.push(newFeature[0]);
   intId += 1;
 };
-FeatureComponent.prototype.removeItem = function (item,event) {
+FeatureComponent.prototype.removeItem = function (item, event) {
     for (var i = 0; i < window.$featureData.contents.length; i++) {
         if (window.$featureData.contents[i].contentId === item) {
             window.$featureData.contents.splice(i, 1);
         }
     }
-    document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
-    window.$featureData.featureEdited = false; // Enable edit to other feature components
-
 };
 FeatureComponent.prototype.saveItem = function (item,event) {
     console.log(intId);
@@ -107,7 +109,7 @@ FeatureComponent.prototype.saveItem = function (item,event) {
 
             }
         }
-
+        document.getElementById("saveWatcher").value = true;
         document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
          window.$featureData.featureEdited = false;// Enable edit to other feature components
     }else{
@@ -221,9 +223,14 @@ FeatureComponent.prototype._addEventListenerToNode = function (node) {
           }
       }
   });
-   node.parentNode.getElementsByClassName('o-feature-remove')[0].addEventListener('click', function () {
-	    this.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(node.parentNode.parentNode);
-	  });
+    node.parentNode.getElementsByClassName('o-feature-remove')[0].addEventListener('click', function () {
+        if (confirm("Do you want to remove this item?") == true) {
+            this.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(node.parentNode.parentNode);
+            document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
+            window.$featureData.featureEdited = false; // Enable edit to other feature components
+            document.getElementById("saveWatcher").value = true;
+        }
+    });
 };
 
 FeatureComponent.prototype._prepareTemplate = function (data, options) {
