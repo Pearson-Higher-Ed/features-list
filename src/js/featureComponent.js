@@ -27,6 +27,7 @@ FeatureComponent.prototype.constants = {
 
 
 FeatureComponent.prototype.init = function(options, data, element) {
+    document.getElementById("saveWatcher").value = false;
     // Disable Make Live button if no features
     if(data.contents.length === 0){
         document.getElementById("makeLiveBtn").disabled = true;
@@ -57,7 +58,7 @@ FeatureComponent.prototype.init = function(options, data, element) {
   FeatureComponent.prototype.addNew = function () {
       document.getElementById("makeLiveBtn").disabled = false; //Enable Make Live button
   var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem));
-
+      newFeature[0].contentId = "newItem_" + intId;
   //this.parentNode.insertBefore(_cell, this.nextSibling);
   var node;
   if (window.$featureData.contents.length == 0) {
@@ -120,7 +121,7 @@ FeatureComponent.prototype.saveItem = function (item,event) {
 FeatureComponent.prototype._validateItem = function(node){
 
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem[0]));
-    var urlRegex = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
+    var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
     newFeature.primaryTitle =      node.getElementsByClassName('o-feature-brand')[0].textContent;
     newFeature.secondaryTitle =    node.getElementsByClassName('o-feature-title')[0].textContent;
