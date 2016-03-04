@@ -26,65 +26,70 @@ FeatureComponent.prototype.constants = {
 
 
 
-FeatureComponent.prototype.init = function(options, data, element) {
+FeatureComponent.prototype.init = function (options, data, element) {
     document.getElementById("saveWatcher").value = false;
     // Disable Make Live button if no features
-    if(data.contents.length === 0){
+    if (data.contents.length === 0) {
         document.getElementById("makeLiveBtn").disabled = true;
     }
     for (var i = 0; i < data.contents.length; i++) {
-        if(data.contents[i].ctaUrl === undefined){
+        data.contents[i].hasCTA = true;
+        data.contents[i].hasImage = true;
+        if (data.contents[i].ctaUrl === undefined) {
             data.contents[i].ctaText = "Add Button Label";
-            data.contents[i].ctaUrl = "https://sample.com";
-
+            data.contents[i].ctaUrl = '';
+            data.contents[i].hasCTA = false;
         }
-        if(data.contents[i].resourceUrl === undefined){
+        if (data.contents[i].resourceUrl === undefined) {
             data.contents[i].resourceUrl = '';
+            data.contents[i].hasImage = false;
         }
     }
-  this.element = element;
-  window.$featureData= data;
-  window.$featureData.featureEdited = false;
-  var _compiledTemplate = this._prepareTemplate(data.contents, options);
-  document.getElementById(element).appendChild(_compiledTemplate);
+    this.element = element;
+    window.$featureData = data;
+    window.$featureData.featureEdited = false;
+    var _compiledTemplate = this._prepareTemplate(data.contents, options);
+    document.getElementById(element).appendChild(_compiledTemplate);
 
-  if (options.editMode) {
-      FeatureComponent.prototype.addEventListenerToOverlay(document.getElementsByClassName('o-feature-overlay'));
-  }
+    if (options.editMode) {
+        FeatureComponent.prototype.addEventListenerToOverlay(document.getElementsByClassName('o-feature-overlay'));
+    }
 
-  return this;
+    return this;
 };
 
-  FeatureComponent.prototype.addNew = function () {
-      document.getElementById("makeLiveBtn").disabled = false; //Enable Make Live button
-  var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem));
-      newFeature[0].contentId = "newItem_" + intId;
-  //this.parentNode.insertBefore(_cell, this.nextSibling);
-  var node;
-  if (window.$featureData.contents.length == 0) {
-    node = document.getElementById('testId');
+FeatureComponent.prototype.addNew = function () {
+    document.getElementById("makeLiveBtn").disabled = false; //Enable Make Live button
+    var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem));
+    newFeature[0].contentId = "newItem_" + intId;
+    //this.parentNode.insertBefore(_cell, this.nextSibling);
+    var node;
+    if (window.$featureData.contents.length == 0) {
+        node = document.getElementById('testId');
 
-    var _compiledTemplate = this._prepareTemplate(newFeature, {
-      editMode: true
-    });
-    node.appendChild(_compiledTemplate);
-    FeatureComponent.prototype._addEventListenerToNode(_compiledTemplate.getElementsByClassName('o-feature-overlay')[0]);
-  } else {
-    var _cell = document.createElement('article');
-    _cell.setAttribute('class', 'o-feature-cell o-feature-cell-edit');
+        var _compiledTemplate = this._prepareTemplate(newFeature, {
+            editMode: true
+        });
+        node.appendChild(_compiledTemplate);
+        FeatureComponent.prototype._addEventListenerToNode(_compiledTemplate.getElementsByClassName('o-feature-overlay')[0]);
+    } else {
+        var _cell = document.createElement('article');
+        _cell.setAttribute('class', 'o-feature-cell o-feature-cell-edit');
 
-    _cell.innerHTML = Hogan.compile(templateEditCell).render(newFeature[0]);
-    var itemId = window.$featureData.contents[window.$featureData.contents.length - 1].contentId;
-    node = document.getElementById('feature_' + itemId);
+        _cell.innerHTML = Hogan.compile(templateEditCell).render(newFeature[0]);
+        var itemId = window.$featureData.contents[window.$featureData.contents.length - 1].contentId;
+        node = document.getElementById('feature_' + itemId);
 
-    node.parentNode.parentNode.insertBefore(_cell, null);
-    FeatureComponent.prototype._addEventListenerToNode(_cell.getElementsByClassName('o-feature-overlay')[0]);
-  }
-      FeatureComponent.prototype.setDisplaySequence();
+        node.parentNode.parentNode.insertBefore(_cell, null);
+        FeatureComponent.prototype._addEventListenerToNode(_cell.getElementsByClassName('o-feature-overlay')[0]);
+    }
+    FeatureComponent.prototype.setDisplaySequence();
 
-  window.$featureData.contents.push(newFeature[0]);
-  intId += 1;
+    window.$featureData.contents.push(newFeature[0]);
+    intId += 1;
 };
+
+
 FeatureComponent.prototype.removeItem = function (item, event) {
     for (var i = 0; i < window.$featureData.contents.length; i++) {
         if (window.$featureData.contents[i].contentId === item) {
@@ -93,44 +98,43 @@ FeatureComponent.prototype.removeItem = function (item, event) {
     }
     FeatureComponent.prototype.setDisplaySequence();
 };
-FeatureComponent.prototype.saveItem = function (item,event) {
+
+FeatureComponent.prototype.saveItem = function (item, event) {
     console.log(intId);
     console.log(this.element);
 
-    var node = document.getElementById('feature_'+item); //= event.target.parentNode.parentNode.parentNode
+    var node = document.getElementById('feature_' + item); //= event.target.parentNode.parentNode.parentNode
     var isValid = true;
 
     var newItem = FeatureComponent.prototype._validateItem(node);
     console.log(newItem);
 
-    if(newItem !== null){
+    if (newItem !== null) {
         newItem.contentId = item;
         // console.log(node.getElementsByClassName('o-feature-brand')[0].textContent);
-        for(var i = 0; i < window.$featureData.contents.length ; i++) {
+        for (var i = 0; i < window.$featureData.contents.length; i++) {
 
-            if(window.$featureData.contents[i].contentId ===item){
+            if (window.$featureData.contents[i].contentId === item) {
                 window.$featureData.contents[i] = newItem;
-
             }
         }
         document.getElementById("saveWatcher").value = true;
         FeatureComponent.prototype.setDisplaySequence();
         document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
-         window.$featureData.featureEdited = false;// Enable edit to other feature components
-    }else{
+        window.$featureData.featureEdited = false; // Enable edit to other feature components
+    } else {
         node.className += ' ' + 'o-feature-editable-content';
     }
-
 };
-FeatureComponent.prototype.setDisplaySequence = function() {
+FeatureComponent.prototype.setDisplaySequence = function () {
     for (var i = 0; i < window.$featureData.contents.length; i++) {
         window.$featureData.contents[i].displaySequence = i;
     }
-}
+};
 FeatureComponent.prototype._validateItem = function(node){
 
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem[0]));
-    var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+    var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
 
     newFeature.primaryTitle =      node.getElementsByClassName('o-feature-brand')[0].textContent;
     newFeature.secondaryTitle =    node.getElementsByClassName('o-feature-title')[0].textContent;
@@ -264,7 +268,7 @@ FeatureComponent.prototype._prepareTemplate = function (data, options) {
     for (var cellCount = 0; cellCount < data.length; cellCount++) {
           var _cell = '';
         _cell = document.createElement('article');
-        if (false /*options.editMode*/) {
+        if (options.editMode) {
 
           _cell.setAttribute('class','o-feature-cell o-feature-cell-edit');
           _cell.innerHTML = Hogan.compile(templateEditCell).render(data[cellCount]);
