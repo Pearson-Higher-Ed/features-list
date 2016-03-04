@@ -14,13 +14,13 @@ FeatureComponent.prototype.constants = {
   noOfElementsInARow: 2,
   newItem: [{
     "contentId": "newItem_"+intId,   
-    "displaySequence":"1",
+    "displaySequence":1,
     "primaryTitle": "Add Feature Title",
     "secondaryTitle": "Add Title",
     "description": "Add a short description that briefly describes the feature.",
     "resourceUrl": "https://i.imgsafe.org/2c3a6a7.png",
     "ctaText":"Add Button Label",
-      "ctaUrl": "https://sample.com"
+      "ctaUrl": "https://www.sample.com"
   }]
 };
 
@@ -80,6 +80,7 @@ FeatureComponent.prototype.init = function(options, data, element) {
     node.parentNode.parentNode.insertBefore(_cell, null);
     FeatureComponent.prototype._addEventListenerToNode(_cell.getElementsByClassName('o-feature-overlay')[0]);
   }
+      FeatureComponent.prototype.setDisplaySequence();
 
   window.$featureData.contents.push(newFeature[0]);
   intId += 1;
@@ -90,6 +91,7 @@ FeatureComponent.prototype.removeItem = function (item, event) {
             window.$featureData.contents.splice(i, 1);
         }
     }
+    FeatureComponent.prototype.setDisplaySequence();
 };
 FeatureComponent.prototype.saveItem = function (item,event) {
     console.log(intId);
@@ -105,12 +107,14 @@ FeatureComponent.prototype.saveItem = function (item,event) {
         newItem.contentId = item;
         // console.log(node.getElementsByClassName('o-feature-brand')[0].textContent);
         for(var i = 0; i < window.$featureData.contents.length ; i++) {
+
             if(window.$featureData.contents[i].contentId ===item){
                 window.$featureData.contents[i] = newItem;
 
             }
         }
         document.getElementById("saveWatcher").value = true;
+        FeatureComponent.prototype.setDisplaySequence();
         document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
          window.$featureData.featureEdited = false;// Enable edit to other feature components
     }else{
@@ -118,6 +122,11 @@ FeatureComponent.prototype.saveItem = function (item,event) {
     }
 
 };
+FeatureComponent.prototype.setDisplaySequence = function() {
+    for (var i = 0; i < window.$featureData.contents.length; i++) {
+        window.$featureData.contents[i].displaySequence = i;
+    }
+}
 FeatureComponent.prototype._validateItem = function(node){
 
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem[0]));
@@ -255,7 +264,7 @@ FeatureComponent.prototype._prepareTemplate = function (data, options) {
     for (var cellCount = 0; cellCount < data.length; cellCount++) {
           var _cell = '';
         _cell = document.createElement('article');
-        if (options.editMode) {
+        if (false /*options.editMode*/) {
 
           _cell.setAttribute('class','o-feature-cell o-feature-cell-edit');
           _cell.innerHTML = Hogan.compile(templateEditCell).render(data[cellCount]);
