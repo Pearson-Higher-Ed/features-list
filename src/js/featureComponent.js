@@ -136,12 +136,12 @@ FeatureComponent.prototype._validateItem = function(node){
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem[0]));
     var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
 
-    newFeature.primaryTitle =      node.getElementsByClassName('o-feature-brand')[0].textContent;
-    newFeature.secondaryTitle =    node.getElementsByClassName('o-feature-title')[0].textContent;
-    newFeature.description =       node.getElementsByClassName('o-feature-description')[0].textContent;
-    newFeature.resourceUrl =       node.getElementsByClassName('o-feature-img-src')[0].value;
-    newFeature.ctaText =           node.getElementsByClassName('o-feature-action-button')[0].textContent;
-    newFeature.ctaUrl =            node.getElementsByClassName('o-feature-action-url')[0].textContent;
+    newFeature.primaryTitle =      node.getElementsByClassName('o-feature-brand')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.secondaryTitle =    node.getElementsByClassName('o-feature-title')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.description =       node.getElementsByClassName('o-feature-description')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.resourceUrl =       node.getElementsByClassName('o-feature-img-src')[0].value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.ctaText =           node.getElementsByClassName('o-feature-action-button')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.ctaUrl =            node.getElementsByClassName('o-feature-action-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
     ////validation logics
     if (newFeature.primaryTitle.trim().length == 0) {
