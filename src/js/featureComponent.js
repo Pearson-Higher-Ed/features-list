@@ -27,10 +27,14 @@ FeatureComponent.prototype.constants = {
 
 
 FeatureComponent.prototype.init = function (options, data, element) {
-    document.getElementById("saveWatcher").value = false;
+    if (options.editMode) {
+        document.getElementById("saveWatcher").value = false;
+    }
     // Disable Make Live button if no features
     if (data.contents.length === 0) {
-        document.getElementById("makeLiveBtn").disabled = true;
+        if (options.editMode) {
+            document.getElementById("makeLiveBtn").disabled = true;
+        }
     }
     for (var i = 0; i < data.contents.length; i++) {
         data.contents[i].hasCTA = true;
@@ -46,8 +50,10 @@ FeatureComponent.prototype.init = function (options, data, element) {
         }
     }
     this.element = element;
-    window.$featureData = data;
-    window.$featureData.featureEdited = false;
+    if (options.editMode) {
+        window.$featureData = data;
+        window.$featureData.featureEdited = false;
+    }
     var _compiledTemplate = this._prepareTemplate(data.contents, options);
     document.getElementById(element).appendChild(_compiledTemplate);
 
