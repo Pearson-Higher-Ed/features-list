@@ -424,6 +424,19 @@
   .o-feature-clearfix {
     clear: both;
   }
+   .o-feature-sort{
+            margin: 5px;       
+        .o-feature-sort input{
+            padding: 5px;
+            max-width: 100px;
+            text-align: center;
+    }
+  }
+  .o-feature-editable-content {
+        .o-feature-sort input{
+           border: none;
+    }
+  }
 }
 
 
