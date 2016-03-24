@@ -76,8 +76,8 @@ templateEditCell += "						<\/div>";
 templateEditCell += "					<\/div>";
 templateEditCell += "				<\/div>";
 templateEditCell += "				<div class=\"o-feature-clearfix\"><\/div>";
+templateEditCell += "				<div class=\"o-feature-sort\"><input type=\"number\"  placeholder=\"Set Order\"\/><\/div>";
 templateEditCell += "				<div class=\"o-feature-button\">";
-
 templateEditCell += "				<div class=\"o-feature-remove-button\"><a class=\"o-feature-remove\" href=\"javascript:void(0);\"  onclick=\"javascript:window.$featureComponent.prototype.removeItem(\'{{contentId}}\',event)\">Remove<\/a><\/div>";
 templateEditCell += "					<div class=\"o-feature-button-group\"> ";
 
