@@ -1,20 +1,29 @@
 {
-  "private": true,
+  "name": "@pearson-components/features-list",
+  "version": "1.0.2",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Pearson-Higher-Ed/features-list.git"
+  },
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start karma.conf.js"
+    "test": "./node_modules/karma/bin/karma start karma.conf.js",
+    "dev": "webpack-dev-server --devtool eval --hot --progress --colors",
+    "build": "webpack"
   },
   "devDependencies": {
+    "babelify": "^5.0.4",
+    "css-loader": "^0.23.1",
     "expect.js": "^0.3.1",
-    "debowerify": "Financial-Times/debowerify",
     "karma": "^0.12.31",
     "karma-browserify": "^4.0.0",
     "karma-mocha": "^0.1.10",
     "karma-phantomjs-launcher": "^0.1.4",
     "mocha": "^2.1.0",
-    "babelify": "^5.0.4",
-    "origami-build-tools": "4.1.1"
-  },
-  "dependencies": {
-    "hogan.js": "^3.0.2"
+    "node-sass": "^3.4.2",
+    "sass-loader": "^3.2.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
   }
 }

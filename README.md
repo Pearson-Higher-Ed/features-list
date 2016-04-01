@@ -1,8 +1,8 @@
-# o-component-blueprint
+# features-list
 
 **Note:** This is still in experimental stage.
 
 
 ## Licence
 
-This software is published by the Financial Times under the [MIT licence](http://opensource.org/licenses/MIT).
+Copyright 2015 Pearson Education. This software is published under the [MIT licence](http://opensource.org/licenses/MIT).
