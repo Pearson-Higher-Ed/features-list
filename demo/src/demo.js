@@ -6,7 +6,9 @@ document.addEventListener("DOMContentLoaded", function() {
 	document.dispatchEvent(new CustomEvent('o.DOMContentLoaded'));
 });
 
-var data = [
+var data = {};
+
+data.contents = [
      {
       "type":"video",
       "displaySequence":"1",

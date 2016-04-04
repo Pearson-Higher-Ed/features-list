@@ -27,7 +27,7 @@ FeatureComponent.prototype.constants = {
 
 
 FeatureComponent.prototype.init = function (options, data, element) {
-    if (options.editMode) {
+    if (options.editMode && document.getElementById("saveWatcher")) {
         document.getElementById("saveWatcher").value = false;
     }
     // Disable Make Live button if no features
