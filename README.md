@@ -17,7 +17,11 @@ Add the following script include to your web page:
 ```html
 	<script src="path/to/dist.features-list.js"></script>
 ```
-  
+
+```js
+var features = new $featureComponent().init(options, data, element);
+```
+
 ### CommonJS
 
 This method requires a web bundler, such as webpack or browserify.
