@@ -12,7 +12,7 @@
     "url": "https://github.com/Pearson-Higher-Ed/features-list.git"
   },
   "scripts": {
-    "test": "echo No unit testing yet available! && ./node_modules/karma/bin/karma start karma.conf.js",
+    "test": "echo No unit testing yet available!",
     "dev": "webpack-dev-server --devtool eval --hot --progress --colors",
     "build": "webpack -p",
     "version": "npm run gen-changelog && git add CHANGELOG.md",
