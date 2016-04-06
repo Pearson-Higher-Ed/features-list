@@ -10,7 +10,7 @@ data.contents = [
       "primaryTitle": "Revel Tm History Feature",
       "secondaryTitle": "Explorer Activities",
       "description": "some description",
-      "resourceUrl": "http://imageshack.com/a/img910/9714/1QhPgK.png",
+      "resourceUrl": "https://www.pearsonhighered.com/revel/assets/images/discipline-grid/thumb/closer-look.jpg",
       "ctaText":"Launch Activity",
       "ctaUrl":"http://www.youtube,com"
      },
@@ -20,7 +20,7 @@ data.contents = [
       "primaryTitle": "Revel Tm History Feature",
       "secondaryTitle": "Explorer Activities",
       "description": "some description",
-      "resourceUrl": "http://imageshack.com/a/img910/9714/1QhPgK.png",
+      "resourceUrl": "https://www.pearsonhighered.com/revel/assets/images/discipline-grid/thumb/closer-look.jpg",
       "ctaText":"Launch Activity",
       "ctaUrl":"http://www.youtube,com"
      },
@@ -30,7 +30,7 @@ data.contents = [
       "primaryTitle": "Revel Tm History Feature",
       "secondaryTitle": "Explorer Activities",
       "description": "some description",
-      "resourceUrl": "http://imageshack.com/a/img910/9714/1QhPgK.png",
+      "resourceUrl": "https://www.pearsonhighered.com/revel/assets/images/discipline-grid/thumb/closer-look.jpg",
       "ctaText":"Launch Activity",
       "ctaUrl":"http://www.youtube,com"
      },
@@ -40,7 +40,7 @@ data.contents = [
       "primaryTitle": "Revel Tm History Feature",
       "secondaryTitle": "Explorer Activities",
       "description": "some description",
-      "resourceUrl": "http://imageshack.com/a/img910/9714/1QhPgK.png",
+      "resourceUrl": "https://www.pearsonhighered.com/revel/assets/images/discipline-grid/thumb/closer-look.jpg",
       "ctaText":"Launch Activity",
       "ctaUrl":"http://www.youtube,com"
      },
@@ -50,7 +50,7 @@ data.contents = [
       "primaryTitle": "Revel Tm History Feature",
       "secondaryTitle": "Explorer Activities",
       "description": "some description",
-      "resourceUrl": "http://imageshack.com/a/img910/9714/1QhPgK.png",
+      "resourceUrl": "https://www.pearsonhighered.com/revel/assets/images/discipline-grid/thumb/closer-look.jpg",
       "ctaText":"Launch Activity",
       "ctaUrl":"http://www.youtube,com"
      },
@@ -60,7 +60,7 @@ data.contents = [
       "primaryTitle": "Revel Tm History Feature",
       "secondaryTitle": "Explorer Activities",
       "description": "some description",
-      "resourceUrl": "http://imageshack.com/a/img910/9714/1QhPgK.png",
+      "resourceUrl": "https://www.pearsonhighered.com/revel/assets/images/discipline-grid/thumb/closer-look.jpg",
       "ctaText":"Launch Activity",
       "ctaUrl":"http://www.youtube,com"
      },
@@ -70,7 +70,7 @@ data.contents = [
       "primaryTitle": "Revel Tm History Feature",
       "secondaryTitle": "Explorer Activities",
       "description": "some description",
-      "resourceUrl": "http://imageshack.com/a/img910/9714/1QhPgK.png",
+      "resourceUrl": "https://www.pearsonhighered.com/revel/assets/images/discipline-grid/thumb/closer-look.jpg",
       "ctaText":"Launch Activity",
       "ctaUrl":"http://www.youtube,com"
      }
