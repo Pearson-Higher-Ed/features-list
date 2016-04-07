@@ -84,6 +84,6 @@ var options2 = {
   editMode: false
 };
 
-window.editComp = new $featureComponent().init(options, data, 'testId');
+//window.editComp = new $featureComponent().init(options, data, 'testId');
 
 window.viewComp = new $featureComponent().init(options2, data, 'testId2');
