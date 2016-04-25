@@ -1,11 +1,10 @@
 
-
 var templateEditCell = "";
 templateEditCell += "<div id=\"feature_{{contentId}}\" class=\"o-feature-cell-container\">";
 templateEditCell += "				<div class=\"o-feature-overlay\">";
 templateEditCell += "					";
 templateEditCell += "					<svg version=\"1.1\" id=\"Capa_1\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\" xmlns:xlink=\"http:\/\/www.w3.org\/1999\/xlink\" x=\"0px\" y=\"0px\"";
-templateEditCell += "				 		viewBox=\"0 0 482.14 482.14\" style=\"enable-background:new 0 0 482.14 482.14;\" xml:space=\"preserve\">";
+templateEditCell += "				 		viewBox=\"0 0 482.14 482.14\" style=\"enable-background:new 0 0 482.14 482.14;\" xml:space=\"preserve\" class=\"o-feature-overlay-svg\">";
 templateEditCell += "					<g>";
 templateEditCell += "						<path d=\"M341.766,430.824c0,10.969-8.903,19.874-19.856,19.874H57.687c-10.953,0-19.875-8.905-19.875-19.874V51.315";
 templateEditCell += "							c0-10.953,8.922-19.858,19.875-19.858l181.89-0.188v67.217c0,16.991,11.932,31.159,27.849,34.704l58.684-58.683L251.333,0H57.687";
@@ -53,6 +52,7 @@ templateEditCell += "					<g>";
 templateEditCell += "					<\/g>";
 templateEditCell += "					<\/svg>";
 templateEditCell += "				<\/div>";
+templateEditCell += "				<div class=\"o-feature-sort\"><label>Display Sequence : &nbsp;&nbsp;</label><input type=\"number\" class=\"o-feature-sort-input\" max=\"99\"  min=\"0\" placeholder=\"Set Order\" value='{{displaySequence}}' \/><\/div>";
 templateEditCell += "				<div class=\"o-feature-content\">";
 templateEditCell += "					<div class=\"o-feature-left\">";
 templateEditCell += "				<div class=\"o-feature-brand\" contenteditable>{{primaryTitle}}<\/div>";
@@ -76,9 +76,8 @@ templateEditCell += "						<\/div>";
 templateEditCell += "					<\/div>";
 templateEditCell += "				<\/div>";
 templateEditCell += "				<div class=\"o-feature-clearfix\"><\/div>";
-templateEditCell += "				<div class=\"o-feature-sort\"><input type=\"number\"  placeholder=\"Set Order\"\/><\/div>";
 templateEditCell += "				<div class=\"o-feature-button\">";
-templateEditCell += "				<div class=\"o-feature-remove-button\"><a class=\"o-feature-remove\" href=\"javascript:void(0);\"  onclick=\"javascript:window.$featureComponent.prototype.removeItem(\'{{contentId}}\',event)\">Remove<\/a><\/div>";
+templateEditCell += "				<div class=\"o-feature-remove-button\" ><a class=\"o-feature-remove\" href=\"javascript:void(0);\"  onclick=\"javascript:window.$featureComponent.prototype.removeItem(\'{{contentId}}\',event)\">Remove<\/a><\/div>";
 templateEditCell += "					<div class=\"o-feature-button-group\"> ";
 
 templateEditCell += "						<button class=\"o-feature-cancel\" onclick=\"javascript:window.$featureComponent.prototype.cancelItem(\'{{contentId}}\',event)\">Cancel<\/button>";
