@@ -9,10 +9,15 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 </head>
 <body>
-<!--<div id="testId"></div>-->
+<div ng-click="addNew()">+ Add New</div>
+<button type="submit" id="makeLiveBtn">
+	<span>Make Live</span>
+</button>
+
+<div id="testId1"></div>
 
 <div id="testId2"></div>
-
+<input type="hidden" id="saveWatcher">
 <script src="http://localhost:8080/webpack-dev-server.js"></script>
 <script src="../build/dev_demo.features-list.js"></script>
 </body>
