@@ -45,6 +45,22 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
     if(data.contents)
     {
         data.contents =  data.contents.sort(function(a,b){ return parseInt(a.displaySequence)-parseInt(b.displaySequence) });
+        var isStartedFromZero = false;
+        for(var x = 0; x < data.contents.length; x++)
+        {
+            if(parseInt(data.contents[x].displaySequence) === 0)
+            {
+                isStartedFromZero = true;
+                break;
+            }
+        }
+        if(isStartedFromZero)
+        {
+            for(var y = 0; y < data.contents.length; y++)
+            {
+                data.contents[y].displaySequence =  parseInt(data.contents[y].displaySequence)+1;
+            }
+        }
     }
     // Disable Make Live button if no features
     if (data.contents.length === 0) {
@@ -136,7 +152,7 @@ FeatureComponent.prototype.RemoveOverlays = function(iterations){
 FeatureComponent.prototype.addNew = function () {
     document.getElementById("makeLiveBtn").disabled = false; //Enable Make Live button
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem));
-    newFeature[0].displaySequence = window.$featureData.contents.length;
+    newFeature[0].displaySequence = window.$featureData.contents.length+1;
     newFeature[0].contentId = "newItem_" + intId;
     //this.parentNode.insertBefore(_cell, this.nextSibling);
     var node;
@@ -204,7 +220,7 @@ FeatureComponent.prototype.saveItem = function (item, event) {
 };
 FeatureComponent.prototype.setDisplaySequence = function () {
     for (var i = 0; i < window.$featureData.contents.length; i++) {
-        window.$featureData.contents[i].displaySequence = i;
+        window.$featureData.contents[i].displaySequence = i+1;
     }
 };
 FeatureComponent.prototype._validateItem = function(node){
