@@ -158,7 +158,7 @@ FeatureComponent.prototype.RemoveOverlays = function(iterations){
 FeatureComponent.prototype.addNew = function () {
     document.getElementById("makeLiveBtn").disabled = false; //Enable Make Live button
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem));
-    newFeature[0].displaySequence = window.$featureData.contents.length;
+    newFeature[0].displaySequence = window.$featureData.contents.length+1;
     newFeature[0].contentId = "newItem_" + intId;
     //this.parentNode.insertBefore(_cell, this.nextSibling);
     var node;
@@ -181,7 +181,7 @@ FeatureComponent.prototype.addNew = function () {
         node.parentNode.parentNode.insertBefore(_cell, null);
         FeatureComponent.prototype._addEventListenerToNode(_cell.getElementsByClassName('o-feature-overlay')[0]);
     }
-    FeatureComponent.prototype.setDisplaySequence();
+   // FeatureComponent.prototype.setDisplaySequence();
 
     window.$featureData.contents.push(newFeature[0]);
     intId += 1;
@@ -267,7 +267,7 @@ FeatureComponent.prototype.saveItem = function (item, event) {
             }
         }
         document.getElementById("saveWatcher").value = true;
-        FeatureComponent.prototype.setDisplaySequence();
+       // FeatureComponent.prototype.setDisplaySequence();
         document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
         window.$featureData.featureEdited = false; // Enable edit to other feature components
     } else {
