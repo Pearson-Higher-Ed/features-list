@@ -81,7 +81,7 @@ data.contents = [
       "ctaUrl":"http://www.youtube,com"
      }
    ];
-
+data.disciplineVideoUrl = "https://www.youtube.com/embed/adnYt45XOUY?rel=0";
 var options = {
   editMode: true
 };

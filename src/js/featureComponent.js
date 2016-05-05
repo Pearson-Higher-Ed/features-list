@@ -26,8 +26,8 @@ FeatureComponent.prototype.constants = {
         "description": "Add a short description that briefly describes the feature.",
         "resourceUrl": "https://i.imgsafe.org/2c3a6a7.png",
         "ctaText":"Add Button Label",
-        "ctaUrl": "https://www.sample.com",
-        "videoLink": "Add Ifream link",
+        "ctaUrl": "https://www.sample.com"
+
     }]
 };
 
@@ -64,7 +64,7 @@ FeatureComponent.prototype.init = function (options, data, element) {
         window.$featureData = data;
         window.$featureData.featureEdited = false;
     }
-    var _compiledTemplate = this._prepareTemplate(data.contents, options);
+    var _compiledTemplate = this._prepareTemplate(data, options);
     document.getElementById(element).appendChild(_compiledTemplate);
 
     if (options.editMode) {
@@ -116,7 +116,7 @@ FeatureComponent.prototype.removeItem = function (item, event) {
     FeatureComponent.prototype.setDisplaySequence();
 };
 
-var videoLinkTemplate = FeatureComponent.prototype.constants.newItem[0];
+
 
 
 FeatureComponent.prototype.SaveVideoItem = function (item, event) {
@@ -238,12 +238,35 @@ FeatureComponent.prototype._validateItem = function(node){
 
 
 
-FeatureComponent.prototype.CancelVideoItem = function (item,event) {
-    alert("Cancel Video")
+FeatureComponent.prototype.SaveVideoUrl = function () {
+    var url =  document.getElementById('videoLinkBox').value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+    console.log(url);
+    if ((url.trim().length != 0) && (!urlRegex.test(url.trim()))) {
+        alert("Invalid Video URL!");
+        return;
+    }
+    document.getElementById('videoIframe').src = url;
+    window.$featureData.disciplineVideoUrl = url;
+
 };
 
+FeatureComponent.prototype.CancelVideoUrl = function () {
+    document.getElementById('videoLinkBox').value =  window.$featureData.disciplineVideoUrl;
+    document.getElementById('videoIframe').src = window.$featureData.disciplineVideoUrl;
 
+};
 
+FeatureComponent.prototype.CheckVideoUrl = function () {
+    var url =  document.getElementById('videoLinkBox').value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+    if ((url.trim().length != 0) && (!urlRegex.test(url.trim()))) {
+        alert("Invalid Video URL!");
+        return;
+    }
+    document.getElementById('videoIframe').src = url;
+
+};
 
 FeatureComponent.prototype.cancelItem = function (item,event) {
     var node = event.target.parentNode.parentNode.parentNode;
@@ -339,7 +362,7 @@ FeatureComponent.prototype._prepareTemplate = function (data, options) {
     } else {
         _row.setAttribute('class','o-feature-row o-feature-published');
     }
-    var editVideoCell = Hogan.compile(templateEditVideoCell).render(videoLinkTemplate);
+    var editVideoCell = Hogan.compile(templateEditVideoCell).render(data);
     _cell = document.createElement('article');
     if (options.editMode) {
 
@@ -356,24 +379,24 @@ FeatureComponent.prototype._prepareTemplate = function (data, options) {
     _row.appendChild(_cell);
     _previous_row = _row;
 
-    for (var cellCount = 0; cellCount < data.length; cellCount++) {
+    for (var cellCount = 0; cellCount < data.contents.length; cellCount++) {
         var _cell = '';
         _cell = document.createElement('article');
         if (options.editMode) {
 
             _cell.setAttribute('class','o-feature-cell o-feature-cell-edit');
-            _cell.innerHTML = Hogan.compile(templateEditCell).render(data[cellCount]);
+            _cell.innerHTML = Hogan.compile(templateEditCell).render(data.contents[cellCount]);
         } else {
             // _cell = document.createElement('article');
             _cell.setAttribute('class','o-feature-cell');
-            _cell.innerHTML = Hogan.compile(template).render(data[cellCount]);
+            _cell.innerHTML = Hogan.compile(template).render(data.contents[cellCount]);
         }
 
 
         _row.appendChild(_cell);
         _previous_row = _row;
 
-        if (cellCount == data.length - 1) {
+        if (cellCount == data.contents.length - 1) {
             _output.appendChild(_previous_row);
         }
     }
