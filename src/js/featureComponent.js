@@ -7,6 +7,12 @@ var templateEditCell = require('../html/templateEditCell.js');
 
 var templateAddCell = require('../html/templateAddCell.js');
 
+var templateVideoCell = require('../html/templateVideoCell.js');
+
+var templateEditVideoCell = require('../html/templateEditVideoCell.js');
+
+
+
 var Hogan = require('./hogan.js');
 
 var intId = 1;
@@ -14,38 +20,25 @@ FeatureComponent.prototype.constants = {
     noOfElementsInARow: 2,
     newItem: [{
         "contentId": "newItem_"+intId,
-        "displaySequence": 1,
+        "displaySequence":1,
         "primaryTitle": "Add Feature Title",
         "secondaryTitle": "Add Title",
         "description": "Add a short description that briefly describes the feature.",
         "resourceUrl": "https://i.imgsafe.org/2c3a6a7.png",
         "ctaText":"Add Button Label",
-        "ctaUrl": "https://www.sample.com"
+        "ctaUrl": "https://www.sample.com",
+        "videoLink": "Add Ifream link",
     }]
 };
 
-FeatureComponent.prototype.FeatureData = function () {
-
-    return {
-        Data                : window.$featureData,
-        FeatureBeingEdited  : window.$featureBeingEdited,
-        Element             : window.$element,
-        Options             : window.$options,
-        Permissions         : window.$permissions
-    }
-};
 
 
-
-FeatureComponent.prototype.init = function (options, data, element, permissions) {
+FeatureComponent.prototype.init = function (options, data, element) {
     if (options.editMode) {
         document.getElementById("saveWatcher").value = false;
     }
-    //sorting features array based on display sequence
-    if(data.contents)
-    {
-        data.contents =  data.contents.sort(function(a,b){ return parseInt(a.displaySequence)-parseInt(b.displaySequence) });
-    }
+
+
     // Disable Make Live button if no features
     if (data.contents.length === 0) {
         if (options.editMode) {
@@ -64,6 +57,7 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
             data.contents[i].resourceUrl = '';
             data.contents[i].hasImage = false;
         }
+
     }
     this.element = element;
     if (options.editMode) {
@@ -73,70 +67,16 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
     var _compiledTemplate = this._prepareTemplate(data.contents, options);
     document.getElementById(element).appendChild(_compiledTemplate);
 
-    // bind event if appopriate edit rights available
-    if (options.editMode && permissions.Update) {
+    if (options.editMode) {
         FeatureComponent.prototype.addEventListenerToOverlay(document.getElementsByClassName('o-feature-overlay'));
     }
 
-    FeatureComponent.prototype.HandlePermissions(permissions,data);
-
-    window.$featureBeingEdited  = null;
-    window.$element             = element;
-    window.$options             = options;
-    window.$permissions         = permissions;
     return this;
 };
-
-FeatureComponent.prototype.HandlePermissions = function(permissions,data)
-{
-    // handle feature remove rights
-    if(!permissions.Delete)
-    {
-        for(var j = 0; j < data.contents.length; j++)
-        {
-            var removeFeatureContainers = [];
-            removeFeatureContainers = document.getElementsByClassName('o-feature-remove-button');
-            for(var i = 0; i <  removeFeatureContainers.length; i++)
-            {
-                removeFeatureContainers[i].remove();
-            }
-        }
-    }
-
-    //handling edit rights
-    if(!permissions.Update)
-    {
-        var removeFeatureContainers = [];
-        removeFeatureContainers = document.getElementsByClassName('o-feature-remove-button');
-        for(var i = 0; i <  removeFeatureContainers.length; i++)
-        {
-            removeFeatureContainers[i].remove();
-        }
-        // remove overlays if Edit rights not present
-        FeatureComponent.prototype.RemoveOverlays(data.contents.length);
-    }
-
-}
-
-FeatureComponent.prototype.RemoveOverlays = function(iterations){
-
-    for(var x = 0; x < iterations; x++)
-    {
-        var overlays =  [];
-        overlays =  document.getElementsByClassName('o-feature-overlay');
-        for(var i = 0; i <  overlays.length; i++)
-        {
-            overlays[i].remove();
-        }
-    }
-
-};
-
 
 FeatureComponent.prototype.addNew = function () {
     document.getElementById("makeLiveBtn").disabled = false; //Enable Make Live button
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem));
-    newFeature[0].displaySequence = window.$featureData.contents.length;
     newFeature[0].contentId = "newItem_" + intId;
     //this.parentNode.insertBefore(_cell, this.nextSibling);
     var node;
@@ -153,17 +93,17 @@ FeatureComponent.prototype.addNew = function () {
         _cell.setAttribute('class', 'o-feature-cell o-feature-cell-edit');
 
         _cell.innerHTML = Hogan.compile(templateEditCell).render(newFeature[0]);
+        // _cell.innerHTML = Hogan.compile(templateEditVideoCell).render(newFeature[0]);
         var itemId = window.$featureData.contents[window.$featureData.contents.length - 1].contentId;
         node = document.getElementById('feature_' + itemId);
 
         node.parentNode.parentNode.insertBefore(_cell, null);
         FeatureComponent.prototype._addEventListenerToNode(_cell.getElementsByClassName('o-feature-overlay')[0]);
     }
-    //FeatureComponent.prototype.setDisplaySequence();
+    FeatureComponent.prototype.setDisplaySequence();
 
     window.$featureData.contents.push(newFeature[0]);
     intId += 1;
-    FeatureComponent.prototype.HandlePermissions(window.$permissions,window.$featureData);
 };
 
 
@@ -174,20 +114,24 @@ FeatureComponent.prototype.removeItem = function (item, event) {
         }
     }
     FeatureComponent.prototype.setDisplaySequence();
-    var dom = document.getElementById(window.$element);
-    dom.innerHTML = '';
-    FeatureComponent.prototype.init(window.$options,window.$featureData,window.$element,window.$permissions);
 };
 
-FeatureComponent.prototype.saveItem = function (item, event) {
+var videoLinkTemplate = FeatureComponent.prototype.constants.newItem[0];
+
+
+FeatureComponent.prototype.SaveVideoItem = function (item, event) {
+    console.log(intId);
+    console.log(this.element);
 
     var node = document.getElementById('feature_' + item); //= event.target.parentNode.parentNode.parentNode
     var isValid = true;
 
-    var newItem = FeatureComponent.prototype._validateItem(node);
+    var newItem = FeatureComponent.prototype._validateVideoItem(node);
+    console.log(newItem);
 
     if (newItem !== null) {
         newItem.contentId = item;
+        // console.log(node.getElementsByClassName('o-feature-brand')[0].textContent);
         for (var i = 0; i < window.$featureData.contents.length; i++) {
 
             if (window.$featureData.contents[i].contentId === item) {
@@ -195,7 +139,54 @@ FeatureComponent.prototype.saveItem = function (item, event) {
             }
         }
         document.getElementById("saveWatcher").value = true;
-        //FeatureComponent.prototype.setDisplaySequence();
+        FeatureComponent.prototype.setDisplaySequence();
+        document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
+        window.$featureData.featureEdited = false; // Enable edit to other feature components
+    } else {
+        node.className += ' ' + 'o-feature-editable-content';
+    }
+};
+
+
+FeatureComponent.prototype._validateVideoItem = function(node){
+
+    var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem[0]));
+    var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+
+    newFeature.videoLink = node.getElementsByClassName('o-feature-videoLink')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    ////validation logics
+    if (newFeature.videoLink.trim().length == 0) {
+        alert("video Link is Mandatory");
+        return null;
+    }
+
+    return newFeature;
+};
+
+
+
+FeatureComponent.prototype.saveItem = function (item, event) {
+    console.log(intId);
+    console.log(this.element);
+
+    var node = document.getElementById('feature_' + item); //= event.target.parentNode.parentNode.parentNode
+    var isValid = true;
+
+    var newItem = FeatureComponent.prototype._validateItem(node);
+    console.log(newItem);
+
+    if (newItem !== null) {
+        newItem.contentId = item;
+        // console.log(node.getElementsByClassName('o-feature-brand')[0].textContent);
+        for (var i = 0; i < window.$featureData.contents.length; i++) {
+
+            if (window.$featureData.contents[i].contentId === item) {
+                window.$featureData.contents[i] = newItem;
+            }
+        }
+        document.getElementById("saveWatcher").value = true;
+        FeatureComponent.prototype.setDisplaySequence();
         document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
         window.$featureData.featureEdited = false; // Enable edit to other feature components
     } else {
@@ -218,7 +209,6 @@ FeatureComponent.prototype._validateItem = function(node){
     newFeature.resourceUrl =       node.getElementsByClassName('o-feature-img-src')[0].value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     newFeature.ctaText =           node.getElementsByClassName('o-feature-action-button')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     newFeature.ctaUrl =            node.getElementsByClassName('o-feature-action-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.displaySequence =   node.getElementsByClassName('o-feature-sort-input')[0].value;
 
     ////validation logics
     if (newFeature.primaryTitle.trim().length == 0) {
@@ -246,6 +236,15 @@ FeatureComponent.prototype._validateItem = function(node){
     return newFeature;
 };
 
+
+
+FeatureComponent.prototype.CancelVideoItem = function (item,event) {
+    alert("Cancel Video")
+};
+
+
+
+
 FeatureComponent.prototype.cancelItem = function (item,event) {
     var node = event.target.parentNode.parentNode.parentNode;
 
@@ -253,7 +252,7 @@ FeatureComponent.prototype.cancelItem = function (item,event) {
         node.classList.remove('o-feature-editable-content');
         node.getElementsByClassName('o-feature-img-border')[0].className = node.getElementsByClassName('o-feature-img-border')[0].className.replace(' o-feature-img-border-edit', '');
 
-    }
+    } // console.log(node.getElementsByClassName('o-feature-brand')[0].textContent);
     for(var i = 0; i < window.$featureData.contents.length ; i++) {
         if(window.$featureData.contents[i].contentId ===item){
             node.getElementsByClassName('o-feature-brand')[0].textContent = window.$featureData.contents[i].primaryTitle;
@@ -262,13 +261,11 @@ FeatureComponent.prototype.cancelItem = function (item,event) {
             node.getElementsByClassName('o-feature-img-src')[0].value = window.$featureData.contents[i].resourceUrl;
             node.getElementsByClassName('o-feature-action-button')[0].textContent = window.$featureData.contents[i].ctaText;
             node.getElementsByClassName('o-feature-action-url')[0].textContent = window.$featureData.contents[i].ctaUrl;
-            node.getElementsByClassName('o-feature-sort-input')[0].value = window.$featureData.contents[i].displaySequence;
         }
     }
 
     document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
     window.$featureData.featureEdited = false; // Enable edit to other feature components
-    window.$featureBeingEdited = null;
 };
 
 FeatureComponent.prototype.addEventListenerToOverlay = function (nodeList) {
@@ -276,39 +273,6 @@ FeatureComponent.prototype.addEventListenerToOverlay = function (nodeList) {
         FeatureComponent.prototype._addEventListenerToNode(nodeList[i]);
     }
 };
-
-FeatureComponent.prototype.ReorderFeatures = function(editedFeature,features,savedFeature)
-{
-    if(parseInt(savedFeature.displaySequence) === parseInt(window.$featureBeingEdited.displaySequence)) {
-        // do nothing sequence no is not change
-    }
-    else {
-        if((features.contents.length-1) < savedFeature.displaySequence) {
-
-            features.contents[features.contents.length-1].displaySequence = parseInt(window.$featureBeingEdited.displaySequence);
-            for(var i = 0; i < features.contents.length; i++)
-            {
-                if(savedFeature.contentId == features.contents[i].contentId)
-                {
-                    features.contents[i].displaySequence =  parseInt(features.contents.length-1);
-                }
-            }
-        }
-        else {
-            for(var i = 0; i < features.contents.length; i++)
-            {
-                if((parseInt(savedFeature.displaySequence) === parseInt(features.contents[i].displaySequence)) && (window.$featureBeingEdited.contentId !== features.contents[i].contentId))
-                {
-                    features.contents[i].displaySequence = parseInt(window.$featureBeingEdited.displaySequence);
-                }
-            }
-        }
-    }
-    var dom = document.getElementById(window.$element);
-    dom.innerHTML = '';
-    window.$featureData.contents = JSON.parse(JSON.stringify(features.contents));
-    FeatureComponent.prototype.init(window.$options,window.$featureData,window.$element,window.$permissions);
-}
 
 FeatureComponent.prototype._addEventListenerToNode = function (node) {
     node.addEventListener('click', function () {
@@ -318,34 +282,12 @@ FeatureComponent.prototype._addEventListenerToNode = function (node) {
             if (this.parentNode.className.indexOf('o-feature-editable-content') == -1) {
                 this.parentNode.className += ' ' + 'o-feature-editable-content';
                 window.$featureData.featureEdited = true;// Disable edit to other feature components
-                var _beingEditedFeatureID = this.parentNode.getAttribute('id').replace('feature_','');
-                for(var x = 0; x < window.$featureData.contents.length; x++)
-                {
-                    if(_beingEditedFeatureID === window.$featureData.contents[x].contentId)
-                    {
-                        window.$featureBeingEdited = window.$featureData.contents[x];
-                    }
-                }
-
             }
         }
     });
     node.parentNode.getElementsByClassName('o-feature-save')[0].addEventListener('click', function () {
-        if(parseInt(this.parentNode.parentNode.parentNode.getElementsByClassName('o-feature-sort-input')[0].value) >= 0){
-            this.parentNode.parentNode.parentNode.className = this.parentNode.parentNode.parentNode.className.replace(' o-feature-editable-content', '');
-            this.parentNode.parentNode.parentNode.getElementsByClassName('o-feature-img-border')[0].className = this.parentNode.parentNode.parentNode.getElementsByClassName('o-feature-img-border')[0].className.replace(' o-feature-img-border-edit', '');
-            var _featureContentID = this.parentNode.parentNode.parentNode.getAttribute( 'id' ).replace('feature_','');
-            var _savedFeature = null;
-            for(var x = 0; x < window.$featureData.contents.length; x++)
-            {
-                if(_featureContentID === window.$featureData.contents[x].contentId)
-                {
-                    _savedFeature = window.$featureData.contents[x];
-                }
-            }
-            FeatureComponent.prototype.ReorderFeatures(_featureContentID,JSON.parse(JSON.stringify(window.$featureData)),_savedFeature);
-            window.$featureBeingEdited = null;
-        }
+        this.parentNode.parentNode.parentNode.className = this.parentNode.parentNode.parentNode.className.replace(' o-feature-editable-content', '');
+        this.parentNode.parentNode.parentNode.getElementsByClassName('o-feature-img-border')[0].className = this.parentNode.parentNode.parentNode.getElementsByClassName('o-feature-img-border')[0].className.replace(' o-feature-img-border-edit', '');
     });
     //node.parentNode.getElementsByClassName('o-feature-img-border')[0].getElementsByTagName("img")[0].addEventListener('click', function () {
     //    if(this.parentNode.className.indexOf('o-feature-img-border-edit') == -1) {
@@ -397,7 +339,22 @@ FeatureComponent.prototype._prepareTemplate = function (data, options) {
     } else {
         _row.setAttribute('class','o-feature-row o-feature-published');
     }
+    var editVideoCell = Hogan.compile(templateEditVideoCell).render(videoLinkTemplate);
+    _cell = document.createElement('article');
+    if (options.editMode) {
 
+        _cell.setAttribute('class','o-feature-cell o-feature-cell-edit');
+        _cell.innerHTML = editVideoCell;
+    }
+
+    else {
+        // _cell = document.createElement('article');
+        _cell.setAttribute('class','o-feature-cell');
+        _cell.innerHTML = Hogan.compile(templateVideoCell).render(data);
+    }
+
+    _row.appendChild(_cell);
+    _previous_row = _row;
 
     for (var cellCount = 0; cellCount < data.length; cellCount++) {
         var _cell = '';
@@ -411,6 +368,7 @@ FeatureComponent.prototype._prepareTemplate = function (data, options) {
             _cell.setAttribute('class','o-feature-cell');
             _cell.innerHTML = Hogan.compile(template).render(data[cellCount]);
         }
+
 
         _row.appendChild(_cell);
         _previous_row = _row;
@@ -452,7 +410,6 @@ FeatureComponent.prototype._insertAddNew = function (childNode) {
         _cell.innerHTML = Hogan.compile(templateEditCell).render(FeatureComponent.prototype.constants.newItem);
         this.parentNode.insertBefore(_cell,this.nextSibling);
         FeatureComponent.prototype._addEventListenerToNode(_cell.getElementsByClassName('o-feature-overlay')[0]);
-
     });
 
     childNode.parentNode.insertBefore(addNewElement,childNode.nextSibling);
