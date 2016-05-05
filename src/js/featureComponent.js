@@ -7,6 +7,12 @@ var templateEditCell = require('../html/templateEditCell.js');
 
 var templateAddCell = require('../html/templateAddCell.js');
 
+var templateVideoCell = require('../html/templateVideoCell.js');
+
+var templateEditVideoCell = require('../html/templateEditVideoCell.js');
+
+
+
 var Hogan = require('./hogan.js');
 
 var intId = 1;
@@ -152,7 +158,7 @@ FeatureComponent.prototype.RemoveOverlays = function(iterations){
 FeatureComponent.prototype.addNew = function () {
     document.getElementById("makeLiveBtn").disabled = false; //Enable Make Live button
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem));
-    newFeature[0].displaySequence = window.$featureData.contents.length+1;
+    newFeature[0].displaySequence = window.$featureData.contents.length;
     newFeature[0].contentId = "newItem_" + intId;
     //this.parentNode.insertBefore(_cell, this.nextSibling);
     var node;
@@ -175,7 +181,7 @@ FeatureComponent.prototype.addNew = function () {
         node.parentNode.parentNode.insertBefore(_cell, null);
         FeatureComponent.prototype._addEventListenerToNode(_cell.getElementsByClassName('o-feature-overlay')[0]);
     }
-    //FeatureComponent.prototype.setDisplaySequence();
+    FeatureComponent.prototype.setDisplaySequence();
 
     window.$featureData.contents.push(newFeature[0]);
     intId += 1;
@@ -195,6 +201,56 @@ FeatureComponent.prototype.removeItem = function (item, event) {
     FeatureComponent.prototype.init(window.$options,window.$featureData,window.$element,window.$permissions);
 };
 
+
+
+
+FeatureComponent.prototype.SaveVideoItem = function (item, event) {
+    console.log(intId);
+    console.log(this.element);
+
+    var node = document.getElementById('feature_' + item); //= event.target.parentNode.parentNode.parentNode
+    var isValid = true;
+
+    var newItem = FeatureComponent.prototype._validateVideoItem(node);
+    console.log(newItem);
+
+    if (newItem !== null) {
+        newItem.contentId = item;
+        // console.log(node.getElementsByClassName('o-feature-brand')[0].textContent);
+        for (var i = 0; i < window.$featureData.contents.length; i++) {
+
+            if (window.$featureData.contents[i].contentId === item) {
+                window.$featureData.contents[i] = newItem;
+            }
+        }
+        document.getElementById("saveWatcher").value = true;
+        FeatureComponent.prototype.setDisplaySequence();
+        document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
+        window.$featureData.featureEdited = false; // Enable edit to other feature components
+    } else {
+        node.className += ' ' + 'o-feature-editable-content';
+    }
+};
+
+
+FeatureComponent.prototype._validateVideoItem = function(node){
+
+    var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem[0]));
+    var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+
+    newFeature.videoLink = node.getElementsByClassName('o-feature-videoLink')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    ////validation logics
+    if (newFeature.videoLink.trim().length == 0) {
+        alert("video Link is Mandatory");
+        return null;
+    }
+
+    return newFeature;
+};
+
+
+
 FeatureComponent.prototype.saveItem = function (item, event) {
 
     var node = document.getElementById('feature_' + item); //= event.target.parentNode.parentNode.parentNode
@@ -211,7 +267,7 @@ FeatureComponent.prototype.saveItem = function (item, event) {
             }
         }
         document.getElementById("saveWatcher").value = true;
-        //FeatureComponent.prototype.setDisplaySequence();
+        FeatureComponent.prototype.setDisplaySequence();
         document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
         window.$featureData.featureEdited = false; // Enable edit to other feature components
     } else {
@@ -260,6 +316,38 @@ FeatureComponent.prototype._validateItem = function(node){
 
 
     return newFeature;
+};
+
+
+
+FeatureComponent.prototype.SaveVideoUrl = function () {
+    var url =  document.getElementById('videoLinkBox').value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+    console.log(url);
+    if ((url.trim().length != 0) && (!urlRegex.test(url.trim()))) {
+        alert("Invalid Video URL!");
+        return;
+    }
+    document.getElementById('videoIframe').src = url;
+    window.$featureData.disciplineVideoUrl = url;
+
+};
+
+FeatureComponent.prototype.CancelVideoUrl = function () {
+    document.getElementById('videoLinkBox').value =  window.$featureData.disciplineVideoUrl;
+    document.getElementById('videoIframe').src = window.$featureData.disciplineVideoUrl;
+
+};
+
+FeatureComponent.prototype.CheckVideoUrl = function () {
+    var url =  document.getElementById('videoLinkBox').value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+    if ((url.trim().length != 0) && (!urlRegex.test(url.trim()))) {
+        alert("Invalid Video URL!");
+        return;
+    }
+    document.getElementById('videoIframe').src = url;
+
 };
 
 FeatureComponent.prototype.cancelItem = function (item,event) {
@@ -413,25 +501,40 @@ FeatureComponent.prototype._prepareTemplate = function (data, options) {
     } else {
         _row.setAttribute('class','o-feature-row o-feature-published');
     }
+    var editVideoCell = Hogan.compile(templateEditVideoCell).render(data);
+    _cell = document.createElement('article');
+    if (options.editMode) {
 
+        _cell.setAttribute('class','o-feature-cell o-feature-cell-edit');
+        _cell.innerHTML = editVideoCell;
+    }
 
-    for (var cellCount = 0; cellCount < data.length; cellCount++) {
+    else {
+        // _cell = document.createElement('article');
+        _cell.setAttribute('class','o-feature-cell');
+        _cell.innerHTML = Hogan.compile(templateVideoCell).render(data);
+    }
+
+    _row.appendChild(_cell);
+    _previous_row = _row;
+
+    for (var cellCount = 0; cellCount < data.contents.length; cellCount++) {
         var _cell = '';
         _cell = document.createElement('article');
         if (options.editMode) {
 
             _cell.setAttribute('class','o-feature-cell o-feature-cell-edit');
-            _cell.innerHTML = Hogan.compile(templateEditCell).render(data[cellCount]);
+            _cell.innerHTML = Hogan.compile(templateEditCell).render(data.contents[cellCount]);
         } else {
             // _cell = document.createElement('article');
             _cell.setAttribute('class','o-feature-cell');
-            _cell.innerHTML = Hogan.compile(template).render(data[cellCount]);
+            _cell.innerHTML = Hogan.compile(template).render(data.contents[cellCount]);
         }
 
         _row.appendChild(_cell);
         _previous_row = _row;
 
-        if (cellCount == data.length - 1) {
+        if (cellCount == data.contents.length - 1) {
             _output.appendChild(_previous_row);
         }
     }
