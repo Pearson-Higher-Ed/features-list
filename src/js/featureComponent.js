@@ -92,7 +92,7 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
         window.$featureData = data;
         window.$featureData.featureEdited = false;
     }
-    var _compiledTemplate = this._prepareTemplate(data.contents, options);
+    var _compiledTemplate = this._prepareTemplate(data, options);
     document.getElementById(element).appendChild(_compiledTemplate);
 
     // bind event if appopriate edit rights available
