@@ -202,55 +202,6 @@ FeatureComponent.prototype.removeItem = function (item, event) {
 };
 
 
-
-
-FeatureComponent.prototype.SaveVideoItem = function (item, event) {
-    console.log(intId);
-    console.log(this.element);
-
-    var node = document.getElementById('feature_' + item); //= event.target.parentNode.parentNode.parentNode
-    var isValid = true;
-
-    var newItem = FeatureComponent.prototype._validateVideoItem(node);
-    console.log(newItem);
-
-    if (newItem !== null) {
-        newItem.contentId = item;
-        // console.log(node.getElementsByClassName('o-feature-brand')[0].textContent);
-        for (var i = 0; i < window.$featureData.contents.length; i++) {
-
-            if (window.$featureData.contents[i].contentId === item) {
-                window.$featureData.contents[i] = newItem;
-            }
-        }
-        document.getElementById("saveWatcher").value = true;
-        FeatureComponent.prototype.setDisplaySequence();
-        document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
-        window.$featureData.featureEdited = false; // Enable edit to other feature components
-    } else {
-        node.className += ' ' + 'o-feature-editable-content';
-    }
-};
-
-
-FeatureComponent.prototype._validateVideoItem = function(node){
-
-    var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem[0]));
-    var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
-
-    newFeature.videoLink = node.getElementsByClassName('o-feature-videoLink')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-
-    ////validation logics
-    if (newFeature.videoLink.trim().length == 0) {
-        alert("video Link is Mandatory");
-        return null;
-    }
-
-    return newFeature;
-};
-
-
-
 FeatureComponent.prototype.saveItem = function (item, event) {
 
     var node = document.getElementById('feature_' + item); //= event.target.parentNode.parentNode.parentNode
