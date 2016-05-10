@@ -1,5 +1,11 @@
 /*global require*/
 require('../../main');
+var userPermissions =  {
+ Create  : true,
+ Read    : true,
+ Delete  : true,
+ Update  : true
+};
 
 var data = {};
 
@@ -75,7 +81,7 @@ data.contents = [
       "ctaUrl":"http://www.youtube,com"
      }
    ];
-
+data.disciplineVideoUrl = "https://www.youtube.com/embed/adnYt45XOUY?rel=0";
 var options = {
   editMode: true
 };
@@ -84,6 +90,5 @@ var options2 = {
   editMode: false
 };
 
-//window.editComp = new $featureComponent().init(options, data, 'testId');
-
-window.viewComp = new $featureComponent().init(options2, data, 'testId2');
+window.viewComp = new $featureComponent().init(options, data, 'testId1',userPermissions);
+window.editComp = new $featureComponent().init(options2, data, 'testId2',userPermissions);
