@@ -460,11 +460,7 @@ FeatureComponent.prototype._prepareTemplate = function (data, options) {
         _cell.innerHTML = editVideoCell;
     }
 
-    else {
-        // _cell = document.createElement('article');
-        _cell.setAttribute('class','o-feature-cell');
-        _cell.innerHTML = Hogan.compile(templateVideoCell).render(data);
-    }
+
 
     _row.appendChild(_cell);
     _previous_row = _row;
