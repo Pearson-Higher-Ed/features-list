@@ -1,14 +1,15 @@
 
 var templateEditVideoCell = "";
-templateEditVideoCell += "<div class=\"o-feature-cell-container\">";
+templateEditVideoCell += "<div class=\"o-feature-cell-container video-wrapper\">";
 
 templateEditVideoCell += "          <div class=\"o-feature-content-video\">";
 templateEditVideoCell += "             <div class=\"o-feature-video\">";
 templateEditVideoCell += "                   <iframe id=\"videoIframe\" width=\"560\" height=\"315\" src=\"{{disciplineVideoUrl}}\" frameborder=\"0\" allowfullscreen><\/iframe>";
-templateEditVideoCell += "                 <input type=\"text\" id=\"videoLinkBox\" size=\"100\" class=\"o-feature-videoLink\" contenteditable>{{videoLink}}<\/input>  <button id=\"videoCheckButton\" class=\"o-feature-save\" onclick=\"javascript:window.$featureComponent.prototype.CheckVideoUrl()\">Check<\/button>";
+templateEditVideoCell += "                 <input type=\"text\" id=\"videoLinkBox\" size=\"100\" class=\"o-feature-videoLink\" contenteditable>{{videoLink}}<\/input>";
 templateEditVideoCell += "                    <div class=\"o-feature-img-border\">";
-templateEditVideoCell += "                         <button id=\"videoSaveButton\" class=\"o-feature-save\" onclick=\"javascript:window.$featureComponent.prototype.SaveVideoUrl()\">Save video URL<\/button>";
-templateEditVideoCell += "                         <button id=\"videoCancelButton\" class=\"o-feature-save\" onclick=\"javascript:window.$featureComponent.prototype.CancelVideoUrl()\">Cancel<\/button>";
+templateEditVideoCell += "                           <button id=\"videoCheckButton\" class=\"o-feature-check\" onclick=\"javascript:window.$featureComponent.prototype.CheckVideoUrl()\">Check<\/button>";
+templateEditVideoCell += "                           <button id=\"videoSaveButton\" class=\"o-feature-save\" onclick=\"javascript:window.$featureComponent.prototype.SaveVideoUrl()\">Save video URL<\/button>";
+templateEditVideoCell += "                           <button id=\"videoCancelButton\" class=\"o-feature-cancel\" onclick=\"javascript:window.$featureComponent.prototype.CancelVideoUrl()\">Cancel<\/button>";
 templateEditVideoCell += "                     <\/div>";
 templateEditVideoCell += "             <div class=\"o-feature-clearfix\"><\/div>";
 templateEditVideoCell += "          <\/div>";
