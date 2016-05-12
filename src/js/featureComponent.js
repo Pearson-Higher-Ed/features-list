@@ -5,11 +5,8 @@ var template = require('../html/templateCell.js');
 
 var templateEditCell = require('../html/templateEditCell.js');
 
-var templateAddCell = require('../html/templateAddCell.js');
 
-var templateVideoCell = require('../html/templateVideoCell.js');
 
-var templateEditVideoCell = require('../html/templateEditVideoCell.js');
 
 
 
@@ -165,7 +162,7 @@ FeatureComponent.prototype.addNew = function () {
     if (window.$featureData.contents.length == 0) {
         node = document.getElementById('testId');
 
-        var _compiledTemplate = this._prepareTemplate(newFeature, {
+        var _compiledTemplate = this._prepareTemplate({contents:newFeature}, {
             editMode: true
         });
         node.appendChild(_compiledTemplate);
@@ -271,24 +268,9 @@ FeatureComponent.prototype._validateItem = function(node){
 
 
 
-FeatureComponent.prototype.SaveVideoUrl = function () {
-    var url =  document.getElementById('videoLinkBox').value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
-    console.log(url);
-    if ((url.trim().length != 0) && (!urlRegex.test(url.trim()))) {
-        alert("Invalid Video URL!");
-        return;
-    }
-    document.getElementById('videoIframe').src = url;
-    window.$featureData.disciplineVideoUrl = url;
 
-};
 
-FeatureComponent.prototype.CancelVideoUrl = function () {
-    document.getElementById('videoLinkBox').value =  window.$featureData.disciplineVideoUrl;
-    document.getElementById('videoIframe').src = window.$featureData.disciplineVideoUrl;
 
-};
 
 FeatureComponent.prototype.CheckVideoUrl = function () {
     var url =  document.getElementById('videoLinkBox').value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -452,13 +434,13 @@ FeatureComponent.prototype._prepareTemplate = function (data, options) {
     } else {
         _row.setAttribute('class','o-feature-row o-feature-published');
     }
-    var editVideoCell = Hogan.compile(templateEditVideoCell).render(data);
+    //var editVideoCell = Hogan.compile(templateEditVideoCell).render(data);
     _cell = document.createElement('article');
-    if (options.editMode) {
+    //if (options.editMode) {
 
-        _cell.setAttribute('class','o-feature-cell o-feature-cell-edit');
-        _cell.innerHTML = editVideoCell;
-    }
+       // _cell.setAttribute('class','o-feature-cell o-feature-cell-edit');
+       // _cell.innerHTML = editVideoCell;
+   // }
 
 
 
