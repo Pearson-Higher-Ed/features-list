@@ -224,6 +224,9 @@ FeatureComponent.prototype.removeItem = function (item, event) {
         var dom = document.getElementById(window.$element);
         dom.innerHTML = '';
         FeatureComponent.prototype.init(window.$options,window.$featureData,window.$element,window.$permissions);
+        if (window.$featureData.contents.length === 0) {
+                document.getElementById("makeLiveBtn").disabled = false;
+        }
     }
 };
 
