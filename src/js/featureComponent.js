@@ -352,18 +352,20 @@ FeatureComponent.prototype.ReorderFeatures = function(editedFeature,features,sav
         // do nothing sequence no is not change
     }
     else {
-        if((features.contents.length-1) < savedFeature.displaySequence) {
+
+        if((features.contents.length) < savedFeature.displaySequence) {
 
             features.contents[features.contents.length-1].displaySequence = parseInt(window.$featureBeingEdited.displaySequence);
             for(var i = 0; i < features.contents.length; i++)
             {
                 if(savedFeature.contentId == features.contents[i].contentId)
                 {
-                    features.contents[i].displaySequence =  parseInt(features.contents.length-1);
+                    features.contents[i].displaySequence =  parseInt(features.contents.length);
                 }
             }
         }
         else {
+
             for(var i = 0; i < features.contents.length; i++)
             {
                 if((parseInt(savedFeature.displaySequence) === parseInt(features.contents[i].displaySequence)) && (window.$featureBeingEdited.contentId !== features.contents[i].contentId))
