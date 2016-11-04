@@ -289,13 +289,20 @@
         }
 
         .o-feature-right {
-          float: right;
-          margin-top: 0;
-		  border: 10px solid #e6e6e6;
           &:before, &:after {
             display: table;
             content: " ";
           }
+		  img {
+		    background-clip: text;
+			border: 10px solid #e6e6e6;
+			float: right;
+			height: 100%;
+			margin-top: 0;
+			max-height: 170px;
+			max-width: 170px;
+			width: 100%;
+		   }
 
           .o-feature-img-border {
             margin-left: 3px;
