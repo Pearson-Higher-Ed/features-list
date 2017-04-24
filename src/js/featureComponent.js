@@ -119,6 +119,8 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
 
     FeatureComponent.prototype.HandlePermissions(permissions,data);
 
+
+
     window.$featureBeingEdited  = null;
     window.$element             = element;
     window.$options             = options;
@@ -489,8 +491,15 @@ FeatureComponent.prototype._prepareTemplate = function (data, options) {
 
             _cell.setAttribute('class','o-feature-cell o-feature-cell-edit');
             _cell.innerHTML = Hogan.compile(templateEditCell).render(data.contents[cellCount]);
-        } else {
+        } else if(options.applications) {
             // _cell = document.createElement('article');
+            _cell.setAttribute('class','o-feature-cell');
+            _cell.innerHTML = Hogan.compile(template).render(data.contents[cellCount]);
+            var imgs = _cell.querySelectorAll("img.o-feature-img");
+            for(var i=0;i<imgs.length;i++){
+                imgs[i].className += " o-feature-img-app";
+            }
+        }else{
             _cell.setAttribute('class','o-feature-cell');
             _cell.innerHTML = Hogan.compile(template).render(data.contents[cellCount]);
         }

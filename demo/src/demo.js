@@ -90,5 +90,11 @@ var options2 = {
   editMode: false
 };
 
+var options3 = {
+    editMode: false,
+    applications:true
+};
+
 window.viewComp = new $featureComponent().init(options, data, 'testId1',userPermissions);
 window.editComp = new $featureComponent().init(options2, data, 'testId2',userPermissions);
+window.appComp = new $featureComponent().init(options3, data, 'readerItems',userPermissions);
