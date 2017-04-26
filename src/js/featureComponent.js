@@ -487,8 +487,12 @@ FeatureComponent.prototype._prepareTemplate = function (data, options) {
             _cell.innerHTML = Hogan.compile(templateEditCell).render(data.contents[cellCount]);
         } else if(options.applications) {
             // _cell = document.createElement('article');
-            _cell.setAttribute('class','o-feature-cell');
+            _cell.setAttribute('class','o-feature-cell o-feature-cell-apps');
             _cell.innerHTML = Hogan.compile(template).render(data.contents[cellCount]);
+            /*var apps = _cell.querySelectorAll("article.o-feature-cell");
+            for(var i=0;i<apps.length;i++){
+                apps[i].className += " o-feature-cell-app";
+            }*/
             var imgs = _cell.querySelectorAll("img.o-feature-img");
             for(var i=0;i<imgs.length;i++){
                 imgs[i].className += " o-feature-img-app";

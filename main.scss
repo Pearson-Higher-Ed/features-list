@@ -75,10 +75,6 @@
 			}
 			.o-feature-right {
 			   float:left !important;
-               width: 100%;
-               height: 100%;
-               max-width: 240px;
-               max-height: 240px;
 			}
 			.o-feature-button {
 			   float:right;
@@ -166,7 +162,6 @@
         display: block !important;
         float: left;
         display: none;
-        float: left;
         top: 0px;
         position: relative;
         left: 5px;
@@ -400,6 +395,17 @@
             color: gray;
           }
         }
+      }
+    }
+
+    .o-feature-cell-apps {
+
+      .o-feature-right {
+        width: 100%;
+        height: 100%;
+        max-width: 240px;
+        max-height: 240px;
+        float: right;
       }
     }
 
