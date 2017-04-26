@@ -471,17 +471,11 @@ FeatureComponent.prototype._prepareTemplate = function (data, options) {
     } else {
         _row.setAttribute('class','o-feature-row o-feature-published');
     }
-    //var editVideoCell = Hogan.compile(templateEditVideoCell).render(data);
-    _cell = document.createElement('article');
-    //if (options.editMode) {
-
-    // _cell.setAttribute('class','o-feature-cell o-feature-cell-edit');
-    // _cell.innerHTML = editVideoCell;
-    // }
 
 
 
-    _row.appendChild(_cell);
+
+    //_row.appendChild(_cell);
     _previous_row = _row;
 
     for (var cellCount = 0; cellCount < data.contents.length; cellCount++) {
