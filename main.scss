@@ -26,10 +26,14 @@
       content: " ";
     }
     &.o-feature-published {
-      margin-bottom: 20px;
       .o-feature-cell {
         width: 100%;
-        padding: 20px 0;
+		padding: 40px 0;
+		margin: 0;
+		border-bottom: 1px solid #ddd;
+		&:last-child {
+		  border-bottom: none;
+		}
       }
     }
 
