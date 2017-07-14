@@ -92,6 +92,17 @@
 			 }
 		  }
 
+
+      &.o-feature-cell-edit:nth-child(odd) {
+        .o-feature-button {
+          float:none;
+        }
+        .o-feature-action-button-divwrap {
+          float: right;
+        }
+      }
+
+
       .o-feature-cell-container {
         padding: 15px;
         &.video-wrapper {
@@ -394,10 +405,12 @@
           }
           .o-feature-save {
             background: rgba(0, 138, 0, 0.89);
+            border: 1px solid rgba(0, 138, 0, 0.89);
           }
           .o-feature-cancel {
             background: rgba(0, 128, 0, 0.00);
             color: gray;
+            border: 1px solid #ccc;
           }
         }
       }
@@ -616,7 +629,7 @@
   }
   .o-feature-editable-content {
     .o-feature-sort input{
-      border: none;
+      border: 1px solid #ccc;
     }
   }
 }
