@@ -2,7 +2,7 @@
 
 .o-feature-main {
   width: 100%;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Open Sans", Calibri, Tahoma, sans-serif;
   padding-right: 15px;
   margin-right: auto;
   margin-left: auto;
@@ -168,9 +168,8 @@
         min-width:80px;
         text-decoration: none;
 		text-transform: uppercase;
-        &:hover {
-          background: #0c5d99 !important;
-		  border: solid 1px #0a4d80 !important;
+        &:hover{
+          background-color: #179599;
         }
       }
 
@@ -227,10 +226,11 @@
       }
 
       .o-feature-brand {
-        font-size: 16px;
-        font-weight: bold;
-        width: 100%;
-        padding: 0;
+        font-weight: 700;
+        margin-bottom: 6px;
+        font-size: 1.4285714286rem;
+        line-height: 1.8571428571rem;
+        color: #252525;
 		
       }
 
@@ -255,12 +255,16 @@
           }
 
           .o-feature-title {
-            color: #0d65a6;
-            font-size: 28px;
-            font-weight: normal;
-            width: 100%;
-            padding: 0;
-            margin-top: 0px;
+            font-size: 1.7142857143rem;
+            line-height: 2rem;
+            font-weight: 400;
+            color: #252525;
+            margin-top: 20px;
+            margin-bottom: 6px;
+          }
+
+          p {
+            font-size: 16px;
           }
 
           @media (max-width: 570px) {
@@ -359,15 +363,18 @@
       }
       .o-feature-button {
         .o-feature-action-button {
-          background: #107aca none repeat scroll 0 0;
-		  border: 1px solid #0a4d80;
-		  border-radius: 3px;
-		  color: #ffffff;
-          font-weight: bold;
+          background: #19A6A4;
+          border: none;
+          border-radius: 2px;
+          color: #fff;
+          font-weight: 700;
           font-size: 13px;
           padding: 11px 23px;
-		  text-transform: uppercase;
+          text-transform: uppercase;
           float: left;
+          &:hover{
+            background-color: #179599;
+          }
           div {
             padding: 0;
             margin: 0;
