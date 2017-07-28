@@ -1,3 +1,8 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/Pearson-Higher-Ed/features-list/compare/v1.0.7...v2.0.0) (2017-07-28)
+
+
+
 <a name="1.0.7"></a>
 ## [1.0.7](https://github.com/Pearson-Higher-Ed/features-list/compare/v1.0.6...v1.0.7) (2017-07-14)
 
