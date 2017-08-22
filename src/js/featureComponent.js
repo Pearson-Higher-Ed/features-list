@@ -21,7 +21,7 @@ FeatureComponent.prototype.constants = {
         "primaryTitle": "Add Feature Title",
         "secondaryTitle": "Add Title",
         "description": "Add a short description that briefly describes the feature.",
-        "resourceUrl": "https://i.imgsafe.org/2c3a6a7.png",
+        "resourceUrl": "",
         "ctaText":"Add Button Label",
         "ctaUrl": "https://www.sample.com"
     }]
@@ -94,12 +94,12 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
     for (var i = 0; i < data.contents.length; i++) {
         data.contents[i].hasCTA = true;
         data.contents[i].hasImage = true;
-        if (data.contents[i].ctaUrl === undefined) {
+        if (data.contents[i].ctaUrl === undefined || data.contents[i].ctaUrl === '') {
             data.contents[i].ctaText = "Add Button Label";
             data.contents[i].ctaUrl = '';
             data.contents[i].hasCTA = false;
         }
-        if (data.contents[i].resourceUrl === undefined) {
+        if (data.contents[i].resourceUrl === undefined || data.contents[i].resourceUrl === '') {
             data.contents[i].resourceUrl = '';
             data.contents[i].hasImage = false;
         }

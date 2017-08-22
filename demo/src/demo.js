@@ -16,7 +16,7 @@ data.contents = [
       "primaryTitle": "Revel Tm History Feature",
       "secondaryTitle": "Explorer Activities",
       "description": "some description",
-      "resourceUrl": "https://www.pearsonhighered.com/revel/assets/images/discipline-grid/thumb/closer-look.jpg",
+      "resourceUrl": "",
       "ctaText":"Launch Activity",
       "ctaUrl":"http://www.youtube,com"
      },
@@ -26,7 +26,27 @@ data.contents = [
       "primaryTitle": "Revel Tm History Feature",
       "secondaryTitle": "Explorer Activities",
       "description": "some description",
+      "resourceUrl": "",
+      "ctaText":"Launch Activity",
+      "ctaUrl":"http://www.youtube,com"
+     },
+     {
+      "type":"video",
+      "displaySequence":"1",
+      "primaryTitle": "Revel Tm History Feature",
+      "secondaryTitle": "Explorer Activities",
+      "description": "some description",
       "resourceUrl": "https://www.pearsonhighered.com/revel/assets/images/discipline-grid/thumb/closer-look.jpg",
+      "ctaText":"Launch Activity",
+      "ctaUrl":"http://www.youtube,com"
+     },
+     {
+      "type":"video",
+      "displaySequence":"1",
+      "primaryTitle": "Revel Tm History Feature",
+      "secondaryTitle": "Explorer Activities",
+      "description": "some description",
+      "resourceUrl": "",
       "ctaText":"Launch Activity",
       "ctaUrl":"http://www.youtube,com"
      },
@@ -56,27 +76,7 @@ data.contents = [
       "primaryTitle": "Revel Tm History Feature",
       "secondaryTitle": "Explorer Activities",
       "description": "some description",
-      "resourceUrl": "https://www.pearsonhighered.com/revel/assets/images/discipline-grid/thumb/closer-look.jpg",
-      "ctaText":"Launch Activity",
-      "ctaUrl":"http://www.youtube,com"
-     },
-     {
-      "type":"video",
-      "displaySequence":"1",
-      "primaryTitle": "Revel Tm History Feature",
-      "secondaryTitle": "Explorer Activities",
-      "description": "some description",
-      "resourceUrl": "https://www.pearsonhighered.com/revel/assets/images/discipline-grid/thumb/closer-look.jpg",
-      "ctaText":"Launch Activity",
-      "ctaUrl":"http://www.youtube,com"
-     },
-     {
-      "type":"video",
-      "displaySequence":"1",
-      "primaryTitle": "Revel Tm History Feature",
-      "secondaryTitle": "Explorer Activities",
-      "description": "some description",
-      "resourceUrl": "https://www.pearsonhighered.com/revel/assets/images/discipline-grid/thumb/closer-look.jpg",
+      "resourceUrl": "",
       "ctaText":"Launch Activity",
       "ctaUrl":"http://www.youtube,com"
      }
