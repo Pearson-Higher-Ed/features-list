@@ -103,6 +103,28 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
             data.contents[i].resourceUrl = '';
             data.contents[i].hasImage = false;
         }
+        if(data.contents[i].studentDescription === undefined || data.contents[i].studentDescription === ''){
+            data.contents[i].studentDescription = '';
+        }
+        if (data.contents[i].appCTAs === undefined || data.contents[i].appCTAs.length == 0) {
+            data.contents[i].displayMobileFeature = "hide-mobile-feature";
+        }
+        else{
+            data.contents[i].displayMobileFeature = "display-mobile-feature";
+            data.contents[i].hideFeature = "hide-feature";
+
+            for(var j=0; j < data.contents[i].appCTAs.length; j++){
+                if(data.contents[i].appCTAs[j].platformType === "android"){
+                    data.contents[i].androidDownloadUrl = data.contents[i].appCTAs[j].ctaUrl;
+                }
+                else if(data.contents[i].appCTAs[j].platformType === "iTunes"){
+                    data.contents[i].iTunesDownloadUrl = data.contents[i].appCTAs[j].ctaUrl;
+                }
+
+            }
+
+        }
+
     }
     this.element = element;
     if (options.editMode) {
@@ -547,6 +569,31 @@ FeatureComponent.prototype._insertAddNew = function (childNode) {
 
     childNode.parentNode.insertBefore(addNewElement,childNode.nextSibling);
     childNode.parentNode.insertBefore(clearfixElement,childNode.nextSibling);
+};
+
+FeatureComponent.prototype.cancelMobileItem = function (item,event) {
+    var node = event.target.parentNode.parentNode.parentNode.parentNode;
+
+    if (node.classList.contains('o-feature-editable-content')) {
+
+        node.classList.remove('o-feature-editable-content');
+        //node.getElementsByClassName('o-feature-img-border')[0].className = node.getElementsByClassName('o-feature-img-border')[0].className.replace(' o-feature-img-border-edit', '');
+
+    }
+    for(var i = 0; i < window.$featureData.contents.length ; i++) {
+        if(window.$featureData.contents[i].contentId ===item){
+            node.getElementsByClassName('o-feature-brand')[0].textContent = window.$featureData.contents[i].primaryTitle;
+            node.getElementsByClassName('o-feature-title')[0].textContent = window.$featureData.contents[i].secondaryTitle;
+            node.getElementsByClassName('o-instructor-description')[0].textContent = window.$featureData.contents[i].instructorDescription;
+            node.getElementsByClassName('o-student-description')[0].textContent = window.$featureData.contents[i].studentDescription;
+            node.getElementsByClassName('o-itunes-download-url')[0].textContent = window.$featureData.contents[i].iTunesDownloadUrl;
+            node.getElementsByClassName('o-android-download-url')[0].textContent = window.$featureData.contents[i].androidDownloadUrl;
+        }
+    }
+
+    //document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
+    window.$featureData.featureEdited = false; // Enable edit to other feature components
+    window.$featureBeingEdited = null;
 };
 
 module.exports = FeatureComponent;
