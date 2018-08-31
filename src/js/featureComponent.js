@@ -20,7 +20,8 @@ FeatureComponent.prototype.constants = {
         "displaySequence": 1,
         "primaryTitle": "Add Feature Title",
         "secondaryTitle": "Add Title",
-        "description": "Add a short description that briefly describes the feature.",
+        "description": "Add a short description for instructor that briefly describes the feature.",
+        "studentDescription": "Add a short description for students that briefly describes the feature.",
         "resourceUrl": "",
         "ctaText":"Add Button Label",
         "ctaUrl": "https://www.sample.com"
@@ -290,7 +291,8 @@ FeatureComponent.prototype._validateItem = function(node){
 
     newFeature.primaryTitle =      node.getElementsByClassName('o-feature-brand')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     newFeature.secondaryTitle =    node.getElementsByClassName('o-feature-title')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.description =       node.getElementsByClassName('o-feature-description')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.description =       node.getElementsByClassName('o-feature-description-inst')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.studentDescription =       node.getElementsByClassName('o-feature-description-stud')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     newFeature.resourceUrl =       node.getElementsByClassName('o-feature-img-src')[0].value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     newFeature.ctaText =           node.getElementsByClassName('o-feature-action-button')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     newFeature.ctaUrl =            node.getElementsByClassName('o-feature-action-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -305,8 +307,8 @@ FeatureComponent.prototype._validateItem = function(node){
         alert("Title is Mandatory");
         return null;
     }
-    if (newFeature.description.trim().length == 0) {
-        alert("Description is Mandatory");
+    if (newFeature.description.trim().length == 0 && newFeature.studentDescription.trim().length == 0) {
+        alert("Student or Instructor Description is Mandatory ");
         return null;
     }
     if ((newFeature.ctaUrl.trim().length != 0) && (!urlRegex.test(newFeature.ctaUrl.trim()))) {
@@ -351,7 +353,8 @@ FeatureComponent.prototype.cancelItem = function (item,event) {
         if(window.$featureData.contents[i].contentId ===item){
             node.getElementsByClassName('o-feature-brand')[0].textContent = window.$featureData.contents[i].primaryTitle;
             node.getElementsByClassName('o-feature-title')[0].textContent = window.$featureData.contents[i].secondaryTitle;
-            node.getElementsByClassName('o-feature-description')[0].textContent = window.$featureData.contents[i].description;
+            node.getElementsByClassName('o-feature-description-inst')[0].textContent = window.$featureData.contents[i].description;
+            node.getElementsByClassName('o-feature-description-stud')[0].textContent = window.$featureData.contents[i].studentDescription;
             node.getElementsByClassName('o-feature-img-src')[0].value = window.$featureData.contents[i].resourceUrl;
             node.getElementsByClassName('o-feature-action-button')[0].textContent = window.$featureData.contents[i].ctaText;
             node.getElementsByClassName('o-feature-action-url')[0].textContent = window.$featureData.contents[i].ctaUrl;
