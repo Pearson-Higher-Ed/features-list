@@ -325,11 +325,10 @@ FeatureComponent.prototype._validateItem = function(node){
 };
 
 
-
-
-
-
-
+/**\
+ *
+ * this function is not being called
+ */
 FeatureComponent.prototype.CheckVideoUrl = function () {
     var url =  document.getElementById('videoLinkBox').value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
