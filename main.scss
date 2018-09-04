@@ -72,7 +72,22 @@
       padding-bottom: 15px;
       padding-left: 15px;
       padding-right: 15px;
-	  
+
+      &:nth-child(even) {
+        /*Mobile*/
+        .o-feature-mobile-left {
+          float: right !important;
+        }
+        .o-feature-mobile-right {
+          float: left !important;
+          text-align: left;
+        }
+        //.o-feature-button {
+        //  float: right;
+        //}
+        /*Mobile End*/
+      }
+
 	  &:nth-child(odd) {
 			.o-feature-left {
 			   float:right !important;
@@ -84,6 +99,7 @@
 			.o-feature-button {
 			   float:right;
 			}
+
 			@media (max-width: 570px) {
 			  .o-feature-right {
 			   float:left !important;
@@ -441,6 +457,132 @@
         float: right;
       }
     }
+    /*Mobile*/
+    .o-feature-editable-content {
+      .o-feature-mobile {
+        .o-feature-mobile-right {
+          text-align: left !important;
+        }
+        .o-feature-title, .o-instructor-description, .o-student-description, .o-itunes-download-url, .o-android-download-url{
+          border: 1px solid hsla(0, 0%, 50%, .36);
+        }
+        .o-instructor-description, .o-student-description{
+          min-height: 100px;
+        }
+        .o-feature-app-store{
+          margin-top: 206px;
+        }
+        .o-feature-g-play{
+          margin-top: 8px;
+        }
+        .o-feature-change-link {
+          display: block;
+        }
+      }
+    }
+
+    .display-mobile-feature{
+      display:  block;
+    }
+    .hide-mobile-feature, .hide-feature{
+      display: none;
+    }
+
+    .o-feature-mobile{
+      margin: 0 auto;
+      width: 100%;
+
+      .o-feature-mobile-left{
+        float: left;
+        text-align: center;
+        width: 25%;
+      }
+      .o-feature-tab{
+        display: block;
+        margin: 20px auto 2px;
+      }
+      .o-feature-app-store{
+        display: block;
+        margin: 86px auto 2px;
+      }
+      .o-feature-g-play{
+        display: block;
+        margin: 30px auto 2px;
+      }
+      .o-feature-change-link{
+        color: #1c961c;
+        text-align: center;
+        text-decoration: underline;
+        font-size: 15px;
+        cursor: pointer;
+        display: none;
+      }
+      .o-feature-mobile-right{
+        float: right;
+        padding-top: 12px;
+        width: 70%;
+        text-align: right;
+      }
+
+      .o-feature-brand{
+        font-weight: 700;
+        margin-bottom: 6px;
+        font-size: 1.4285714286rem;
+        line-height: 1.8571428571rem;
+        color: #252525;
+      }
+      .o-feature-title{
+        font-size: 18px;
+      }
+      .o-feature-brand, .o-feature-title, .o-instructor-description, .o-instructor-description-label,
+      .o-student-description, .o-student-description-label{
+
+      }
+      .o-feature-right label{
+        text-align: left;
+        color: blue;
+      }
+      .o-instructor-description, .o-student-description, .o-itunes-download-url,
+      .o-android-download-url{
+        //border: 3px solid #A59C9C;
+        height: 30px;
+      }
+      button {
+        border: medium none;
+        color: #fff;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 11px 18px;
+      }
+
+      .o-feature-button{
+        display: inline-block;
+        width: 100%;
+        margin-top: 30px;
+      }
+
+      .o-feature-remove-button{
+        float: left;
+        margin-top: 7px;
+        color: #000000;
+        background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAaCAIAAADJ6rCnAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJKSURBVEhLlZX7SxVBFMf9Y/qtv0zkcpUuUURZSuQPFwTJzBdkoEQRVFgRUUgPsUQUMRUpRXxgD+2x7sPZvbt9Z+bcvbNnZxf9cn649zw+O3PO7GxbUq5GI9rbDxeXTl6/DT/NR1vbsedTqECFxHB5xe2rO+2Vo/PnTIPHvXJNzLynvJwsxOjrplO7lGeZhqhT6bJyOTGYflnOMg2Z/vAoVTaVIfqj46fHaUO+291L9UotIrZwVpw2udKxe0RJiY0fP52OKstDp/LPsPrxV8zOaRQRvXo/y/CGRuCPf//BlFr+jmq48gX+fLudzpoiKWLsOCzs3b6jw1B87GoocNH6BnkBffbcrMLvcGERfkkMHjxKA9pwklUVCdDji5dNnBZbh9t7C05JdK9eNwMwb2BQlZQpeDrNN95egV8SWUDHvMG7qtAu67GFJ/77z06ElUBL3gJ0pk02viAsR7F/QBhD5vSZ4U4pXmN2sqbS6ect2tlVxM4aC5TgtKxQrCwRQs26r85i4t1HXZkK26FfTTUOvrMqvEvwS6KY+8w2Hi4tqyqSHgUbFK5eswTmT0zCL4mQU71gxtCH+PBIh9LJMiiunEwJjs6vQ/iJGDx+wpYJqPgw69+fMv0S2j8Qzi+43T0sH63TKCJC7JlnMmwxCQLNaRHRF7b3UxoWG66uEcUkQtG3rfxJKjfgTt7MUL1ShiglhHvjJuuR1ZCDIxlt71BhUzmiUvDiFbKLuJJV6fKnHlJ2VnaiFq5r3OSYmP4MwPClxkWHM0AZeSXJf6fxvadrKNwMAAAAAElFTkSuQmCC");
+        background-repeat: no-repeat!important;
+        background-position-y: 0px;
+      }
+
+      .o-feature-mobile-save {
+        background: rgba(0, 138, 0, 0.89) none repeat scroll 0 0;
+        margin: 0 6px;
+        width: 120px;
+      }
+      .o-feature-mobile-cancel {
+        background: rgba(0,128,0,0);
+        color: gray !important;
+        border: 1px solid #ccc !important;
+      }
+
+    }
+    /*Mobile End*/
 
     .o-feature-content-video {
       padding: 35px;
