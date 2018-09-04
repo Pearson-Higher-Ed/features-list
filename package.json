@@ -1,6 +1,6 @@
 {
   "name": "@pearson-components/features-list",
-  "version": "2.1.0",
+  "version": "2.1.3",
   "description": "Takes structured JSON payload and renders titled list of paragraphs with optional labeled HTML launch button and related image.",
   "main": "./main.js",
   "keywords": [
