@@ -106,24 +106,31 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
         if(data.contents[i].studentDescription === undefined || data.contents[i].studentDescription === ''){
             data.contents[i].studentDescription = '';
         }
-        if (data.contents[i].appCTAs === undefined || data.contents[i].appCTAs.length == 0) {
-            data.contents[i].displayMobileFeature = "hide-mobile-feature";
-        }
-        else{
-            data.contents[i].displayMobileFeature = "display-mobile-feature";
-            data.contents[i].hideFeature = "hide-feature";
+        if(i === 0){
+            if (data.contents[0].appCTAs === undefined || data.contents[0].appCTAs.length == 0) {
 
-            for(var j=0; j < data.contents[i].appCTAs.length; j++){
-                if(data.contents[i].appCTAs[j].platformType === "android"){
-                    data.contents[i].androidDownloadUrl = data.contents[i].appCTAs[j].ctaUrl;
-                }
-                else if(data.contents[i].appCTAs[j].platformType === "iTunes"){
-                    data.contents[i].iTunesDownloadUrl = data.contents[i].appCTAs[j].ctaUrl;
+                data.contents[0].displayMobileFeature = "hide-mobile-feature";
+            }
+            else{
+                data.contents[0].displayMobileFeature = "display-mobile-feature";
+                data.contents[0].hideFeature = "hide-feature";
+
+                for(var j=0; j < data.contents[0].appCTAs.length; j++){
+                    if(data.contents[0].appCTAs[j].platformType === "android"){
+                        data.contents[0].androidDownloadUrl = data.contents[0].appCTAs[j].ctaUrl;
+                    }
+                    else if(data.contents[0].appCTAs[j].platformType === "iTunes"){
+                        data.contents[0].iTunesDownloadUrl = data.contents[0].appCTAs[0].ctaUrl;
+                    }
+
                 }
 
             }
-
         }
+        else {
+            data.contents[i].displayMobileFeature = "hide-mobile-feature";
+        }
+
 
     }
     this.element = element;
