@@ -485,7 +485,7 @@
       display:  block;
     }
     .hide-mobile-feature, .hide-feature{
-      display: none;
+      display: none !important;
     }
 
     .o-feature-mobile{
