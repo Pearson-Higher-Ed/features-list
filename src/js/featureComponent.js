@@ -60,7 +60,7 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
     if (options.editMode) {
         document.getElementById("saveWatcher").value = false;
     }
-    console.log(data);
+    //console.log(data);
     //sorting features array based on display sequence
     if(data.contents)
     {
@@ -263,6 +263,7 @@ FeatureComponent.prototype.addNew = function () {
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem));
     newFeature[0].displaySequence = window.$featureData.contents.length+1;
     newFeature[0].contentId = "newItem_" + intId;
+    newFeature[0].displayMobileFeature = 'hide-mobile-feature';
     //this.parentNode.insertBefore(_cell, this.nextSibling);
     var node;
     if (window.$featureData.contents.length == 0) {
@@ -280,10 +281,8 @@ FeatureComponent.prototype.addNew = function () {
         _cell.innerHTML = Hogan.compile(templateEditCell).render(newFeature[0]);
         var itemId = window.$featureData.contents[window.$featureData.contents.length - 1].contentId;
         node = document.getElementById('feature_' + itemId);
-        console.log(node);
         node.parentNode.parentNode.insertBefore(_cell, null);
-        console.log(node.parentNode.parentNode);
-        console.log(_cell);
+
         FeatureComponent.prototype._addEventListenerToNode(_cell.getElementsByClassName('o-feature-overlay')[0]);
     }
     // FeatureComponent.prototype.setDisplaySequence();
@@ -524,10 +523,20 @@ FeatureComponent.prototype._addEventListenerToNode = function (node) {
     //        this.parentNode.className +=  ' '+ 'o-feature-img-border-edit';
     //    }
     //});
+    node.parentNode.getElementsByClassName('o-feature-mobile-img')[0].getElementsByTagName("a")[0].addEventListener('click', function (args) {
+        FeatureComponent.prototype.imageEditMode(args, this);
+    });
+
+    node.parentNode.getElementsByClassName('o-feature-app-store')[0].getElementsByTagName("a")[0].addEventListener('click', function (args) {
+        FeatureComponent.prototype.imageEditMode(args, this);
+    });
+
+    node.parentNode.getElementsByClassName('o-feature-google-play')[0].getElementsByTagName("a")[0].addEventListener('click', function (args) {
+        FeatureComponent.prototype.imageEditMode(args, this);
+    });
     node.parentNode.getElementsByClassName('o-feature-img-border')[0].getElementsByTagName("a")[0].addEventListener('click', function (args) {
 
         var linkId = args.target.id;
-
         if (args.target.innerHTML == 'Change Image') {
             document.getElementById(linkId).innerHTML = 'Done';
             if (this.parentNode.className.indexOf('o-feature-img-border-edit') == -1) {
@@ -652,17 +661,17 @@ FeatureComponent.prototype.cancelMobileItem = function (item,event) {
     var node = event.target.parentNode.parentNode.parentNode.parentNode;
 
     if (node.classList.contains('o-feature-editable-content')) {
-
         node.classList.remove('o-feature-editable-content');
-        //node.getElementsByClassName('o-feature-img-border')[0].className = node.getElementsByClassName('o-feature-img-border')[0].className.replace(' o-feature-img-border-edit', '');
-
+        node.getElementsByClassName('o-feature-mobile-img')[0].className = node.getElementsByClassName('o-feature-mobile-img')[0].className.replace('o-feature-img-border-edit', '');
+        node.getElementsByClassName('o-feature-app-store')[0].className = node.getElementsByClassName('o-feature-app-store')[0].className.replace('o-feature-img-border-edit', '');
+        node.getElementsByClassName('o-feature-google-play')[0].className = node.getElementsByClassName('o-feature-google-play')[0].className.replace('o-feature-img-border-edit', '');
     }
     for(var i = 0; i < window.$featureData.contents.length ; i++) {
         if(window.$featureData.contents[i].contentId ===item){
             node.getElementsByClassName('o-feature-brand')[0].textContent = window.$featureData.contents[i].primaryTitle;
             node.getElementsByClassName('o-feature-title')[0].textContent = window.$featureData.contents[i].secondaryTitle;
-            node.getElementsByClassName('o-instructor-description')[0].textContent = window.$featureData.contents[i].instructorDescription;
-            node.getElementsByClassName('o-student-description')[0].textContent = window.$featureData.contents[i].studentDescription;
+            node.getElementsByClassName('o-feature-description-inst')[0].textContent = window.$featureData.contents[i].instructorDescription;
+            node.getElementsByClassName('o-feature-description-stud')[0].textContent = window.$featureData.contents[i].studentDescription;
             node.getElementsByClassName('o-itunes-download-url')[0].textContent = window.$featureData.contents[i].iTunesDownloadUrl;
             node.getElementsByClassName('o-android-download-url')[0].textContent = window.$featureData.contents[i].androidDownloadUrl;
         }
@@ -671,6 +680,25 @@ FeatureComponent.prototype.cancelMobileItem = function (item,event) {
     //document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
     window.$featureData.featureEdited = false; // Enable edit to other feature components
     window.$featureBeingEdited = null;
+};
+
+
+FeatureComponent.prototype.imageEditMode = function (args, item) {
+    var linkId = args.target.id;
+    if (args.target.innerHTML == 'Change Image') {
+        document.getElementById(linkId).innerHTML = 'Done';
+        if (item.parentNode.className.indexOf('o-feature-img-border-edit') == -1) {
+            item.parentNode.className += ' ' + 'o-feature-img-border-edit';
+        }
+    }else if (args.target.innerHTML == 'Done') {
+        document.getElementById(linkId).innerHTML = 'Change Image';
+        var perentNode = document.getElementById(linkId).parentNode;
+        var newUrl = perentNode.getElementsByTagName('textarea')[0].value;
+        perentNode.getElementsByTagName('img')[0].src = newUrl;
+        if (item.parentNode.className.indexOf('o-feature-img-border-edit') > -1) {
+            item.parentNode.classList.remove("o-feature-img-border-edit");
+        }
+    }
 };
 
 module.exports = FeatureComponent;

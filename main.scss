@@ -14,7 +14,6 @@
 
   .o-feature-row {
     width: 100%;
-    margin-bottom: -20px;
     margin-top: 0px;
     padding: 20px 0;
 
@@ -463,15 +462,19 @@
         .o-feature-mobile-right {
           text-align: left !important;
         }
+        .o-feature-img-border-edit textarea{
+          display: block;
+        }
+        .o-feature-img-border-edit img{
+          display: none;
+        }
         .o-feature-title, .o-instructor-description, .o-student-description, .o-itunes-download-url, .o-android-download-url{
           border: 1px solid hsla(0, 0%, 50%, .36);
         }
         .o-instructor-description, .o-student-description{
           min-height: 100px;
         }
-        .o-feature-app-store{
-          margin-top: 206px;
-        }
+
         .o-feature-g-play{
           margin-top: 8px;
         }
@@ -499,7 +502,15 @@
     .o-feature-mobile{
       margin: 0 auto;
       width: 100%;
-
+      .o-feature-img-border textarea{
+        display: none;
+        border: 10px solid #f1f1f1;
+        resize: none;
+        height: 150px;
+      }
+      .o-feature-app-store textarea, .o-feature-google-play textarea{
+        height: 70px;
+      }
       .o-feature-mobile-left{
         float: left;
         text-align: center;
@@ -511,7 +522,7 @@
       }
       .o-feature-app-store{
         display: block;
-        margin: 86px auto 2px;
+        margin: 30px auto 2px;
       }
       .o-feature-g-play{
         display: block;
