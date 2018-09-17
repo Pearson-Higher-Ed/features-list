@@ -468,11 +468,11 @@
         .o-feature-img-border-edit img{
           display: none;
         }
-        .o-feature-title, .o-instructor-description, .o-student-description, .o-itunes-download-url, .o-android-download-url{
+        .o-feature-title, .o-feature-description-inst-mob, .o-feature-description-stud-mob, .o-itunes-download-url, .o-android-download-url{
           border: 1px solid hsla(0, 0%, 50%, .36);
         }
-        .o-instructor-description, .o-student-description{
-          min-height: 100px;
+        .o-feature-description-inst-mob, .o-feature-description-stud-mob{
+          min-height: 50px;
         }
 
         .o-feature-g-play{
@@ -553,14 +553,11 @@
       .o-feature-title{
         font-size: 18px;
       }
-      .o-feature-brand, .o-feature-title, .o-instructor-description, .o-instructor-description-label,
-      .o-student-description, .o-student-description-label{
-
-      }
       .o-feature-right label{
         text-align: left;
         color: blue;
       }
+      .o-feature-description-inst-mob, .o-feature-description-stud-mob,
       .o-instructor-description, .o-student-description, .o-itunes-download-url,
       .o-android-download-url{
         //border: 3px solid #A59C9C;
