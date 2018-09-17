@@ -106,13 +106,13 @@ templateEditCell += "<textarea  class=\"o-feature-img-src\" >{{resourceUrl}}<\/t
 templateEditCell += "<a id=\"link_{{contentId}}\" class=\"o-feature-change-link\">Change Image<\/a>";
 templateEditCell += " </div>";
 templateEditCell += "<div class=\"o-feature-img-border o-feature-app-store\">";
-templateEditCell += "							<img class=\"o-feature-app-store\" width=\"100\" src=\"{{appleURLImage}}\" onerror=\"'{{appleURLImage}}'?this.src='"+errorImage+"':this.src='"+appStoreImg+"'\">";
-templateEditCell += "<textarea  class=\"o-feature-img-src app-store-img-src\" >{{appleURLImage}}<\/textarea>";
+templateEditCell += "							<img class=\"o-feature-app-store\" width=\"100\" src=\"{{appleURLImage}}\" onerror=\"'{{appleImage}}'?this.src='"+errorImage+"':this.src='"+appStoreImg+"'\">";
+templateEditCell += "<textarea  class=\"o-feature-img-src app-store-img-src\" >{{appleImage}}<\/textarea>";
 templateEditCell += "<a id=\"linkapp_{{contentId}}\" class=\"o-feature-change-link\">Change Image<\/a>";
 templateEditCell += " </div>";
 templateEditCell += "<div class=\"o-feature-img-border o-feature-google-play\">";
-templateEditCell += "							<img class=\"o-feature-g-play\" width=\"100\" src=\"{{androidURLImage}}\" onerror=\"'{{androidURLImage}}'?this.src='"+errorImage+"':this.src='"+googleImg+"'\">";
-templateEditCell += "<textarea  class=\"o-feature-img-src g-play-img-src\" >{{androidURLImage}}<\/textarea>";
+templateEditCell += "							<img class=\"o-feature-g-play\" width=\"100\" src=\"{{androidURLImage}}\" onerror=\"'{{androidImage}}'?this.src='"+errorImage+"':this.src='"+googleImg+"'\">";
+templateEditCell += "<textarea  class=\"o-feature-img-src g-play-img-src\" >{{androidImage}}<\/textarea>";
 templateEditCell += "<a id=\"linkgoogle_{{contentId}}\" class=\"o-feature-change-link\">Change Image<\/a>";
 templateEditCell += " </div>";
 templateEditCell += '</div>';

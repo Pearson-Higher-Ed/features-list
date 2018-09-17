@@ -27,17 +27,17 @@ FeatureComponent.prototype.constants = {
         "ctaUrl": "https://www.sample.com",
         "appCTAs": [{
                 "type": "mobile",
-                "platformType": "android",
-                "ctaUrl": "https://www.android.com/",
-                "ctaText": "Launch Adroid",
-                "ctaImageUrl": "https://www.android.com/static/2016/img/apps-carousel/icons/hulu-plus_1x.png"
-            },{
-                "type": "mobile",
                 "platformType": "iTunes",
                 "ctaUrl": "https://www.apple.com/",
                 "ctaText": "Launch iTunes",
                 "ctaImageUrl": "http://www.tweaksoftware.com/products/rv/Applegreyicon.png"
-            }
+            },{
+            "type": "mobile",
+            "platformType": "android",
+            "ctaUrl": "https://www.android.com/",
+            "ctaText": "Launch Adroid",
+            "ctaImageUrl": "https://www.android.com/static/2016/img/apps-carousel/icons/hulu-plus_1x.png"
+        }
         ]
 
     }]
@@ -147,16 +147,17 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
             "studentDescription": "Do Re Me",
             "appCTAs": [{
                 "type": "mobile",
-                "platformType": "android",
-                "ctaUrl": "https://www.android.com/",
-                "ctaText": "Launch Adroid",
-                "ctaImageUrl": "https://www.android.com/static/2016/img/apps-carousel/icons/hulu-plus_1x.png"
-            },{
-                "type": "mobile",
                 "platformType": "iTunes",
                 "ctaUrl": "https://www.apple.com/",
                 "ctaText": "Launch iTunes",
                 "ctaImageUrl": "http://www.tweaksoftware.com/products/rv/Applegreyicon.png"
+            },
+                {
+                "type": "mobile",
+                "platformType": "android",
+                "ctaUrl": "https://www.android.com/",
+                "ctaText": "Launch Adroid",
+                "ctaImageUrl": "https://www.android.com/static/2016/img/apps-carousel/icons/hulu-plus_1x.png"
             }]
         })
     }
@@ -169,6 +170,8 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
             data.contents[i].hideFeature = "hide-feature";
             data.contents[i].iTunesDownloadUrl = appleURL;
             data.contents[i].androidDownloadUrl = androidURL;
+            data.contents[i].appleImage = appleURLImage;
+            data.contents[i].androidImage = androidURLImage;
         } else {
             data.contents[i].displayMobileFeature = "hide-mobile-feature";
         }
@@ -330,6 +333,7 @@ FeatureComponent.prototype.saveItem = function (item, event) {
     var newItem = FeatureComponent.prototype._validateItem(node);
     console.log(newItem);
     if (newItem !== null) {
+        console.log('came to save data not null');
         newItem.contentId = item;
         for (var i = 0; i < window.$featureData.contents.length; i++) {
 
@@ -342,8 +346,10 @@ FeatureComponent.prototype.saveItem = function (item, event) {
         document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
         window.$featureData.featureEdited = false; // Enable edit to other feature components
     } else {
+        console.log('came to save data null');
         node.className += ' ' + 'o-feature-editable-content';
     }
+    console.log('came to save data all done');
 };
 FeatureComponent.prototype.setDisplaySequence = function () {
     for (var i = 0; i < window.$featureData.contents.length; i++) {
@@ -366,10 +372,12 @@ FeatureComponent.prototype._validateItem = function(node){
 
     // Grab mobile properties
     //newFeature.appCTAs[0]. = o-itunes-download-url;
-    newFeature.appCTAs[0].ctaUrl = node.getElementsByClassName('o-android-download-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.appCTAs[0].ctaImageUrl = node.getElementsByClassName('o-android-feature-img')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.appCTAs[1].ctaUrl = node.getElementsByClassName('o-itunes-download-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.appCTAs[1].ctaImageUrl = node.getElementsByClassName('o-itunes-feature-img')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.appCTAs[0].ctaUrl = node.getElementsByClassName('o-itunes-download-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.appCTAs[0].ctaImageUrl = node.getElementsByClassName('o-feature-app-store')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.appCTAs[1].ctaUrl = node.getElementsByClassName('o-android-download-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.appCTAs[1].ctaImageUrl = node.getElementsByClassName('o-feature-g-play')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    console.log('came to validate ' + newFeature.appCTAs[0].ctaImageUrl);
 
     ////validation logics
     if (newFeature.primaryTitle.trim().length == 0) {
