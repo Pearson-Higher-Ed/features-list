@@ -377,9 +377,9 @@ FeatureComponent.prototype._validateItem = function(node, type) {
     //newFeature.appCTAs[0]. = o-itunes-download-url;
     if (type === '-mob') {
         var catItunes = node.getElementsByClassName('o-itunes-download-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        var ctaImageItunes = node.getElementsByClassName('o-feature-app-store' + type)[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var ctaImageItunes = node.getElementsByClassName('o-feature-img-src app-store-img-src')[0].value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         var ctaAndroid = node.getElementsByClassName('o-android-download-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        var ctaImageAndroid = node.getElementsByClassName('o-feature-g-play' + type)[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var ctaImageAndroid = node.getElementsByClassName('o-feature-img-src g-play-img-src')[0].value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         var mobileFeatureAdded = false;
 
         console.log(catItunes + '--' + ctaImageItunes + '--' + ctaAndroid + '--' + ctaImageAndroid + '--');
@@ -396,8 +396,9 @@ FeatureComponent.prototype._validateItem = function(node, type) {
             if (newFeature.appCTAs) {
                 arrayLength = newFeature.appCTAs.length;
             }
-            newFeature.appCTAs[arrayLength].ctaUrl = ctaAndroid;
-            newFeature.appCTAs[arrayLength].ctaImageUrl = ctaImageAndroid;
+            console.log('added 2nd one -- ' + arrayLength);
+            newFeature.appCTAs[arrayLength-1].ctaUrl = ctaAndroid;
+            newFeature.appCTAs[arrayLength-1].ctaImageUrl = ctaImageAndroid;
             mobileFeatureAdded = true;
             console.log('added 2nd one');
         }
@@ -734,6 +735,7 @@ FeatureComponent.prototype.imageEditMode = function (args, item) {
         document.getElementById(linkId).innerHTML = 'Change Image';
         var perentNode = document.getElementById(linkId).parentNode;
         var newUrl = perentNode.getElementsByTagName('textarea')[0].value;
+        console.log(newUrl);
         perentNode.getElementsByTagName('img')[0].src = newUrl;
         if (item.parentNode.className.indexOf('o-feature-img-border-edit') > -1) {
             item.parentNode.classList.remove("o-feature-img-border-edit");
