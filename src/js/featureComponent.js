@@ -137,6 +137,7 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
         data.contents.splice(mobileDateIndex, 1);
     } else if(data.featureType === 'PRODUCT_MODEL') {
         data.contents.unshift({
+            "contentId": "newItem_"+intId,
             "displaySequence": "1",
             "primaryTitle": "Student Description - Pl",
             "secondaryTitle": "",
@@ -322,7 +323,7 @@ FeatureComponent.prototype.removeItem = function (item, event) {
 };
 
 
-FeatureComponent.prototype.saveItem = function (item, event) {
+FeatureComponent.prototype.saveItem = function (item, event, type) {
 
     console.log('came to save data');
     console.log(item);
@@ -330,7 +331,7 @@ FeatureComponent.prototype.saveItem = function (item, event) {
     var node = document.getElementById('feature_' + item); //= event.target.parentNode.parentNode.parentNode
     var isValid = true;
     console.log(node);
-    var newItem = FeatureComponent.prototype._validateItem(node);
+    var newItem = FeatureComponent.prototype._validateItem(node, type);
     console.log(newItem);
     if (newItem !== null) {
         console.log('came to save data not null');
@@ -356,28 +357,59 @@ FeatureComponent.prototype.setDisplaySequence = function () {
         window.$featureData.contents[i].displaySequence = i+1;
     }
 };
-FeatureComponent.prototype._validateItem = function(node){
+FeatureComponent.prototype._validateItem = function(node, type) {
+
+    console.log('type is  ' + type);
 
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem[0]));
     var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
 
-    newFeature.primaryTitle =      node.getElementsByClassName('o-feature-brand')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.secondaryTitle =    node.getElementsByClassName('o-feature-title')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.description =       node.getElementsByClassName('o-feature-description-inst')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.studentDescription =       node.getElementsByClassName('o-feature-description-stud')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.resourceUrl =       node.getElementsByClassName('o-feature-img-src')[0].value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.ctaText =           node.getElementsByClassName('o-feature-action-button')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.ctaUrl =            node.getElementsByClassName('o-feature-action-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.displaySequence =   node.getElementsByClassName('o-feature-sort-input')[0].value;
+    newFeature.primaryTitle = node.getElementsByClassName('o-feature-brand' + type)[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.secondaryTitle = node.getElementsByClassName('o-feature-title' + type)[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.description = node.getElementsByClassName('o-feature-description-inst' + type)[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.studentDescription = node.getElementsByClassName('o-feature-description-stud' + type)[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.resourceUrl = node.getElementsByClassName('o-feature-img-src' + type)[0].value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.ctaText = node.getElementsByClassName('o-feature-action-button')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.ctaUrl = node.getElementsByClassName('o-feature-action-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.displaySequence = node.getElementsByClassName('o-feature-sort-input')[0].value;
 
     // Grab mobile properties
     //newFeature.appCTAs[0]. = o-itunes-download-url;
-    newFeature.appCTAs[0].ctaUrl = node.getElementsByClassName('o-itunes-download-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.appCTAs[0].ctaImageUrl = node.getElementsByClassName('o-feature-app-store')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.appCTAs[1].ctaUrl = node.getElementsByClassName('o-android-download-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.appCTAs[1].ctaImageUrl = node.getElementsByClassName('o-feature-g-play')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    if (type === '-mob') {
+        var catItunes = node.getElementsByClassName('o-itunes-download-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var ctaImageItunes = node.getElementsByClassName('o-feature-app-store' + type)[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var ctaAndroid = node.getElementsByClassName('o-android-download-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var ctaImageAndroid = node.getElementsByClassName('o-feature-g-play' + type)[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var mobileFeatureAdded = false;
 
-    console.log('came to validate ' + newFeature.appCTAs[0].ctaImageUrl);
+        console.log(catItunes + '--' + ctaImageItunes + '--' + ctaAndroid + '--' + ctaImageAndroid + '--');
+
+        if (catItunes.trim().length != 0 && ctaImageItunes.trim().length != 0 && urlRegex.test(catItunes.trim()) && urlRegex.test(ctaImageItunes.trim())) {
+            newFeature.appCTAs[0].ctaUrl = catItunes;
+            newFeature.appCTAs[0].ctaImageUrl = ctaImageItunes;
+            mobileFeatureAdded = true;
+            console.log('added 1st one');
+        }
+
+        if (ctaAndroid.trim().length != 0 && ctaImageAndroid.trim().length != 0 && urlRegex.test(ctaAndroid.trim()) && urlRegex.test(ctaImageAndroid.trim())) {
+            var arrayLength = 0;
+            if (newFeature.appCTAs) {
+                arrayLength = newFeature.appCTAs.length;
+            }
+            newFeature.appCTAs[arrayLength].ctaUrl = ctaAndroid;
+            newFeature.appCTAs[arrayLength].ctaImageUrl = ctaImageAndroid;
+            mobileFeatureAdded = true;
+            console.log('added 2nd one');
+        }
+
+        if(!mobileFeatureAdded) {
+            alert("Mobile Feature Information is Incorrect");
+            return null;
+        }
+
+    }
+
+    console.log('came to validate ' + newFeature.secondaryTitle);
 
     ////validation logics
     if (newFeature.primaryTitle.trim().length == 0) {
