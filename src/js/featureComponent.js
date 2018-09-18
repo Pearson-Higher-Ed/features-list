@@ -26,19 +26,18 @@ FeatureComponent.prototype.constants = {
         "ctaText":"Add Button Label",
         "ctaUrl": "https://www.sample.com",
         "appCTAs": [{
-                "type": "mobile",
-                "platformType": "iTunes",
-                "ctaUrl": "https://www.apple.com/",
-                "ctaText": "Launch iTunes",
-                "ctaImageUrl": "http://www.tweaksoftware.com/products/rv/Applegreyicon.png"
-            },{
             "type": "mobile",
-            "platformType": "android",
-            "ctaUrl": "https://www.android.com/",
-            "ctaText": "Launch Adroid",
-            "ctaImageUrl": "https://www.android.com/static/2016/img/apps-carousel/icons/hulu-plus_1x.png"
-        }
-        ]
+            "platformType": "",
+            "ctaUrl": "",
+            "ctaText": "",
+            "ctaImageUrl": ""
+        },{
+            "type": "mobile",
+            "platformType": "",
+            "ctaUrl": "",
+            "ctaText": "",
+            "ctaImageUrl": ""
+        }]
 
     }]
 };
@@ -148,17 +147,16 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
             "studentDescription": "Do Re Me",
             "appCTAs": [{
                 "type": "mobile",
-                "platformType": "iTunes",
-                "ctaUrl": "https://www.apple.com/",
-                "ctaText": "Launch iTunes",
-                "ctaImageUrl": "http://www.tweaksoftware.com/products/rv/Applegreyicon.png"
-            },
-                {
+                "platformType": "",
+                "ctaUrl": "",
+                "ctaText": "",
+                "ctaImageUrl": ""
+            },{
                 "type": "mobile",
-                "platformType": "android",
-                "ctaUrl": "https://www.android.com/",
-                "ctaText": "Launch Adroid",
-                "ctaImageUrl": "https://www.android.com/static/2016/img/apps-carousel/icons/hulu-plus_1x.png"
+                "platformType": "",
+                "ctaUrl": "",
+                "ctaText": "",
+                "ctaImageUrl": ""
             }]
         })
     }
@@ -381,29 +379,39 @@ FeatureComponent.prototype._validateItem = function(node, type) {
         var ctaAndroid = node.getElementsByClassName('o-android-download-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         var ctaImageAndroid = node.getElementsByClassName('o-feature-img-src g-play-img-src')[0].value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         var mobileFeatureAdded = false;
+        var arrayLength = 0;
 
         console.log(catItunes + '--' + ctaImageItunes + '--' + ctaAndroid + '--' + ctaImageAndroid + '--');
 
         if (catItunes.trim().length != 0 && ctaImageItunes.trim().length != 0 && urlRegex.test(catItunes.trim()) && urlRegex.test(ctaImageItunes.trim())) {
             newFeature.appCTAs[0].ctaUrl = catItunes;
             newFeature.appCTAs[0].ctaImageUrl = ctaImageItunes;
+            newFeature.appCTAs[0].platformType = 'iTunes';
+            newFeature.appCTAs[0].ctaText = 'Launch iTunes';
             mobileFeatureAdded = true;
+            arrayLength++;
             console.log('added 1st one');
         }
 
         if (ctaAndroid.trim().length != 0 && ctaImageAndroid.trim().length != 0 && urlRegex.test(ctaAndroid.trim()) && urlRegex.test(ctaImageAndroid.trim())) {
-            var arrayLength = 0;
-            if (newFeature.appCTAs) {
-                arrayLength = newFeature.appCTAs.length;
-            }
             console.log('added 2nd one -- ' + arrayLength);
-            newFeature.appCTAs[arrayLength-1].ctaUrl = ctaAndroid;
-            newFeature.appCTAs[arrayLength-1].ctaImageUrl = ctaImageAndroid;
+            newFeature.appCTAs[arrayLength].ctaUrl = ctaAndroid;
+            newFeature.appCTAs[arrayLength].ctaImageUrl = ctaImageAndroid;
+            newFeature.appCTAs[arrayLength].platformType = 'android';
+            newFeature.appCTAs[arrayLength].ctaText = 'Launch Adroid';
             mobileFeatureAdded = true;
+            arrayLength++;
             console.log('added 2nd one');
         }
 
-        if(!mobileFeatureAdded) {
+        if(mobileFeatureAdded) {
+            console.log('added 2nd one ==== ' + newFeature.appCTAs.length);
+            if (newFeature.appCTAs[1].ctaUrl.trim().length == 0) {
+                newFeature.appCTAs.splice(1,1);
+            } else if (newFeature.appCTAs[0].ctaUrl.trim().length == 0) {
+                newFeature.appCTAs.splice(0,1);
+            }
+        } else {
             alert("Mobile Feature Information is Incorrect");
             return null;
         }
