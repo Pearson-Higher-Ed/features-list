@@ -468,7 +468,7 @@
         .o-feature-img-border-edit img{
           display: none;
         }
-        .o-feature-title, .o-feature-description-inst-mob, .o-feature-description-stud-mob, .o-itunes-download-url, .o-android-download-url{
+        .o-feature-brand-mob, .o-feature-title-mob, .o-feature-description-inst-mob, .o-feature-description-stud-mob, .o-itunes-download-url, .o-android-download-url{
           border: 1px solid hsla(0, 0%, 50%, .36);
         }
         .o-feature-description-inst-mob, .o-feature-description-stud-mob{
@@ -508,6 +508,10 @@
         resize: none;
         height: 150px;
       }
+      .o-feature-mobile-img img{
+        height: 160px;
+        margin-top: 25px;
+      }
       .o-feature-app-store textarea, .o-feature-google-play textarea{
         height: 70px;
       }
@@ -520,13 +524,13 @@
         display: block;
         margin: 20px auto 2px;
       }
-      .o-feature-app-store{
+      .o-feature-app-store-mob{
         display: block;
-        margin: 30px auto 2px;
+        margin: 25px auto 2px;
       }
-      .o-feature-g-play{
+      .o-feature-g-play-mob{
         display: block;
-        margin: 30px auto 2px;
+        margin: 20px auto 2px;
       }
       .o-feature-change-link{
         color: #1c961c;
@@ -543,14 +547,14 @@
         text-align: right;
       }
 
-      .o-feature-brand{
+      .o-feature-brand-mob{
         font-weight: 700;
         margin-bottom: 6px;
         font-size: 1.4285714286rem;
         line-height: 1.8571428571rem;
         color: #252525;
       }
-      .o-feature-title{
+      .o-feature-title-mob{
         font-size: 18px;
       }
       .o-feature-right label{
