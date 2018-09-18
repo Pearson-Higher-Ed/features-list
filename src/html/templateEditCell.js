@@ -96,7 +96,7 @@ templateEditCell += "				<div class=\"o-feature-clearfix\"><\/div>";
 templateEditCell += "			<\/div>";
 templateEditCell += '<!--New Discipline Feature & Exchange Mobile App UX Component -->';
 templateEditCell += '<div class="o-feature-mobile {{displayMobileFeature}}">';
-// templateEditCell += "<div class=\"o-feature-sort\"><label>Display Sequence : &nbsp;&nbsp;</label><input type=\"number\" class=\"o-feature-sort-input\" max=\"99\"  min=\"0\" placeholder=\"Set Order\" value='{{displaySequence}}' \/><\/div>";
+templateEditCell += "<div class=\"o-feature-sort\"><label>Display Sequence : &nbsp;&nbsp;</label><input type=\"number\" class=\"o-feature-sort-input\" max=\"99\"  min=\"0\" placeholder=\"Set Order\" value='{{displaySequence}}' \/><\/div>";
 templateEditCell += '   <div class="o-feature-mobile-left">';
 
 
@@ -132,13 +132,13 @@ templateEditCell += '       <div class="o-android-download-url" contenteditable=
 templateEditCell += '   </div>';
 templateEditCell += '   <div class="o-feature-button">';
 templateEditCell += '       <div class="o-feature-remove-button">';
-templateEditCell += '       <a class="o-feature-remove" href="javascript:void(0);">Remove</a>';
+templateEditCell += '       <a class="o-feature-remove" href="javascript:void(0);" onclick=\"javascript:window.$featureComponent.prototype.removeItem(\'{{contentId}}\',event)\">Remove</a>';
 templateEditCell += '       </div>';
 templateEditCell += '       <div class="o-feature-button-group">';
 templateEditCell += '       <button id="mobileCancelButton" class="o-feature-mobile-cancel" onclick=\"javascript:window.$featureComponent.prototype.cancelMobileItem(\'{{contentId}}\',event)\">Cancel</button>';
 //templateEditCell += '       <button id="mobileSaveButton" class="o-feature-mobile-save">Save</button>';
 //templateEditCell += "						<button class=\"o-feature-cancel\" onclick=\"javascript:window.$featureComponent.prototype.cancelItem(\'{{contentId}}\',event)\">Cancel<\/button>";
-templateEditCell += "						<button class=\"o-feature-save\" onclick=\"javascript:window.$featureComponent.prototype.saveItem(\'{{contentId}}\',event, '-mob')\">Save<\/>";
+templateEditCell += "						<button class=\"o-feature-save-mobile\" onclick=\"javascript:window.$featureComponent.prototype.saveItem(\'{{contentId}}\',event, '-mob')\">Save<\/>";
 templateEditCell += '   </div>';
 templateEditCell += '</div>';
 templateEditCell += '</div>';

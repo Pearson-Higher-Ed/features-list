@@ -567,6 +567,23 @@ FeatureComponent.prototype._addEventListenerToNode = function (node) {
             window.$featureBeingEdited = null;
         }
     });
+    node.parentNode.getElementsByClassName('o-feature-save-mobile')[0].addEventListener('click', function () {
+        if(parseInt(this.parentNode.parentNode.parentNode.getElementsByClassName('o-feature-sort-input')[0].value) >= 0){
+            this.parentNode.parentNode.parentNode.className = this.parentNode.parentNode.parentNode.className.replace(' o-feature-editable-content', '');
+            this.parentNode.parentNode.parentNode.getElementsByClassName('o-feature-img-border')[0].className = this.parentNode.parentNode.parentNode.getElementsByClassName('o-feature-img-border')[0].className.replace(' o-feature-img-border-edit', '');
+            var _featureContentID = this.parentNode.parentNode.parentNode.parentNode.getAttribute( 'id' ).replace('feature_','');
+            var _savedFeature = null;
+            for(var x = 0; x < window.$featureData.contents.length; x++)
+            {
+                if(_featureContentID === window.$featureData.contents[x].contentId)
+                {
+                    _savedFeature = window.$featureData.contents[x];
+                }
+            }
+            FeatureComponent.prototype.ReorderFeatures(_featureContentID,JSON.parse(JSON.stringify(window.$featureData)),_savedFeature);
+            window.$featureBeingEdited = null;
+        }
+    });
     //node.parentNode.getElementsByClassName('o-feature-img-border')[0].getElementsByTagName("img")[0].addEventListener('click', function () {
     //    if(this.parentNode.className.indexOf('o-feature-img-border-edit') == -1) {
     //        this.parentNode.className +=  ' '+ 'o-feature-img-border-edit';
