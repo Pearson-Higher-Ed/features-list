@@ -86,7 +86,7 @@ templateEditCell += "					<\/div>";
 templateEditCell += "				<\/div>";
 templateEditCell += "				<div class=\"o-feature-clearfix\"><\/div>";
 templateEditCell += "				<div class=\"o-feature-button {{hideFeature}}\">";
-templateEditCell += "				<div class=\"o-feature-remove-button\" ><a class=\"o-feature-remove\" href=\"javascript:void(0);\"  onclick=\"javascript:window.$featureComponent.prototype.removeItem(\'{{contentId}}\',event)\">Remove<\/a><\/div>";
+templateEditCell += "				<div class=\"o-feature-remove-button\" ><a class=\"o-feature-remove\" href=\"javascript:void(0);\"  onclick=\"javascript:window.$featureComponent.prototype.removeItem(\'{{contentId}}\',event, '')\">Remove<\/a><\/div>";
 templateEditCell += "					<div class=\"o-feature-button-group\"> ";
 
 templateEditCell += "						<button class=\"o-feature-cancel\" onclick=\"javascript:window.$featureComponent.prototype.cancelItem(\'{{contentId}}\',event)\">Cancel<\/button>";
@@ -132,7 +132,7 @@ templateEditCell += '       <div class="o-android-download-url" contenteditable=
 templateEditCell += '   </div>';
 templateEditCell += '   <div class="o-feature-button">';
 templateEditCell += '       <div class="o-feature-remove-button">';
-templateEditCell += '       <a class="o-feature-remove" href="javascript:void(0);" onclick=\"javascript:window.$featureComponent.prototype.removeItem(\'{{contentId}}\',event)\">Remove</a>';
+templateEditCell += "       <a class=\"o-feature-remove\" href=\"javascript:void(0);\" onclick=\"javascript:window.$featureComponent.prototype.removeItem(\'{{contentId}}\',event, '-mob')\">Remove</a>";
 templateEditCell += '       </div>';
 templateEditCell += '       <div class="o-feature-button-group">';
 templateEditCell += '       <button id="mobileCancelButton" class="o-feature-mobile-cancel" onclick=\"javascript:window.$featureComponent.prototype.cancelMobileItem(\'{{contentId}}\',event)\">Cancel</button>';

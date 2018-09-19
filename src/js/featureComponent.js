@@ -296,7 +296,7 @@ FeatureComponent.prototype.addNew = function () {
 };
 
 
-FeatureComponent.prototype.removeItem = function (item, event) {
+FeatureComponent.prototype.removeItem = function (item, event, type) {
 
     if (confirm("Do you want to remove this item?") == true){
 
@@ -305,16 +305,24 @@ FeatureComponent.prototype.removeItem = function (item, event) {
         window.$featureData.featureEdited = false; // Enable edit to other feature components
         document.getElementById("saveWatcher").value = true;
 
+        console.log('item is  ---' + item + ' type is ' + type);
         for (var i = 0; i < window.$featureData.contents.length; i++) {
             if (window.$featureData.contents[i].contentId === item) {
+                console.log('item deleted  ---');
                 window.$featureData.contents.splice(i, 1);
             }
         }
         FeatureComponent.prototype.setDisplaySequence();
         var dom = document.getElementById(window.$element);
         dom.innerHTML = '';
+        for(var i = 0; i < window.$featureData.contents.length; i++){
+            console.log(window.$featureData.contents[i]);
+        }
+        console.log('loop running ....................' + window.$featureData.contents.length);
+
         FeatureComponent.prototype.init(window.$options,window.$featureData,window.$element,window.$permissions);
         if (window.$featureData.contents.length === 0) {
+            console.log('item deleted  but no make live ---');
                 document.getElementById("makeLiveBtn").disabled = false;
         }
     }
@@ -416,6 +424,8 @@ FeatureComponent.prototype._validateItem = function(node, type) {
             return null;
         }
 
+    } else {
+        newFeature.appCTAs = [];
     }
 
     console.log('came to validate ' + newFeature.secondaryTitle);
@@ -439,6 +449,15 @@ FeatureComponent.prototype._validateItem = function(node, type) {
     }
     if ((newFeature.resourceUrl.trim().length != 0) && (!urlRegex.test(newFeature.resourceUrl.trim()))) {
         alert("Invalid Image URL"); // Image or Resource??
+        return null;
+    }
+    if(type === '-mob' && ((catItunes.trim().length == 0 && ctaImageItunes.trim().length != 0) || ((catItunes.trim().length != 0 && ctaImageItunes.trim().length == 0)))){
+        alert("Provided Itunes information are invalid");
+        return null;
+    }
+
+    if(type === '-mob' && ((ctaAndroid.trim().length == 0 && ctaImageAndroid.trim().length != 0) || ((ctaAndroid.trim().length != 0 && ctaImageAndroid.trim().length == 0)))){
+        alert("Provided Androide information are invalid");
         return null;
     }
 
