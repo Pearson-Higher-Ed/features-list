@@ -101,7 +101,7 @@ templateEditCell += '   <div class="o-feature-mobile-left">';
 
 
 templateEditCell += "<div class=\"o-feature-img-border o-feature-mobile-img\">";
-templateEditCell += "							<img class=\"o-feature-mobile\" width=\"160\" src=\"{{resourceUrl}}\" onerror=\"'{{resourceUrl}}'?this.src='"+defaultMobileImg+"':this.src='"+defaultMobileImg+"'\">";
+templateEditCell += "							<img class=\"o-feature-mobile\" width=\"160\" src=\"{{resourceUrl}}\" onerror=\"'{{resourceUrl}}'?this.src='"+errorImage+"':this.src='"+defaultFetureImg+"'\">";
 templateEditCell += "<textarea  class=\"o-feature-img-src-mob\" >{{resourceUrl}}<\/textarea>";
 templateEditCell += "<a id=\"link_{{contentId}}\" class=\"o-feature-change-link\">Change Image<\/a>";
 templateEditCell += " </div>";
