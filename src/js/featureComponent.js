@@ -20,11 +20,25 @@ FeatureComponent.prototype.constants = {
         "displaySequence": 1,
         "primaryTitle": "Add Feature Title",
         "secondaryTitle": "Add Title",
-        "description": "Add a short description for instructor that briefly describes the feature.",
-        "studentDescription": "Add a short description for students that briefly describes the feature.",
+        "description": "",
+        "studentDescription": "",
         "resourceUrl": "",
         "ctaText":"Add Button Label",
-        "ctaUrl": "https://www.sample.com"
+        "ctaUrl": "https://www.sample.com",
+        "appCTAs": [{
+            "type": "mobile",
+            "platformType": "",
+            "ctaUrl": "",
+            "ctaText": "",
+            "ctaImageUrl": ""
+        },{
+            "type": "mobile",
+            "platformType": "",
+            "ctaUrl": "",
+            "ctaText": "",
+            "ctaImageUrl": ""
+        }]
+
     }]
 };
 
@@ -45,6 +59,7 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
     if (options.editMode) {
         document.getElementById("saveWatcher").value = false;
     }
+
     //sorting features array based on display sequence
     if(data.contents)
     {
@@ -92,9 +107,74 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
             document.getElementById("makeLiveBtn").disabled = true;
         }
     }
+    var mobileFeatureFound = false;
+    var androidURL = '', appleURL = '', mobileDateIndex = -1;
+    var androidURLImage = '', appleURLImage = '';
+    // Initial loop to identify appCTA section availability
+    for (var i = 0; i < data.contents.length; i++) {
+        if(!mobileFeatureFound) {
+            if (!(data.contents[i].appCTAs === undefined || data.contents[i].appCTAs.length == 0)) {
+                mobileFeatureFound = true;
+                mobileDateIndex = i;
+                for(var j=0; j < data.contents[i].appCTAs.length; j++){
+                    if(data.contents[i].appCTAs[j].platformType === "android"){
+                        androidURL = data.contents[i].appCTAs[j].ctaUrl;
+                        androidURLImage = data.contents[i].appCTAs[j].ctaImageUrl;
+                    }
+                    else if(data.contents[i].appCTAs[j].platformType === "iTunes"){
+                        appleURL = data.contents[i].appCTAs[j].ctaUrl;
+                        appleURLImage = data.contents[i].appCTAs[j].ctaImageUrl;
+                    }
+
+                }
+            }
+        }
+    }
+
+    if(mobileDateIndex > -1){
+        data.contents.unshift(data.contents[mobileDateIndex]);
+        data.contents.splice(mobileDateIndex, 1);
+        //data.contents[i].displaySequence = data.contents[i].displaySequence - 1;
+    } else if(data.featureType === 'PRODUCT_MODEL') {
+        data.contents.unshift({
+            "contentId": "newItem_0",
+            "displaySequence": "1",
+            "primaryTitle": "",
+            "secondaryTitle": "",
+            "description": "",
+            "resourceUrl": "",
+            "ctaText": "Video LInk",
+            "ctaUrl": "",
+            "studentDescription": "",
+            "appCTAs": [{
+                "type": "mobile",
+                "platformType": "",
+                "ctaUrl": "",
+                "ctaText": "",
+                "ctaImageUrl": ""
+            },{
+                "type": "mobile",
+                "platformType": "",
+                "ctaUrl": "",
+                "ctaText": "",
+                "ctaImageUrl": ""
+            }]
+        })
+    }
+
     for (var i = 0; i < data.contents.length; i++) {
         data.contents[i].hasCTA = true;
         data.contents[i].hasImage = true;
+        if(i === 0 && data.featureType === 'PRODUCT_MODEL'){
+            data.contents[i].displayMobileFeature = "display-mobile-feature";
+            data.contents[i].hideFeature = "hide-feature";
+            data.contents[i].iTunesDownloadUrl = appleURL;
+            data.contents[i].androidDownloadUrl = androidURL;
+            data.contents[i].appleImage = appleURLImage;
+            data.contents[i].androidImage = androidURLImage;
+        } else {
+            data.contents[i].displayMobileFeature = "hide-mobile-feature";
+        }
         if (data.contents[i].ctaUrl === undefined || data.contents[i].ctaUrl === '') {
             data.contents[i].ctaText = "Add Button Label";
             data.contents[i].ctaUrl = '';
@@ -107,26 +187,14 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
         if(data.contents[i].studentDescription === undefined || data.contents[i].studentDescription === ''){
             data.contents[i].studentDescription = '';
         }
-        if (data.contents[i].appCTAs === undefined || data.contents[i].appCTAs.length == 0) {
-            data.contents[i].displayMobileFeature = "hide-mobile-feature";
-        }
-        else{
-            data.contents[i].displayMobileFeature = "display-mobile-feature";
-            data.contents[i].hideFeature = "hide-feature";
-
-            for(var j=0; j < data.contents[i].appCTAs.length; j++){
-                if(data.contents[i].appCTAs[j].platformType === "android"){
-                    data.contents[i].androidDownloadUrl = data.contents[i].appCTAs[j].ctaUrl;
-                }
-                else if(data.contents[i].appCTAs[j].platformType === "iTunes"){
-                    data.contents[i].iTunesDownloadUrl = data.contents[i].appCTAs[j].ctaUrl;
-                }
-
-            }
-
-        }
+        data.contents[i].testDisplay = 'hide-mobile-feature-empty';
 
     }
+
+    if(options.isRemoveMob){
+        data.contents.splice(0, 1);
+    }
+
     this.element = element;
     if (options.editMode) {
         window.$featureData = data;
@@ -200,8 +268,13 @@ FeatureComponent.prototype.RemoveOverlays = function(iterations){
 FeatureComponent.prototype.addNew = function () {
     document.getElementById("makeLiveBtn").disabled = false; //Enable Make Live button
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem));
-    newFeature[0].displaySequence = window.$featureData.contents.length+1;
+    if (window.$featureData.featureType == 'PRODUCT_MODEL') {
+        newFeature[0].displaySequence = window.$featureData.contents.length+1;
+    } else {
+        newFeature[0].displaySequence = window.$featureData.contents.length;
+    }
     newFeature[0].contentId = "newItem_" + intId;
+    newFeature[0].displayMobileFeature = 'hide-mobile-feature';
     //this.parentNode.insertBefore(_cell, this.nextSibling);
     var node;
     if (window.$featureData.contents.length == 0) {
@@ -219,11 +292,12 @@ FeatureComponent.prototype.addNew = function () {
         _cell.innerHTML = Hogan.compile(templateEditCell).render(newFeature[0]);
         var itemId = window.$featureData.contents[window.$featureData.contents.length - 1].contentId;
         node = document.getElementById('feature_' + itemId);
-
         node.parentNode.parentNode.insertBefore(_cell, null);
+
         FeatureComponent.prototype._addEventListenerToNode(_cell.getElementsByClassName('o-feature-overlay')[0]);
     }
     // FeatureComponent.prototype.setDisplaySequence();
+    newFeature[0].displayMobileFeature = 'hide-mobile-feature';
 
     window.$featureData.contents.push(newFeature[0]);
     intId += 1;
@@ -231,7 +305,7 @@ FeatureComponent.prototype.addNew = function () {
 };
 
 
-FeatureComponent.prototype.removeItem = function (item, event) {
+FeatureComponent.prototype.removeItem = function (item, event, type) {
 
     if (confirm("Do you want to remove this item?") == true){
 
@@ -239,6 +313,7 @@ FeatureComponent.prototype.removeItem = function (item, event) {
         document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
         window.$featureData.featureEdited = false; // Enable edit to other feature components
         document.getElementById("saveWatcher").value = true;
+
 
         for (var i = 0; i < window.$featureData.contents.length; i++) {
             if (window.$featureData.contents[i].contentId === item) {
@@ -248,6 +323,12 @@ FeatureComponent.prototype.removeItem = function (item, event) {
         FeatureComponent.prototype.setDisplaySequence();
         var dom = document.getElementById(window.$element);
         dom.innerHTML = '';
+
+        if(type == '-mob') {
+            window.$options.isRemoveMob = true;
+        }
+
+
         FeatureComponent.prototype.init(window.$options,window.$featureData,window.$element,window.$permissions);
         if (window.$featureData.contents.length === 0) {
                 document.getElementById("makeLiveBtn").disabled = false;
@@ -256,13 +337,12 @@ FeatureComponent.prototype.removeItem = function (item, event) {
 };
 
 
-FeatureComponent.prototype.saveItem = function (item, event) {
+FeatureComponent.prototype.saveItem = function (item, event, type) {
+
 
     var node = document.getElementById('feature_' + item); //= event.target.parentNode.parentNode.parentNode
     var isValid = true;
-
-    var newItem = FeatureComponent.prototype._validateItem(node);
-
+    var newItem = FeatureComponent.prototype._validateItem(node, type);
     if (newItem !== null) {
         newItem.contentId = item;
         for (var i = 0; i < window.$featureData.contents.length; i++) {
@@ -284,19 +364,63 @@ FeatureComponent.prototype.setDisplaySequence = function () {
         window.$featureData.contents[i].displaySequence = i+1;
     }
 };
-FeatureComponent.prototype._validateItem = function(node){
+FeatureComponent.prototype._validateItem = function(node, type) {
 
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem[0]));
     var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
 
-    newFeature.primaryTitle =      node.getElementsByClassName('o-feature-brand')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.secondaryTitle =    node.getElementsByClassName('o-feature-title')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.description =       node.getElementsByClassName('o-feature-description-inst')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.studentDescription =       node.getElementsByClassName('o-feature-description-stud')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.resourceUrl =       node.getElementsByClassName('o-feature-img-src')[0].value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.ctaText =           node.getElementsByClassName('o-feature-action-button')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.ctaUrl =            node.getElementsByClassName('o-feature-action-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    newFeature.displaySequence =   node.getElementsByClassName('o-feature-sort-input')[0].value;
+    newFeature.primaryTitle = node.getElementsByClassName('o-feature-brand' + type)[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.secondaryTitle = node.getElementsByClassName('o-feature-title' + type)[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.description = node.getElementsByClassName('o-feature-description-inst' + type)[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.studentDescription = node.getElementsByClassName('o-feature-description-stud' + type)[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.resourceUrl = node.getElementsByClassName('o-feature-img-src' + type)[0].value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.ctaText = node.getElementsByClassName('o-feature-action-button')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.ctaUrl = node.getElementsByClassName('o-feature-action-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    newFeature.displaySequence = node.getElementsByClassName('o-feature-sort-input')[0].value;
+
+    // Grab mobile properties
+    //newFeature.appCTAs[0]. = o-itunes-download-url;
+    if (type === '-mob') {
+        var catItunes = node.getElementsByClassName('o-itunes-download-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var ctaImageItunes = node.getElementsByClassName('o-feature-img-src app-store-img-src')[0].value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var ctaAndroid = node.getElementsByClassName('o-android-download-url')[0].textContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var ctaImageAndroid = node.getElementsByClassName('o-feature-img-src g-play-img-src')[0].value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var mobileFeatureAdded = false;
+        var arrayLength = 0;
+
+
+        if (catItunes.trim().length != 0 && ctaImageItunes.trim().length != 0 && urlRegex.test(catItunes.trim()) && urlRegex.test(ctaImageItunes.trim())) {
+            newFeature.appCTAs[0].ctaUrl = catItunes;
+            newFeature.appCTAs[0].ctaImageUrl = ctaImageItunes;
+            newFeature.appCTAs[0].platformType = 'iTunes';
+            newFeature.appCTAs[0].ctaText = 'Launch iTunes';
+            mobileFeatureAdded = true;
+            arrayLength++;
+        }
+
+        if (ctaAndroid.trim().length != 0 && ctaImageAndroid.trim().length != 0 && urlRegex.test(ctaAndroid.trim()) && urlRegex.test(ctaImageAndroid.trim())) {
+            newFeature.appCTAs[arrayLength].ctaUrl = ctaAndroid;
+            newFeature.appCTAs[arrayLength].ctaImageUrl = ctaImageAndroid;
+            newFeature.appCTAs[arrayLength].platformType = 'android';
+            newFeature.appCTAs[arrayLength].ctaText = 'Launch Adroid';
+            mobileFeatureAdded = true;
+            arrayLength++;
+        }
+
+        if(mobileFeatureAdded) {
+            if (newFeature.appCTAs[1].ctaUrl.trim().length == 0) {
+                newFeature.appCTAs.splice(1,1);
+            } else if (newFeature.appCTAs[0].ctaUrl.trim().length == 0) {
+                newFeature.appCTAs.splice(0,1);
+            }
+        } else {
+            return null;
+        }
+
+    } else {
+        newFeature.appCTAs = [];
+    }
+
 
     ////validation logics
     if (newFeature.primaryTitle.trim().length == 0) {
@@ -319,7 +443,15 @@ FeatureComponent.prototype._validateItem = function(node){
         alert("Invalid Image URL"); // Image or Resource??
         return null;
     }
+    if(type === '-mob' && ((catItunes.trim().length == 0 && ctaImageItunes.trim().length != 0) || ((catItunes.trim().length != 0 && ctaImageItunes.trim().length == 0)))){
+        alert("Provided Itunes information are invalid");
+        return null;
+    }
 
+    if(type === '-mob' && ((ctaAndroid.trim().length == 0 && ctaImageAndroid.trim().length != 0) || ((ctaAndroid.trim().length != 0 && ctaImageAndroid.trim().length == 0)))){
+        alert("Provided Androide information are invalid");
+        return null;
+    }
 
     return newFeature;
 };
@@ -444,15 +576,42 @@ FeatureComponent.prototype._addEventListenerToNode = function (node) {
             window.$featureBeingEdited = null;
         }
     });
+    node.parentNode.getElementsByClassName('o-feature-save-mobile')[0].addEventListener('click', function () {
+        if(parseInt(this.parentNode.parentNode.parentNode.getElementsByClassName('o-feature-sort-input')[0].value) >= 0){
+            this.parentNode.parentNode.parentNode.className = this.parentNode.parentNode.parentNode.className.replace(' o-feature-editable-content', '');
+            this.parentNode.parentNode.parentNode.getElementsByClassName('o-feature-img-border')[0].className = this.parentNode.parentNode.parentNode.getElementsByClassName('o-feature-img-border')[0].className.replace(' o-feature-img-border-edit', '');
+            var _featureContentID = this.parentNode.parentNode.parentNode.parentNode.getAttribute( 'id' ).replace('feature_','');
+            var _savedFeature = null;
+            for(var x = 0; x < window.$featureData.contents.length; x++)
+            {
+                if(_featureContentID === window.$featureData.contents[x].contentId)
+                {
+                    _savedFeature = window.$featureData.contents[x];
+                }
+            }
+            FeatureComponent.prototype.ReorderFeatures(_featureContentID,JSON.parse(JSON.stringify(window.$featureData)),_savedFeature);
+            window.$featureBeingEdited = null;
+        }
+    });
     //node.parentNode.getElementsByClassName('o-feature-img-border')[0].getElementsByTagName("img")[0].addEventListener('click', function () {
     //    if(this.parentNode.className.indexOf('o-feature-img-border-edit') == -1) {
     //        this.parentNode.className +=  ' '+ 'o-feature-img-border-edit';
     //    }
     //});
+    node.parentNode.getElementsByClassName('o-feature-mobile-img')[0].getElementsByTagName("a")[0].addEventListener('click', function (args) {
+        FeatureComponent.prototype.imageEditMode(args, this);
+    });
+
+    node.parentNode.getElementsByClassName('o-feature-app-store')[0].getElementsByTagName("a")[0].addEventListener('click', function (args) {
+        FeatureComponent.prototype.imageEditMode(args, this);
+    });
+
+    node.parentNode.getElementsByClassName('o-feature-google-play')[0].getElementsByTagName("a")[0].addEventListener('click', function (args) {
+        FeatureComponent.prototype.imageEditMode(args, this);
+    });
     node.parentNode.getElementsByClassName('o-feature-img-border')[0].getElementsByTagName("a")[0].addEventListener('click', function (args) {
 
         var linkId = args.target.id;
-
         if (args.target.innerHTML == 'Change Image') {
             document.getElementById(linkId).innerHTML = 'Done';
             if (this.parentNode.className.indexOf('o-feature-img-border-edit') == -1) {
@@ -577,17 +736,17 @@ FeatureComponent.prototype.cancelMobileItem = function (item,event) {
     var node = event.target.parentNode.parentNode.parentNode.parentNode;
 
     if (node.classList.contains('o-feature-editable-content')) {
-
         node.classList.remove('o-feature-editable-content');
-        //node.getElementsByClassName('o-feature-img-border')[0].className = node.getElementsByClassName('o-feature-img-border')[0].className.replace(' o-feature-img-border-edit', '');
-
+        node.getElementsByClassName('o-feature-mobile-img')[0].className = node.getElementsByClassName('o-feature-mobile-img')[0].className.replace('o-feature-img-border-edit', '');
+        node.getElementsByClassName('o-feature-app-store')[0].className = node.getElementsByClassName('o-feature-app-store')[0].className.replace('o-feature-img-border-edit', '');
+        node.getElementsByClassName('o-feature-google-play')[0].className = node.getElementsByClassName('o-feature-google-play')[0].className.replace('o-feature-img-border-edit', '');
     }
     for(var i = 0; i < window.$featureData.contents.length ; i++) {
         if(window.$featureData.contents[i].contentId ===item){
             node.getElementsByClassName('o-feature-brand')[0].textContent = window.$featureData.contents[i].primaryTitle;
             node.getElementsByClassName('o-feature-title')[0].textContent = window.$featureData.contents[i].secondaryTitle;
-            node.getElementsByClassName('o-instructor-description')[0].textContent = window.$featureData.contents[i].instructorDescription;
-            node.getElementsByClassName('o-student-description')[0].textContent = window.$featureData.contents[i].studentDescription;
+            node.getElementsByClassName('o-feature-description-inst')[0].textContent = window.$featureData.contents[i].instructorDescription;
+            node.getElementsByClassName('o-feature-description-stud')[0].textContent = window.$featureData.contents[i].studentDescription;
             node.getElementsByClassName('o-itunes-download-url')[0].textContent = window.$featureData.contents[i].iTunesDownloadUrl;
             node.getElementsByClassName('o-android-download-url')[0].textContent = window.$featureData.contents[i].androidDownloadUrl;
         }
@@ -596,6 +755,25 @@ FeatureComponent.prototype.cancelMobileItem = function (item,event) {
     //document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
     window.$featureData.featureEdited = false; // Enable edit to other feature components
     window.$featureBeingEdited = null;
+};
+
+
+FeatureComponent.prototype.imageEditMode = function (args, item) {
+    var linkId = args.target.id;
+    if (args.target.innerHTML == 'Change Image') {
+        document.getElementById(linkId).innerHTML = 'Done';
+        if (item.parentNode.className.indexOf('o-feature-img-border-edit') == -1) {
+            item.parentNode.className += ' ' + 'o-feature-img-border-edit';
+        }
+    }else if (args.target.innerHTML == 'Done') {
+        document.getElementById(linkId).innerHTML = 'Change Image';
+        var perentNode = document.getElementById(linkId).parentNode;
+        var newUrl = perentNode.getElementsByTagName('textarea')[0].value;
+        perentNode.getElementsByTagName('img')[0].src = newUrl;
+        if (item.parentNode.className.indexOf('o-feature-img-border-edit') > -1) {
+            item.parentNode.classList.remove("o-feature-img-border-edit");
+        }
+    }
 };
 
 module.exports = FeatureComponent;

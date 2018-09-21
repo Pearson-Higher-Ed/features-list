@@ -14,7 +14,6 @@
 
   .o-feature-row {
     width: 100%;
-    margin-bottom: -20px;
     margin-top: 0px;
     padding: 20px 0;
 
@@ -463,15 +462,20 @@
         .o-feature-mobile-right {
           text-align: left !important;
         }
-        .o-feature-title, .o-instructor-description, .o-student-description, .o-itunes-download-url, .o-android-download-url{
+        .o-feature-img-border-edit textarea{
+          display: block;
+        }
+        .o-feature-img-border-edit img{
+          display: none;
+        }
+        .o-feature-brand-mob, .o-feature-title-mob, .o-feature-description-inst-mob, .o-feature-description-stud-mob, .o-itunes-download-url, .o-android-download-url{
           border: 1px solid hsla(0, 0%, 50%, .36);
         }
-        .o-instructor-description, .o-student-description{
-          min-height: 100px;
+        .o-feature-description-inst-mob, .o-feature-description-stud-mob{
+          min-height: 50px;
+          overflow-y: scroll;
         }
-        .o-feature-app-store{
-          margin-top: 206px;
-        }
+
         .o-feature-g-play{
           margin-top: 8px;
         }
@@ -485,13 +489,33 @@
       display:  block;
     }
     .hide-mobile-feature, .hide-feature{
-      display: none;
+      display: none !important;
+    }
+
+    .show-mobile-feature-empty {
+      display: block !important;
+    }
+
+    .hide-mobile-feature-empty {
+      display: none !important;
     }
 
     .o-feature-mobile{
       margin: 0 auto;
       width: 100%;
-
+      .o-feature-img-border textarea{
+        display: none;
+        border: 10px solid #f1f1f1;
+        resize: none;
+        height: 150px;
+      }
+      .o-feature-mobile-img img{
+        height: 160px;
+        margin-top: 25px;
+      }
+      .o-feature-app-store textarea, .o-feature-google-play textarea{
+        height: 70px;
+      }
       .o-feature-mobile-left{
         float: left;
         text-align: center;
@@ -501,13 +525,13 @@
         display: block;
         margin: 20px auto 2px;
       }
-      .o-feature-app-store{
+      .o-feature-app-store-mob{
         display: block;
-        margin: 86px auto 2px;
+        margin: 25px auto 2px;
       }
-      .o-feature-g-play{
+      .o-feature-g-play-mob{
         display: block;
-        margin: 30px auto 2px;
+        margin: 20px auto 2px;
       }
       .o-feature-change-link{
         color: #1c961c;
@@ -524,24 +548,21 @@
         text-align: right;
       }
 
-      .o-feature-brand{
+      .o-feature-brand-mob{
         font-weight: 700;
         margin-bottom: 6px;
         font-size: 1.4285714286rem;
         line-height: 1.8571428571rem;
         color: #252525;
       }
-      .o-feature-title{
+      .o-feature-title-mob{
         font-size: 18px;
-      }
-      .o-feature-brand, .o-feature-title, .o-instructor-description, .o-instructor-description-label,
-      .o-student-description, .o-student-description-label{
-
       }
       .o-feature-right label{
         text-align: left;
         color: blue;
       }
+      .o-feature-description-inst-mob, .o-feature-description-stud-mob,
       .o-instructor-description, .o-student-description, .o-itunes-download-url,
       .o-android-download-url{
         //border: 3px solid #A59C9C;
@@ -579,6 +600,10 @@
         background: rgba(0,128,0,0);
         color: gray !important;
         border: 1px solid #ccc !important;
+      }
+      .o-feature-save-mobile {
+        background: rgba(0, 138, 0, 0.89);
+        border: 1px solid rgba(0, 138, 0, 0.89);
       }
 
     }
