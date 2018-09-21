@@ -20,8 +20,8 @@ FeatureComponent.prototype.constants = {
         "displaySequence": 1,
         "primaryTitle": "Add Feature Title",
         "secondaryTitle": "Add Title",
-        "description": "Add a short description for instructor that briefly describes the feature.",
-        "studentDescription": "Add a short description for students that briefly describes the feature.",
+        "description": "",
+        "studentDescription": "",
         "resourceUrl": "",
         "ctaText":"Add Button Label",
         "ctaUrl": "https://www.sample.com",
@@ -59,7 +59,7 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
     if (options.editMode) {
         document.getElementById("saveWatcher").value = false;
     }
-    //console.log(data);
+
     //sorting features array based on display sequence
     if(data.contents)
     {
@@ -134,17 +134,18 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
     if(mobileDateIndex > -1){
         data.contents.unshift(data.contents[mobileDateIndex]);
         data.contents.splice(mobileDateIndex, 1);
+        //data.contents[i].displaySequence = data.contents[i].displaySequence - 1;
     } else if(data.featureType === 'PRODUCT_MODEL') {
         data.contents.unshift({
-            "contentId": "newItem_"+intId,
+            "contentId": "newItem_0",
             "displaySequence": "1",
-            "primaryTitle": "Student Description - Pl",
+            "primaryTitle": "",
             "secondaryTitle": "",
-            "description": "La De Da",
+            "description": "",
             "resourceUrl": "",
             "ctaText": "Video LInk",
             "ctaUrl": "",
-            "studentDescription": "Do Re Me",
+            "studentDescription": "",
             "appCTAs": [{
                 "type": "mobile",
                 "platformType": "",
@@ -188,6 +189,10 @@ FeatureComponent.prototype.init = function (options, data, element, permissions)
         }
         data.contents[i].testDisplay = 'hide-mobile-feature-empty';
 
+    }
+
+    if(options.isRemoveMob){
+        data.contents.splice(0, 1);
     }
 
     this.element = element;
@@ -263,7 +268,11 @@ FeatureComponent.prototype.RemoveOverlays = function(iterations){
 FeatureComponent.prototype.addNew = function () {
     document.getElementById("makeLiveBtn").disabled = false; //Enable Make Live button
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem));
-    newFeature[0].displaySequence = window.$featureData.contents.length+1;
+    if (window.$featureData.featureType == 'PRODUCT_MODEL') {
+        newFeature[0].displaySequence = window.$featureData.contents.length+1;
+    } else {
+        newFeature[0].displaySequence = window.$featureData.contents.length;
+    }
     newFeature[0].contentId = "newItem_" + intId;
     newFeature[0].displayMobileFeature = 'hide-mobile-feature';
     //this.parentNode.insertBefore(_cell, this.nextSibling);
@@ -305,24 +314,23 @@ FeatureComponent.prototype.removeItem = function (item, event, type) {
         window.$featureData.featureEdited = false; // Enable edit to other feature components
         document.getElementById("saveWatcher").value = true;
 
-        console.log('item is  ---' + item + ' type is ' + type);
+
         for (var i = 0; i < window.$featureData.contents.length; i++) {
             if (window.$featureData.contents[i].contentId === item) {
-                console.log('item deleted  ---');
                 window.$featureData.contents.splice(i, 1);
             }
         }
         FeatureComponent.prototype.setDisplaySequence();
         var dom = document.getElementById(window.$element);
         dom.innerHTML = '';
-        for(var i = 0; i < window.$featureData.contents.length; i++){
-            console.log(window.$featureData.contents[i]);
+
+        if(type == '-mob') {
+            window.$options.isRemoveMob = true;
         }
-        console.log('loop running ....................' + window.$featureData.contents.length);
+
 
         FeatureComponent.prototype.init(window.$options,window.$featureData,window.$element,window.$permissions);
         if (window.$featureData.contents.length === 0) {
-            console.log('item deleted  but no make live ---');
                 document.getElementById("makeLiveBtn").disabled = false;
         }
     }
@@ -331,16 +339,11 @@ FeatureComponent.prototype.removeItem = function (item, event, type) {
 
 FeatureComponent.prototype.saveItem = function (item, event, type) {
 
-    console.log('came to save data');
-    console.log(item);
 
     var node = document.getElementById('feature_' + item); //= event.target.parentNode.parentNode.parentNode
     var isValid = true;
-    console.log(node);
     var newItem = FeatureComponent.prototype._validateItem(node, type);
-    console.log(newItem);
     if (newItem !== null) {
-        console.log('came to save data not null');
         newItem.contentId = item;
         for (var i = 0; i < window.$featureData.contents.length; i++) {
 
@@ -353,10 +356,8 @@ FeatureComponent.prototype.saveItem = function (item, event, type) {
         document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
         window.$featureData.featureEdited = false; // Enable edit to other feature components
     } else {
-        console.log('came to save data null');
         node.className += ' ' + 'o-feature-editable-content';
     }
-    console.log('came to save data all done');
 };
 FeatureComponent.prototype.setDisplaySequence = function () {
     for (var i = 0; i < window.$featureData.contents.length; i++) {
@@ -364,8 +365,6 @@ FeatureComponent.prototype.setDisplaySequence = function () {
     }
 };
 FeatureComponent.prototype._validateItem = function(node, type) {
-
-    console.log('type is  ' + type);
 
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem[0]));
     var urlRegex = /(https):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
@@ -389,7 +388,6 @@ FeatureComponent.prototype._validateItem = function(node, type) {
         var mobileFeatureAdded = false;
         var arrayLength = 0;
 
-        console.log(catItunes + '--' + ctaImageItunes + '--' + ctaAndroid + '--' + ctaImageAndroid + '--');
 
         if (catItunes.trim().length != 0 && ctaImageItunes.trim().length != 0 && urlRegex.test(catItunes.trim()) && urlRegex.test(ctaImageItunes.trim())) {
             newFeature.appCTAs[0].ctaUrl = catItunes;
@@ -398,29 +396,24 @@ FeatureComponent.prototype._validateItem = function(node, type) {
             newFeature.appCTAs[0].ctaText = 'Launch iTunes';
             mobileFeatureAdded = true;
             arrayLength++;
-            console.log('added 1st one');
         }
 
         if (ctaAndroid.trim().length != 0 && ctaImageAndroid.trim().length != 0 && urlRegex.test(ctaAndroid.trim()) && urlRegex.test(ctaImageAndroid.trim())) {
-            console.log('added 2nd one -- ' + arrayLength);
             newFeature.appCTAs[arrayLength].ctaUrl = ctaAndroid;
             newFeature.appCTAs[arrayLength].ctaImageUrl = ctaImageAndroid;
             newFeature.appCTAs[arrayLength].platformType = 'android';
             newFeature.appCTAs[arrayLength].ctaText = 'Launch Adroid';
             mobileFeatureAdded = true;
             arrayLength++;
-            console.log('added 2nd one');
         }
 
         if(mobileFeatureAdded) {
-            console.log('added 2nd one ==== ' + newFeature.appCTAs.length);
             if (newFeature.appCTAs[1].ctaUrl.trim().length == 0) {
                 newFeature.appCTAs.splice(1,1);
             } else if (newFeature.appCTAs[0].ctaUrl.trim().length == 0) {
                 newFeature.appCTAs.splice(0,1);
             }
         } else {
-            alert("Mobile Feature Information is Incorrect");
             return null;
         }
 
@@ -428,7 +421,6 @@ FeatureComponent.prototype._validateItem = function(node, type) {
         newFeature.appCTAs = [];
     }
 
-    console.log('came to validate ' + newFeature.secondaryTitle);
 
     ////validation logics
     if (newFeature.primaryTitle.trim().length == 0) {
@@ -461,7 +453,6 @@ FeatureComponent.prototype._validateItem = function(node, type) {
         return null;
     }
 
-        console.log(newFeature);
     return newFeature;
 };
 
@@ -779,7 +770,6 @@ FeatureComponent.prototype.imageEditMode = function (args, item) {
         document.getElementById(linkId).innerHTML = 'Change Image';
         var perentNode = document.getElementById(linkId).parentNode;
         var newUrl = perentNode.getElementsByTagName('textarea')[0].value;
-        console.log(newUrl);
         perentNode.getElementsByTagName('img')[0].src = newUrl;
         if (item.parentNode.className.indexOf('o-feature-img-border-edit') > -1) {
             item.parentNode.classList.remove("o-feature-img-border-edit");

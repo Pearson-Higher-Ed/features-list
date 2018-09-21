@@ -95,7 +95,7 @@ templateEditCell += "				<div class=\"o-feature-clearfix\"><\/div>";
 templateEditCell += "			<\/div>";
 templateEditCell += '<!--New Discipline Feature & Exchange Mobile App UX Component -->';
 templateEditCell += '<div class="o-feature-mobile {{displayMobileFeature}}">';
-// templateEditCell += "<div class=\"o-feature-sort\"><label>Display Sequence : &nbsp;&nbsp;</label><input type=\"number\" class=\"o-feature-sort-input\" max=\"99\"  min=\"0\" placeholder=\"Set Order\" value='{{displaySequence}}' \/><\/div>";
+templateEditCell += "<div class=\"o-feature-sort\" style=\"display: none;\" ><label>Display Sequence : &nbsp;&nbsp;</label><input type=\"number\" class=\"o-feature-sort-input\" max=\"99\"  min=\"0\" placeholder=\"Set Order\" value='{{displaySequence}}' \/><\/div>";
 templateEditCell += '   <div class="o-feature-mobile-left">';
 
 
