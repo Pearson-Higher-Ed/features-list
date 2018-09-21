@@ -86,7 +86,7 @@ templateEditCell += "					<\/div>";
 templateEditCell += "				<\/div>";
 templateEditCell += "				<div class=\"o-feature-clearfix\"><\/div>";
 templateEditCell += "				<div class=\"o-feature-button {{hideFeature}}\">";
-templateEditCell += "				<div class=\"o-feature-remove-button\" ><a class=\"o-feature-remove\" href=\"javascript:void(0);\"  onclick=\"javascript:window.$featureComponent.prototype.removeItem(\'{{contentId}}\',event, '')\">Remove<\/a><\/div>";
+templateEditCell += "				<div class=\"o-feature-remove-button\" ><a class=\"o-feature-remove\" href=\"javascript:void(0);\"  onclick=\"javascript:window.$featureComponent.prototype.removeItem(\'{{contentId}}\',event, '-mob')\">Remove<\/a><\/div>";
 templateEditCell += "					<div class=\"o-feature-button-group\"> ";
 
 templateEditCell += "						<button class=\"o-feature-cancel\" onclick=\"javascript:window.$featureComponent.prototype.cancelItem(\'{{contentId}}\',event)\">Cancel<\/button>";
@@ -96,12 +96,12 @@ templateEditCell += "				<div class=\"o-feature-clearfix\"><\/div>";
 templateEditCell += "			<\/div>";
 templateEditCell += '<!--New Discipline Feature & Exchange Mobile App UX Component -->';
 templateEditCell += '<div class="o-feature-mobile {{displayMobileFeature}}">';
-templateEditCell += "<div class=\"o-feature-sort\"><label>Display Sequence : &nbsp;&nbsp;</label><input type=\"number\" class=\"o-feature-sort-input\" max=\"99\"  min=\"0\" placeholder=\"Set Order\" value='{{displaySequence}}' \/><\/div>";
+// templateEditCell += "<div class=\"o-feature-sort\"><label>Display Sequence : &nbsp;&nbsp;</label><input type=\"number\" class=\"o-feature-sort-input\" max=\"99\"  min=\"0\" placeholder=\"Set Order\" value='{{displaySequence}}' \/><\/div>";
 templateEditCell += '   <div class="o-feature-mobile-left">';
 
 
 templateEditCell += "<div class=\"o-feature-img-border o-feature-mobile-img\">";
-templateEditCell += "							<img class=\"o-feature-mobile\" width=\"160\" src=\"{{resourceUrl}}\" onerror=\"'{{resourceUrl}}'?this.src='"+errorImage+"':this.src='"+defaultFetureImg+"'\">";
+templateEditCell += "							<img class=\"o-feature-mobile\" width=\"160\" src=\"{{resourceUrl}}\" onerror=\"'{{resourceUrl}}'?this.src='"+defaultMobileImg+"':this.src='"+defaultMobileImg+"'\">";
 templateEditCell += "<textarea  class=\"o-feature-img-src-mob\" >{{resourceUrl}}<\/textarea>";
 templateEditCell += "<a id=\"link_{{contentId}}\" class=\"o-feature-change-link\">Change Image<\/a>";
 templateEditCell += " </div>";
@@ -132,7 +132,7 @@ templateEditCell += '       <div class="o-android-download-url" contenteditable=
 templateEditCell += '   </div>';
 templateEditCell += '   <div class="o-feature-button">';
 templateEditCell += '       <div class="o-feature-remove-button">';
-templateEditCell += "       <a class=\"o-feature-remove\" href=\"javascript:void(0);\" onclick=\"javascript:window.$featureComponent.prototype.removeItem(\'{{contentId}}\',event, '-mob')\">Remove</a>";
+templateEditCell += '       <a class=\"o-feature-remove\" href=\"javascript:void(0);\" onclick=\"javascript:window.$featureComponent.prototype.removeItem(\'{{contentId}}\',event, \'-mob\')\">Remove</a>';
 templateEditCell += '       </div>';
 templateEditCell += '       <div class="o-feature-button-group">';
 templateEditCell += '       <button id="mobileCancelButton" class="o-feature-mobile-cancel" onclick=\"javascript:window.$featureComponent.prototype.cancelMobileItem(\'{{contentId}}\',event)\">Cancel</button>';
