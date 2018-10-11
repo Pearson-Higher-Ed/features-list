@@ -443,13 +443,25 @@ FeatureComponent.prototype._validateItem = function(node, type) {
         alert("Invalid Image URL"); // Image or Resource??
         return null;
     }
+
+    if(type === '-mob' && catItunes.trim().length > 0 && !urlRegex.test(catItunes.trim())) {
+        alert("Please enter valid iTunes Download Url");
+        return null;
+    }
+
+    if(type === '-mob' && ctaAndroid.trim().length > 0 && !urlRegex.test(ctaAndroid.trim())) {
+        alert("Please enter valid Android Download Url");
+        return null;
+    }
+
+
     if(type === '-mob' && ((catItunes.trim().length == 0 && ctaImageItunes.trim().length != 0) || ((catItunes.trim().length != 0 && ctaImageItunes.trim().length == 0)))){
-        alert("Provided Itunes information are invalid");
+        alert("Please enter iTunes information (iTune Download Url and image)");
         return null;
     }
 
     if(type === '-mob' && ((ctaAndroid.trim().length == 0 && ctaImageAndroid.trim().length != 0) || ((ctaAndroid.trim().length != 0 && ctaImageAndroid.trim().length == 0)))){
-        alert("Provided Androide information are invalid");
+        alert("Please enter Android information (Android Download Url and image)");
         return null;
     }
 
