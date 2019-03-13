@@ -63,11 +63,11 @@ FeatureComponent.prototype.init = function (options, data, element, permissions,
     enableLive = enableLive || false;
 
     //Disable Make Live button at the refresh
-    console.log('called disable 1', enableLive);
+    //console.log('called disable 1', enableLive);
     if(enableLive) {
         document.getElementById("makeLiveBtn").disabled = false;
     }
-
+    //console.log('before sort', data.contents);
     //sorting features array based on display sequence
     if(data.contents)
     {
@@ -109,10 +109,11 @@ FeatureComponent.prototype.init = function (options, data, element, permissions,
         }
 
     }
+    //console.log('after sort', data.contents);
     // Disable Make Live button if no features
     if (data.contents.length === 0) {
         if (options.editMode) {
-            console.log('called disable 2');
+            //console.log('called disable 2');
             document.getElementById("makeLiveBtn").disabled = true;
         }
     }
@@ -275,7 +276,7 @@ FeatureComponent.prototype.RemoveOverlays = function(iterations){
 
 
 FeatureComponent.prototype.addNew = function () {
-    console.log('called disable 3');
+    //console.log('called disable 3');
     document.getElementById("makeLiveBtn").disabled = true; //Disable Make Live button
     document.getElementById("addNewBtn").disabled = true;   //Disable add new button until added one saved
 
@@ -283,7 +284,7 @@ FeatureComponent.prototype.addNew = function () {
     if (window.$featureData.featureType == 'PRODUCT_MODEL') {
         newFeature[0].displaySequence = window.$featureData.contents.length+1;
     } else {
-        newFeature[0].displaySequence = window.$featureData.contents.length;
+        newFeature[0].displaySequence = window.$featureData.contents.length+1;
     }
     newFeature[0].contentId = "newItem_" + intId;
     newFeature[0].displayMobileFeature = 'hide-mobile-feature';
@@ -322,15 +323,15 @@ FeatureComponent.prototype.removeItem = function (item, event, type) {
     if (confirm("Do you want to remove this item?") == true){
 
         //this.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(node.parentNode.parentNode);
-        console.log('called disable false 1');
+        //console.log('called disable false 1');
         document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
         window.$featureData.featureEdited = false; // Enable edit to other feature components
         document.getElementById("saveWatcher").value = true;
 
-        console.log('itesm ', item);
+        //console.log('itesm ', item);
 
         for (var i = 0; i < window.$featureData.contents.length; i++) {
-            console.log('feature ', window.$featureData.contents[i].contentId);
+            //console.log('feature ', window.$featureData.contents[i].contentId);
             if (window.$featureData.contents[i].contentId === item) {
                 window.$featureData.contents.splice(i, 1);
             }
@@ -343,13 +344,13 @@ FeatureComponent.prototype.removeItem = function (item, event, type) {
             window.$options.isRemoveMob = true;
         }
 
-        console.log('init call 2');
+        //console.log('init call 2');
         FeatureComponent.prototype.init(window.$options,window.$featureData,window.$element,window.$permissions);
-        console.log('called disable false 2');
+        //console.log('called disable false 2', item);
         document.getElementById("makeLiveBtn").disabled = false;
 
         //Enable Add new button when user remove the recently added one
-        if(item.match(/newItem/).length > 0) {
+        if(item.match(/newItem/) && item.match(/newItem/).length > 0) {
             document.getElementById("addNewBtn").disabled = false;
         }
 
@@ -372,12 +373,12 @@ FeatureComponent.prototype.saveItem = function (item, event, type) {
             }
         }
         document.getElementById("saveWatcher").value = true;
-        // FeatureComponent.prototype.setDisplaySequence();
+        FeatureComponent.prototype.setDisplaySequence();
         window.$featureData.featureEdited = false; // Enable edit to other feature components
     } else {
         node.className += ' ' + 'o-feature-editable-content';
     }
-    console.log('called disable false 3');
+    //console.log('called disable false 3');
     document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
     document.getElementById("addNewBtn").disabled = false;
 };
@@ -528,7 +529,7 @@ FeatureComponent.prototype.cancelItem = function (item,event) {
             node.getElementsByClassName('o-feature-sort-input')[0].value = window.$featureData.contents[i].displaySequence;
         }
     }
-    console.log('called disable false 3');
+    //console.log('called disable false 3');
     document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
     window.$featureData.featureEdited = false; // Enable edit to other feature components
     window.$featureBeingEdited = null;
@@ -571,7 +572,7 @@ FeatureComponent.prototype.ReorderFeatures = function(editedFeature,features,sav
     var dom = document.getElementById(window.$element);
     dom.innerHTML = '';
     window.$featureData.contents = JSON.parse(JSON.stringify(features.contents));
-    console.log('init call 1' ,window.$element);
+    //console.log('init call 1' ,window.$element);
     FeatureComponent.prototype.init(window.$options,window.$featureData,window.$element,window.$permissions, true);
 };
 
@@ -579,7 +580,7 @@ FeatureComponent.prototype._addEventListenerToNode = function (node) {
     node.addEventListener('click', function () {
         //Check if any other feature components are in edit mode
         if(window.$featureData.featureEdited == false){
-            console.log('called disable 4');
+            //console.log('called disable 4');
             document.getElementById("makeLiveBtn").disabled = true; // Disable Make Live button
             if (this.parentNode.className.indexOf('o-feature-editable-content') == -1) {
                 this.parentNode.className += ' ' + 'o-feature-editable-content';
