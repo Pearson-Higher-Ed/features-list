@@ -63,11 +63,9 @@ FeatureComponent.prototype.init = function (options, data, element, permissions,
     enableLive = enableLive || false;
 
     //Disable Make Live button at the refresh
-    //console.log('called disable 1', enableLive);
     if(enableLive) {
         document.getElementById("makeLiveBtn").disabled = false;
     }
-    //console.log('before sort', data.contents);
     //sorting features array based on display sequence
     if(data.contents)
     {
@@ -75,7 +73,7 @@ FeatureComponent.prototype.init = function (options, data, element, permissions,
         var isStartedFromZero = false;
         for(var x = 0; x < data.contents.length; x++)
         {
-            if(parseInt(data.contents[x].displaySequence) === 0)
+            if(parseInt(data.contents[x].displaySequence) === 0 && data.contents[x].appCTAs[0].platformType.length === 0)
             {
                 isStartedFromZero = true;
                 break;
@@ -85,7 +83,7 @@ FeatureComponent.prototype.init = function (options, data, element, permissions,
         {
             for(var y = 0; y < data.contents.length; y++)
             {
-                data.contents[y].displaySequence =  parseInt(data.contents[y].displaySequence)+1;
+                //data.contents[y].displaySequence =  parseInt(data.contents[y].displaySequence)+1;
             }
         }
         var hasDuplicateSequenceNumbersOrEmptyStrings = false;
@@ -109,11 +107,9 @@ FeatureComponent.prototype.init = function (options, data, element, permissions,
         }
 
     }
-    //console.log('after sort', data.contents);
     // Disable Make Live button if no features
     if (data.contents.length === 0) {
         if (options.editMode) {
-            //console.log('called disable 2');
             document.getElementById("makeLiveBtn").disabled = true;
         }
     }
@@ -148,7 +144,7 @@ FeatureComponent.prototype.init = function (options, data, element, permissions,
     } else if(data.featureType === 'PRODUCT_MODEL') {
         data.contents.unshift({
             "contentId": "newItem_0",
-            "displaySequence": "1",
+            "displaySequence": "0",
             "primaryTitle": "",
             "secondaryTitle": "",
             "description": "",
@@ -276,16 +272,15 @@ FeatureComponent.prototype.RemoveOverlays = function(iterations){
 
 
 FeatureComponent.prototype.addNew = function () {
-    //console.log('called disable 3');
     document.getElementById("makeLiveBtn").disabled = true; //Disable Make Live button
     document.getElementById("addNewBtn").disabled = true;   //Disable add new button until added one saved
 
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem));
-    if (window.$featureData.featureType == 'PRODUCT_MODEL') {
-        newFeature[0].displaySequence = window.$featureData.contents.length+1;
-    } else {
+    newFeature[0].displaySequence = window.$featureData.contents.length;
+    if (window.$featureData.featureType == 'PRODUCT_MODEL' && window.$featureData.contents[0].appCTAs[0].platformType.length > 0) {
         newFeature[0].displaySequence = window.$featureData.contents.length+1;
     }
+
     newFeature[0].contentId = "newItem_" + intId;
     newFeature[0].displayMobileFeature = 'hide-mobile-feature';
     //this.parentNode.insertBefore(_cell, this.nextSibling);
@@ -323,15 +318,11 @@ FeatureComponent.prototype.removeItem = function (item, event, type) {
     if (confirm("Do you want to remove this item?") == true){
 
         //this.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(node.parentNode.parentNode);
-        //console.log('called disable false 1');
         document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
         window.$featureData.featureEdited = false; // Enable edit to other feature components
         document.getElementById("saveWatcher").value = true;
 
-        //console.log('itesm ', item);
-
         for (var i = 0; i < window.$featureData.contents.length; i++) {
-            //console.log('feature ', window.$featureData.contents[i].contentId);
             if (window.$featureData.contents[i].contentId === item) {
                 window.$featureData.contents.splice(i, 1);
             }
@@ -344,9 +335,7 @@ FeatureComponent.prototype.removeItem = function (item, event, type) {
             window.$options.isRemoveMob = true;
         }
 
-        //console.log('init call 2');
         FeatureComponent.prototype.init(window.$options,window.$featureData,window.$element,window.$permissions);
-        //console.log('called disable false 2', item);
         document.getElementById("makeLiveBtn").disabled = false;
 
         //Enable Add new button when user remove the recently added one
@@ -378,14 +367,14 @@ FeatureComponent.prototype.saveItem = function (item, event, type) {
     } else {
         node.className += ' ' + 'o-feature-editable-content';
     }
-    //console.log('called disable false 3');
     document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
     document.getElementById("addNewBtn").disabled = false;
 };
 
 FeatureComponent.prototype.setDisplaySequence = function () {
+    var type = '';
     for (var i = 0; i < window.$featureData.contents.length; i++) {
-        window.$featureData.contents[i].displaySequence = i+1;
+        window.$featureData.contents[i].displaySequence = i;
     }
 };
 
@@ -529,7 +518,6 @@ FeatureComponent.prototype.cancelItem = function (item,event) {
             node.getElementsByClassName('o-feature-sort-input')[0].value = window.$featureData.contents[i].displaySequence;
         }
     }
-    //console.log('called disable false 3');
     document.getElementById("makeLiveBtn").disabled = false; // Enable Make Live button
     window.$featureData.featureEdited = false; // Enable edit to other feature components
     window.$featureBeingEdited = null;
@@ -542,8 +530,9 @@ FeatureComponent.prototype.addEventListenerToOverlay = function (nodeList) {
 };
 
 FeatureComponent.prototype.ReorderFeatures = function(editedFeature,features,savedFeature) {
+
     if(parseInt(savedFeature.displaySequence) === parseInt(window.$featureBeingEdited.displaySequence)) {
-        // do nothing sequence no is not change
+        console.log('do nothing sequence no is not change');
     }
     else {
 
@@ -572,7 +561,6 @@ FeatureComponent.prototype.ReorderFeatures = function(editedFeature,features,sav
     var dom = document.getElementById(window.$element);
     dom.innerHTML = '';
     window.$featureData.contents = JSON.parse(JSON.stringify(features.contents));
-    //console.log('init call 1' ,window.$element);
     FeatureComponent.prototype.init(window.$options,window.$featureData,window.$element,window.$permissions, true);
 };
 
@@ -580,7 +568,6 @@ FeatureComponent.prototype._addEventListenerToNode = function (node) {
     node.addEventListener('click', function () {
         //Check if any other feature components are in edit mode
         if(window.$featureData.featureEdited == false){
-            //console.log('called disable 4');
             document.getElementById("makeLiveBtn").disabled = true; // Disable Make Live button
             if (this.parentNode.className.indexOf('o-feature-editable-content') == -1) {
                 this.parentNode.className += ' ' + 'o-feature-editable-content';
