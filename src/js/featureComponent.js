@@ -73,7 +73,7 @@ FeatureComponent.prototype.init = function (options, data, element, permissions,
         var isStartedFromZero = false;
         for(var x = 0; x < data.contents.length; x++)
         {
-            if(parseInt(data.contents[x].displaySequence) === 0 && data.contents[x].appCTAs[0].platformType.length === 0)
+            if(parseInt(data.contents[x].displaySequence) === 0 && (data.contents[x].appCTAs && data.contents[x].appCTAs[0].platformType.length === 0))
             {
                 isStartedFromZero = true;
                 break;
@@ -119,7 +119,7 @@ FeatureComponent.prototype.init = function (options, data, element, permissions,
     // Initial loop to identify appCTA section availability
     for (var i = 0; i < data.contents.length; i++) {
         if(!mobileFeatureFound) {
-            if (!(data.contents[i].appCTAs === undefined || data.contents[i].appCTAs.length == 0)) {
+            if (!(data.contents[i].appCTAs === undefined || data.contents[i].appCTAs.length == 0 || data.featureType !== 'PRODUCT_MODEL')) {
                 mobileFeatureFound = true;
                 mobileDateIndex = i;
                 for(var j=0; j < data.contents[i].appCTAs.length; j++){
@@ -142,11 +142,14 @@ FeatureComponent.prototype.init = function (options, data, element, permissions,
         data.contents.splice(mobileDateIndex, 1);
         //data.contents[i].displaySequence = data.contents[i].displaySequence - 1;
     } else if(data.featureType === 'PRODUCT_MODEL') {
+        if(data.contents.length > 0 && data.contents[0].displaySequence === 0) {
+            data.contents.splice(0, 1);
+        }
         data.contents.unshift({
             "contentId": "newItem_0",
             "displaySequence": "0",
-            "primaryTitle": "",
-            "secondaryTitle": "",
+            "primaryTitle": "Add Title",
+            "secondaryTitle": "Add Title",
             "description": "",
             "resourceUrl": "",
             "ctaText": "Video LInk",
@@ -199,6 +202,32 @@ FeatureComponent.prototype.init = function (options, data, element, permissions,
 
     if(options.isRemoveMob){
         data.contents.splice(0, 1);
+        data.contents.unshift({
+            "contentId": "newItem_0",
+            "displaySequence": "0",
+            "primaryTitle": "Add Title",
+            "secondaryTitle": "Add Title",
+            "description": "",
+            "resourceUrl": "",
+            "ctaText": "Video LInk",
+            "ctaUrl": "",
+            "studentDescription": "",
+            "displayMobileFeature":"display-mobile-feature",
+            "hideFeature":"hide-feature",
+            "appCTAs": [{
+                "type": "mobile",
+                "platformType": "",
+                "ctaUrl": "",
+                "ctaText": "",
+                "ctaImageUrl": ""
+            },{
+                "type": "mobile",
+                "platformType": "",
+                "ctaUrl": "",
+                "ctaText": "",
+                "ctaImageUrl": ""
+            }]
+        })
     }
 
     this.element = element;
@@ -276,9 +305,9 @@ FeatureComponent.prototype.addNew = function () {
     document.getElementById("addNewBtn").disabled = true;   //Disable add new button until added one saved
 
     var newFeature = JSON.parse(JSON.stringify(FeatureComponent.prototype.constants.newItem));
-    newFeature[0].displaySequence = window.$featureData.contents.length;
-    if (window.$featureData.featureType == 'PRODUCT_MODEL' && window.$featureData.contents[0].appCTAs[0].platformType.length > 0) {
-        newFeature[0].displaySequence = window.$featureData.contents.length+1;
+    newFeature[0].displaySequence = window.$featureData.contents.length+1;
+    if (window.$featureData.featureType == 'PRODUCT_MODEL'){// && window.$featureData.contents[0].appCTAs[0].platformType.length > 0) {
+        newFeature[0].displaySequence = window.$featureData.contents.length;
     }
 
     newFeature[0].contentId = "newItem_" + intId;
@@ -304,7 +333,7 @@ FeatureComponent.prototype.addNew = function () {
 
         FeatureComponent.prototype._addEventListenerToNode(_cell.getElementsByClassName('o-feature-overlay')[0]);
     }
-    // FeatureComponent.prototype.setDisplaySequence();
+    //FeatureComponent.prototype.setDisplaySequence();
     newFeature[0].displayMobileFeature = 'hide-mobile-feature';
 
     window.$featureData.contents.push(newFeature[0]);
@@ -327,7 +356,8 @@ FeatureComponent.prototype.removeItem = function (item, event, type) {
                 window.$featureData.contents.splice(i, 1);
             }
         }
-        FeatureComponent.prototype.setDisplaySequence();
+
+        //FeatureComponent.prototype.setDisplaySequence(data.featureType);
         var dom = document.getElementById(window.$element);
         dom.innerHTML = '';
 
@@ -346,6 +376,25 @@ FeatureComponent.prototype.removeItem = function (item, event, type) {
     }
 };
 
+FeatureComponent.prototype.removeMobileItem = function (item, event, type) {
+    var node = event.target.parentNode.parentNode.parentNode;
+    node.getElementsByClassName('o-feature-brand-mob')[0].textContent = ' Add title ';
+    node.getElementsByClassName('o-feature-title-mob')[0].textContent = ' Add Title ';
+    node.getElementsByClassName('o-feature-description-inst-mob')[0].textContent = '';
+    node.getElementsByClassName('o-feature-description-stud-mob')[0].textContent = '';
+    node.getElementsByClassName('o-itunes-download-url')[0].textContent = '';
+    node.getElementsByClassName('o-android-download-url')[0].textContent = '';
+    node.getElementsByClassName('o-feature-img-src-mob')[0].textContent = '';
+    node.getElementsByClassName('o-feature-img-src app-store-img-src')[0].textContent = '';
+    node.getElementsByClassName('o-feature-img-src g-play-img-src')[0].textContent = '';
+
+    node.getElementsByClassName('o-feature-mobile')[0].src = '';
+    node.getElementsByClassName('o-feature-app-store-mob')[0].src = '';
+    node.getElementsByClassName('o-feature-g-play-mob')[0].src = '';
+    //window.$featureData.contents.splice(0, 1);
+    window.$options.isRemoveMob = true;
+};
+
 
 FeatureComponent.prototype.saveItem = function (item, event, type) {
 
@@ -362,7 +411,7 @@ FeatureComponent.prototype.saveItem = function (item, event, type) {
             }
         }
         document.getElementById("saveWatcher").value = true;
-        FeatureComponent.prototype.setDisplaySequence();
+        //FeatureComponent.prototype.setDisplaySequence();
         window.$featureData.featureEdited = false; // Enable edit to other feature components
     } else {
         node.className += ' ' + 'o-feature-editable-content';
@@ -455,6 +504,11 @@ FeatureComponent.prototype._validateItem = function(node, type) {
     }
     if ((newFeature.resourceUrl.trim().length != 0) && (!urlRegex.test(newFeature.resourceUrl.trim()))) {
         alert("Invalid Image URL"); // Image or Resource??
+        return null;
+    }
+
+    if(type !== '-mob' && newFeature.displaySequence < 1) {
+        alert("Display sequence value should be greater than zero");
         return null;
     }
 
@@ -768,12 +822,21 @@ FeatureComponent.prototype.cancelMobileItem = function (item,event) {
     }
     for(var i = 0; i < window.$featureData.contents.length ; i++) {
         if(window.$featureData.contents[i].contentId ===item){
-            node.getElementsByClassName('o-feature-brand')[0].textContent = window.$featureData.contents[i].primaryTitle;
-            node.getElementsByClassName('o-feature-title')[0].textContent = window.$featureData.contents[i].secondaryTitle;
-            node.getElementsByClassName('o-feature-description-inst')[0].textContent = window.$featureData.contents[i].instructorDescription;
-            node.getElementsByClassName('o-feature-description-stud')[0].textContent = window.$featureData.contents[i].studentDescription;
+            node.getElementsByClassName('o-feature-brand-mob')[0].textContent = window.$featureData.contents[i].primaryTitle;
+            node.getElementsByClassName('o-feature-title-mob')[0].textContent = window.$featureData.contents[i].secondaryTitle;
+            node.getElementsByClassName('o-feature-description-inst-mob')[0].textContent = window.$featureData.contents[i].description;
+            node.getElementsByClassName('o-feature-description-stud-mob')[0].textContent = window.$featureData.contents[i].studentDescription;
             node.getElementsByClassName('o-itunes-download-url')[0].textContent = window.$featureData.contents[i].iTunesDownloadUrl;
             node.getElementsByClassName('o-android-download-url')[0].textContent = window.$featureData.contents[i].androidDownloadUrl;
+            node.getElementsByClassName('o-feature-img-src-mob')[0].textContent = window.$featureData.contents[i].resourceUrl;
+            node.getElementsByClassName('o-feature-img-src app-store-img-src')[0].textContent = window.$featureData.contents[i].appleImage;
+            node.getElementsByClassName('o-feature-img-src g-play-img-src')[0].textContent = window.$featureData.contents[i].androidImage;
+
+            //node.getElementsByClassName('o-feature-mobile')[0].src = window.$featureData.contents[i].resourceUrl;
+            $(".o-feature-mobile").attr("src", window.$featureData.contents[i].resourceUrl);
+            node.getElementsByClassName('o-feature-app-store-mob')[0].src = window.$featureData.contents[i].appleImage;
+            node.getElementsByClassName('o-feature-g-play-mob')[0].src = window.$featureData.contents[i].androidImage;
+
         }
     }
 
