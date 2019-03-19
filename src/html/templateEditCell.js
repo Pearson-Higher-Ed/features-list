@@ -105,12 +105,12 @@ templateEditCell += "<textarea  class=\"o-feature-img-src-mob\" >{{resourceUrl}}
 templateEditCell += "<a id=\"link_{{contentId}}\" class=\"o-feature-change-link\">Change Image<\/a>";
 templateEditCell += " </div>";
 templateEditCell += "<div class=\"o-feature-img-border o-feature-app-store\">";
-templateEditCell += "							<img class=\"o-feature-app-store-mob\" width=\"100\" src=\"{{appleImage}}\" onerror=\"'{{appleImage}}'?this.src='"+errorImage+"':this.src='"+defaultMobileImg+"'\">";
+templateEditCell += "							<img class=\"o-feature-app-store-mob\" width=\"100\" src=\"{{appleImage}}\" onerror=\"'{{appleImage}}'?this.src='"+defaultMobileImg+"':this.src='"+defaultMobileImg+"'\">";
 templateEditCell += "<textarea  class=\"o-feature-img-src app-store-img-src\" >{{appleImage}}<\/textarea>";
 templateEditCell += "<a id=\"linkapp_{{contentId}}\" class=\"o-feature-change-link\">Change Image<\/a>";
 templateEditCell += " </div>";
 templateEditCell += "<div class=\"o-feature-img-border o-feature-google-play\">";
-templateEditCell += "							<img class=\"o-feature-g-play-mob\" width=\"100\" src=\"{{androidImage}}\" onerror=\"'{{androidImage}}'?this.src='"+errorImage+"':this.src='"+defaultMobileImg+"'\">";
+templateEditCell += "							<img class=\"o-feature-g-play-mob\" width=\"100\" src=\"{{androidImage}}\" onerror=\"'{{androidImage}}'?this.src='"+defaultMobileImg+"':this.src='"+defaultMobileImg+"'\">";
 templateEditCell += "<textarea  class=\"o-feature-img-src g-play-img-src\" >{{androidImage}}<\/textarea>";
 templateEditCell += "<a id=\"linkgoogle_{{contentId}}\" class=\"o-feature-change-link\">Change Image<\/a>";
 templateEditCell += " </div>";
@@ -131,7 +131,7 @@ templateEditCell += '       <div class="o-android-download-url" contenteditable=
 templateEditCell += '   </div>';
 templateEditCell += '   <div class="o-feature-button">';
 templateEditCell += '       <div class="o-feature-clear-bttn">';
-templateEditCell += '       <a class="o-feature-remove" href=\"javascript:void(0);\" onclick=\"javascript:window.$featureComponent.prototype.removeItem(\'{{contentId}}\',event, \'-mob\')\">Clear</a>';
+templateEditCell += '       <a class="o-feature-remove" href=\"javascript:void(0);\" onclick=\"javascript:window.$featureComponent.prototype.removeMobileItem(\'{{contentId}}\',event, \'-mob\')\">Clear</a>';
 templateEditCell += '       </div>';
 templateEditCell += '       <div class="o-feature-button-group">';
 templateEditCell += '       <button id="mobileCancelButton" class="o-feature-mobile-cancel" onclick=\"javascript:window.$featureComponent.prototype.cancelMobileItem(\'{{contentId}}\',event)\">Cancel</button>';
