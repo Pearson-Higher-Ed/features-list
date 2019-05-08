@@ -476,8 +476,6 @@ FeatureComponent.prototype._validateItem = function(node, type) {
             } else if (newFeature.appCTAs[0].ctaUrl.trim().length == 0) {
                 newFeature.appCTAs.splice(0,1);
             }
-        } else {
-            return null;
         }
 
     } else {
